@@ -18,7 +18,7 @@ def create_feature_file name, platform = nil
   content = File.read( File.join( @examples_dir, "example.feature" ) )
   
   # Updating the contents with the name passed as an option
-  content = content.gsub( "|Name|", name.capitilize )
+  content = content.gsub( "|Name|", name.capitalize )
   
   # If platform is not nil than the feature is OS dependent
   file = nil
@@ -53,9 +53,9 @@ def create_screen_file name, platform
   content = File.read( File.join( @examples_dir, "example_screen.rb" ) )
   
   # Updating the contents with the name passed as an option
-  content = content.gsub( "|Name|", name.capitilize )
+  content = content.gsub( "|Name|", name.capitalize )
   content = content.gsub( "|Platform|", platform )
   
   # Creating the feature file with the updated content
-  File.open( File.join( @features_dir, platform.down_case, "screen", "#{name.downcase}_screen.rb" ), 'w' ) { |file| file.puts content }
+  File.open( File.join( @features_dir, platform.downcase, "screens", "#{name.downcase}_screen.rb" ), 'w' ) { |file| file.puts content }
 end
