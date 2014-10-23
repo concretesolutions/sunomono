@@ -36,7 +36,7 @@ else
       @project_dir = File.join(FileUtils.pwd, ARGV.first)
       generate_skeleton
     end
-  when 'generate' || 'g'
+  when 'generate', 'g'
 
     # Looks if the user is in the root folder of the project
     unless Dir.exists? File.join(FileUtils.pwd, "features", "android", "features")
@@ -83,7 +83,7 @@ else
         create_screen_file name, 'IOS'
       end
     end
-  when 'version' || 'v'
+  when 'version', 'v'
     puts CS::BDD::VERSION
   else
     puts "Invalid command '#{cmd}'"
