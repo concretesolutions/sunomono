@@ -54,7 +54,7 @@
   >Given that 'emulator-5554' is one of the returns of the command `$ adb devices` on the terminal
 
 <br />
-  > To run on all connected devices, run the script `run_tests_all_devices.sh`, located on the `config/scripts/android` folder of the project `claro-tests`
+  > To run on all connected devices, run the script `run_tests_all_devices.sh`, located on the `config/scripts/android` folder of the project
 
   > **!! IMPORTANT !!** 
 
