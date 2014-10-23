@@ -1,0 +1,92 @@
+#!/usr/bin/env ruby
+
+# File based on https://github.com/calabash/calabash-android/blob/e2da2817809edf38256a55093dc1d3835c9c6410/ruby-gem/bin/calabash-android
+
+require 'fileutils'
+require 'rbconfig'
+
+# for ruby 1.9.1 and earlier
+unless defined? RbConfig.ruby
+  def RbConfig.ruby
+    File.join(RbConfig::CONFIG["bindir"], RbConfig::CONFIG["ruby_install_name"] + RbConfig::CONFIG["EXEEXT"])
+  end
+end
+
+require File.join(File.dirname(__FILE__), "cs-bdd-generate")
+require File.join(File.dirname(__FILE__), "cs-bdd-helpers")
+
+@skeleton_dir = File.join( File.dirname(__FILE__), '..', 'lib', 'skeleton' )
+@examples_dir = File.join( File.dirname(__FILE__), "..", "lib", "examples" )
+@features_dir = File.join( FileUtils.pwd, "features" )
+@steps_dir = File.join(@features_dir, "step_definitions" )
+@android_dir = File.join(@features_dir, "android" )
+@ios_dir = File.join(@features_dir, "ios" )
+
+if ARGV.length == 0
+  print_usage
+else
+  cmd = ARGV.shift
+
+  case cmd
+  when 'new'
+    if ARGV.empty?
+      puts "Please specify the project name"
+      exit 1
+    else
+      @project_dir = File.join(FileUtils.pwd, ARGV.first)
+      generate_skeleton
+    end
+  when 'generate', 'g'
+
+    # Looks if the user is in the root folder of the project
+    unless Dir.exists? File.join(FileUtils.pwd, "features", "android", "features")
+      puts "Please run this command on the root folder of the project"
+      exit 1
+    end
+
+    if ARGV.empty?
+      puts "Please inform the generator that will be used. Type cs-bdd to see the usage info."
+      exit 1
+    else
+      generator = ARGV.shift
+
+      if ARGV.empty?
+        puts "Please specify the name of the resource to be generated."
+        exit 1
+      end
+
+      name = ARGV.first
+
+      case generator
+      when 'feature'
+        create_feature_file name
+        create_steps_file name
+        create_screen_file name, 'IOS'
+        create_screen_file name, 'Android'
+      when 'aFeature'
+        create_feature_file name, 'Android'
+        create_steps_file name, 'Android'
+        create_screen_file name, 'Android'
+      when 'iFeature'
+        create_feature_file name, 'IOS'
+        create_steps_file name, 'IOS'
+        create_screen_file name, 'IOS'
+      when 'step'
+        create_steps_file name
+      when 'aStep'
+        create_steps_file name, 'Android'
+      when 'iStep'
+        create_steps_file name, 'IOS'
+      when 'aScreen'
+        create_screen_file name, 'Android'
+      when 'iScreen'
+        create_screen_file name, 'IOS'
+      end
+    end
+  when 'version', 'v'
+    puts CS::BDD::VERSION
+  else
+    puts "Invalid command '#{cmd}'"
+    print_usage
+  end
+end

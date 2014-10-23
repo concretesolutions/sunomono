@@ -1,7 +1,7 @@
 require "cs/bdd/version"
 
-module Cs
-  module Bdd
+module CS
+  module BDD
     # Your code goes here...
   end
 end

@@ -1,5 +1,5 @@
-module Cs
-  module Bdd
-    VERSION = "0.0.1"
+module CS
+  module BDD
+    VERSION = "0.0.3"
   end
 end
