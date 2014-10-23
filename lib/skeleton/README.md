@@ -58,7 +58,7 @@
 
   > **!! IMPORTANT !!** 
 
-  > Remember to export the WORKSPACE variable with the path of the cloned repository `idiomas-test`
+  > Remember to export the WORKSPACE variable with the path of the cloned repository
   
   > Remember to pass the APK path as the parameter of the script
   > 
