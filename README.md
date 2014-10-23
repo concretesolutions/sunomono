@@ -1,20 +1,10 @@
-# Cs::Bdd
+# CS::BDD
 
-TODO: Write a gem description
+A simple gem to generate all the files needed to create a project that will support calabash for Android and iOS.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'cs-bdd'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install it as:
 
     $ gem install cs-bdd
 
@@ -24,7 +14,7 @@ TODO: Write usage instructions here
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/cs-bdd/fork )
+1. Fork it ( https://github.com/CSOscarTanner/cs-bdd/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
