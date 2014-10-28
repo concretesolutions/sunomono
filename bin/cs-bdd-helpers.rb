@@ -19,12 +19,14 @@ def create_feature_file name, platform = nil
   
   # Updating the contents with the name passed as an option
   content = content.gsub( "|Name|", name.capitalize )
-  
+
   # If platform is not nil than the feature is OS dependent
   file = nil
   if platform.nil?
+    content = content.gsub( "|Platform|", "") # Don't show any indication of platform inside the feature file
     file = File.join( @features_dir, "#{name.downcase}.feature" )
   else
+    content = content.gsub( "|Platform|", "(#{platform} Only)") # Indicates the platform in the title of the feature
     file = File.join( @features_dir, platform.downcase, "features", "#{name.downcase}.feature" )
   end
 
