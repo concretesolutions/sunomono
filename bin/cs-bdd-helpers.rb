@@ -1,11 +1,20 @@
 def print_usage
   puts <<EOF
-  Usage: cs-bdd <command-name> [parameters] [options]
+  Usage: cs-bdd <command-name> [parameters]
   <command-name> can be one of
-    new or n
-      generate a project folder structure.
-    generate or g
+    new or n <project_name>
+      generate a project folder structure
+    generate or g <type> <name>
       generate a Feature or Step Definition or Screen file
+      <type> can be one of
+        feature -> Generate all files that composes an OS independenty feature
+        aFeature -> Generate all files that composes an Android feature
+        iFeature -> Generate all files that composes an iOS feature
+        step -> Generate an OS independenty step
+        aStep -> Generate a step that will be loaded only in Android
+        iStep -> Generate a step that will be loaded only in iOS
+        aScreen -> Generate an Android screen
+        iScreen -> Generate an iOS screen
     version or v
       prints the gem version
   [parameters] can be one of

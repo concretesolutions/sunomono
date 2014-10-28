@@ -4,6 +4,7 @@
 
 require 'fileutils'
 require 'rbconfig'
+require_relative '../lib/cs/bdd/version'
 
 # for ruby 1.9.1 and earlier
 unless defined? RbConfig.ruby
