@@ -1,31 +1,49 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # ----------------------------------------------------------------------------
 # Uncomment the next line to enable debug
 # set -x
 #
-# $1 -> parameter with the name of the apk
-
-
-# FIXME ###############
-# Include loop for more than one device
-#######################
+# $1 -> parameter with the name of the app
 
 ## CODE BEGIN  #############################################################
 
-# FIXME ###############
-# Include if to assert that the parameter is not null or empty
-#######################
+echo Start: $(date)
 
-echo Inicio da execução: $(date)
+# Exits if the the app path was not informed
+if [ -z $1 ]; then
+  echo "The first parameter must be the app path"
+  exit 1
+fi
 
-export DEVICE=iPhone
+# Reads the parameter file
+while read line
+do
+  # Ignoring all comments
+  echo $line | grep -q "^#" && continue
 
-rm -r $WORKSPACE/reports/$DEVICE &> /dev/null
-mkdir -p $WORKSPACE/reports/$DEVICE &> /dev/null
+  # Reading the informations of the device in the devices file
+  target="$(echo $line | cut -d'|' -f1)"
+  endpoint="$(echo $line | cut -d'|' -f2)"
+  name="$(echo $line | cut -d'|' -f3)"
 
-cd $WORKSPACE
+  # Cleaning the previous reports folder and ensuring its existence
+  rm -rf "$WORKSPACE/reports/$name" &> /dev/null
+  mkdir -p "$WORKSPACE/reports/$name" &> /dev/null
 
-APP_BUNDLE_PATH=$1 DEVICE_TARGET=000...000 DEVICE_ENDPOINT=http://0.0.0.0:37265 SCREENSHOT_PATH=$WORKSPACE/reports/$DEVICE/ cucumber -p ios --format 'Calabash::Formatters::Html' --out $WORKSPACE/reports/$DEVICE/reports.html
+  # Navigating to the tests root folder
+  cd "$WORKSPACE"
 
-echo Fim da execução: $(date)
+  # Executing calabash for the device
+  APP_BUNDLE_PATH="$1" \
+  DEVICE_TARGET="$target" \ 
+  DEVICE_ENDPOINT="$endpoint" \ 
+  SCREENSHOT_PATH="$WORKSPACE/reports/$name/" \ 
+  cucumber -p ios \
+  --format 'Calabash::Formatters::Html' \
+  --out "$WORKSPACE/reports/$name/reports.html"
+
+done < ./devices
+
+echo End: $(date)
+echo 'Bye!'
 ## CODE END  #############################################################
