@@ -16,10 +16,6 @@
   export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
   [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
   ```
-  
-## Nokogiri
-
-  Please see the page http://www.nokogiri.org/tutorials/installing_nokogiri.html
 
 # Android
 
