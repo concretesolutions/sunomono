@@ -12,6 +12,11 @@
 
 ## CODE BEGIN  #############################################################
 
+# CI
+# It is a good pratice to run pod install when executing this script on the CI to avoid
+# building problems
+# pod install
+
 [ $# -ne 4 ] && echo "Wrong number of parameters." && exit 1
 
 echo "Building project for calabash"

@@ -5,10 +5,13 @@
   There is a lot of ways of installing ruby, one is using RVM (http://rvm.io/rvm/install):
   
   Install RVM stable with ruby: 
+
   ```
   $ \curl -sSL https://get.rvm.io | bash -s stable --ruby
   ```
+
   After this, include the following lines in you `~/.bashrc` file.
+
   ```
   export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
   [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
@@ -44,7 +47,7 @@
     calabash-android run features/app-QA.apk -p android
   ```
   
-<br />
+
   > To run in a computer with more than one emulator or device, use the command:
   >
   >```
@@ -53,12 +56,12 @@
   >
   >Given that 'emulator-5554' is one of the returns of the command `$ adb devices` on the terminal
 
-<br />
+
   > To run on all connected devices, run the script `run_tests_all_devices.sh`, located on the `config/scripts/android` folder of the project
 
   > **!! IMPORTANT !!** 
 
-  > Remember to export the WORKSPACE variable with the path of the cloned test repository
+  > Remember to export the WORKSPACE variable with the path of the cloned repository
   
   > Remember to pass the APK path as the parameter of the script
   > 
@@ -75,14 +78,18 @@ To open the calabash terminal, you need to:
   1. Open the Android AVD
   2. Open the terminal on the tests folder
   3. Execute the command:
+
   ```
     calabash-android console features/app-QA.apk -p android
   ```
+
   4. Run the commands
+
   ```
     reinstall_apps
     start_test_server_in_background
   ```
+
   5. Run the commands you want to.
 
 # iOS
@@ -107,26 +114,19 @@ To open the calabash terminal, you need to:
   To run the iOS tests in a device, you need to:
   
   1. Open the terminal on the tests folder
-  2. Compile the project to create the .app file with the command 
-  ```
-  ./config/scripts/ios/build_app.sh xcworkspace_path TargetName-cal iphoneos8.1 ConfigurationName
-  ```
-        PS.1: TargetName-cal is the name of the target created with the command `calabash-ios setup`
-        PS.2: iphoneos8.1 is the sdk for devices, for emulatores use iphonesimulator8.1
-        PS.3: Configuration name can be Dev, Debug, Release, Prod or any other configuration build
-        PS.4: The path to the .app file is the last output line of the above command
+  2. Compile the project to create the .app file with the command `./config/scripts/ios/build_app.sh`
+        PS.: The path to the .app file is the last output line of the above command
+  3 To execute one feature, run the command
 
-  3. To execute one feature, run the command
   ```
     APP_BUNDLE_PATH=AppFilePath DEVICE_TARGET=DeviceUUID DEVICE_ENDPOINT=CalabashServerEndpointDevice cucumber -p ios
   ```
-  
+
   4. To execute all the features in the configured devices run the script
+
   ```
     ./config/scripts/ios/run_tests_all_devices.sh AppFilePath
   ```
-      PS.: Remember to configure all the connected devices on the file `./config/scripts/ios/devices`.
-           In this file you need to inform the device UUID, the device IP with the calabash server port and a name to identify this device on the reports. Remember to leave an empty line at the end of the file and to split the informations using pipes.
 
 ## Calabash Terminal (Device)
 
@@ -136,13 +136,17 @@ To open the calabash terminal, you need to:
   1. Connect the device
   2. Open the terminal on the tests folder
   3. Execute the command:
+
   ```
     APP_BUNDLE_PATH=AppFilePath DEVICE_TARGET=DeviceUUID DEVICE_ENDPOINT=CalabashServerEndpointDevice calabash-ios console
   ```
+
   4. Run the command
+
   ```
     start_test_server_in_background
   ```
+
   5. Run the commands you want to.
 
 ## Pitfalls
