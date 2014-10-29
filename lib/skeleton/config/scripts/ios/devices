@@ -1,3 +1,4 @@
-# <DEVICE_TARGET> | <DEVICE_ENDPOINT> | <DEVICE_NAME> # Always leave an empty line on the end of the file
+# <DEVICE_TARGET (UUID)> | <DEVICE_ENDPOINT (IP)> | <DEVICE_NAME>
 000...000 | http://0.0.0.0:37265 | Device0
 111...111 | http://1.1.1.1:37265 | Device1
+# EOF - Never erase this comment or the script will have problems to read this file
