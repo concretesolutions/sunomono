@@ -33,7 +33,7 @@ Before do |scenario|
   end
   # Looks if is a new feature that will be executed
   if ENV['FEATURE_NAME'] != scenario.feature.title # ENV['FEATURE_NAME'] is just an aux created to store the feature name
-    reinstall_app
+    reinstall_app # always reinstall the app before a the execution of a new feature
     ENV['FEATURE_NAME'] = scenario.feature.title
   end 
 

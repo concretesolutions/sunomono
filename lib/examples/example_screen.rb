@@ -1,4 +1,4 @@
-class |Name|Screen < |Plataform|ScreenBase
+class |Name|Screen < |Platform|ScreenBase
 
   # The screen identificator
   #trait(:trait)                 { "* marked:'#{layout_name}'" }

@@ -29,7 +29,7 @@ else
   cmd = ARGV.shift
 
   case cmd
-  when 'new'
+  when 'new', 'n'
     if ARGV.empty?
       puts "Please specify the project name"
       exit 1

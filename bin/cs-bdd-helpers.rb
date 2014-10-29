@@ -4,6 +4,7 @@ def print_usage
   <command-name> can be one of
     new or n <project_name>
       generate a project folder structure
+      \033[0;32mEx.: cs-bdd n project_name\033[0m
     generate or g <type> <name>
       generate a Feature or Step Definition or Screen file
       <type> can be one of
@@ -15,10 +16,10 @@ def print_usage
         iStep -> Generate a step that will be loaded only in iOS
         aScreen -> Generate an Android screen
         iScreen -> Generate an iOS screen
+        \033[0;32mEx.: cs-bdd g aFeature Feature_name\033[0m
     version or v
       prints the gem version
-  [parameters] can be one of
-
+      \033[0;32mEx.: cs-bdd v\033[0m
 EOF
 end
 
