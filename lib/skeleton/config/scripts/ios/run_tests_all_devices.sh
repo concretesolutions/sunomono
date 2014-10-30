@@ -22,9 +22,10 @@ do
   echo $line | grep -q "^#" && continue
 
   # Reading the informations of the device in the devices file
-  target="$(echo $line | cut -d'|' -f1)"
-  endpoint="$(echo $line | cut -d'|' -f2)"
-  name="$(echo $line | cut -d'|' -f3)"
+  # Any of this variable can contain spaces any kind of spaces, so we erase then off
+  target="$(echo $line | cut -d'|' -f1 | tr -d ' ')"
+  endpoint="$(echo $line | cut -d'|' -f2 | tr -d ' ')"
+  name="$(echo $line | cut -d'|' -f3 | tr -d ' ')"
 
   # Cleaning the previous reports folder and ensuring its existence
   rm -rf "$WORKSPACE/reports/$name" &> /dev/null
