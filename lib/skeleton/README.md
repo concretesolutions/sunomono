@@ -164,3 +164,4 @@ To open the calabash terminal, you need to:
   2. Ensure that the device is enabled to Development and the UI Automations is enabled on the Developer menu (Settings)
   3. If the device in pin locked, ensure that it is unlocked. If there is no pin, the calabash will automatically unlock the device
   4. Ensure that the device WIFI is enabled and it is accessible from the computer that is starting the tests. The calabash server works sending commands to the device by the network.
+  5. Always run the target -cal on the Xcode one first time to see if the target is ok and running. The calabash-ios gem cannot print errors of execution, but Xcode can
