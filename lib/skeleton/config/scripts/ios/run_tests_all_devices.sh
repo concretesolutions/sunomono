@@ -3,7 +3,7 @@
 # Uncomment the next line to enable debug
 # set -x
 #
-# $1 -> parameter with the name of the app
+# $1 -> parameter with the path of the .app bundle
 
 ## CODE BEGIN  #############################################################
 
@@ -34,15 +34,9 @@ do
   cd "$WORKSPACE"
 
   # Executing calabash for the device
-  APP_BUNDLE_PATH="$1" \
-  DEVICE_TARGET="$target" \ 
-  DEVICE_ENDPOINT="$endpoint" \ 
-  SCREENSHOT_PATH="$WORKSPACE/reports/$name/" \ 
-  cucumber -p ios \
-  --format 'Calabash::Formatters::Html' \
-  --out "$WORKSPACE/reports/$name/reports.html"
+  APP_BUNDLE_PATH="$1" DEVICE_TARGET="$target" DEVICE_ENDPOINT="$endpoint" SCREENSHOT_PATH="$WORKSPACE/reports/$name/" cucumber -p ios --format 'Calabash::Formatters::Html' --out "$WORKSPACE/reports/$name/reports.html"
 
-done < ./devices
+done < config/scripts/ios/devices
 
 echo End: $(date)
 echo 'Bye!'
