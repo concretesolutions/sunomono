@@ -29,9 +29,6 @@ Before do |scenario|
     install_app(ENV["TEST_APP_PATH"])
     install_app(ENV["APP_PATH"])
 
-    # Loading the translation files on the apk
-    Translations.instance.load_dictionary( :pt_BR, ENV["APP_PATH"] )
-
     FeatureNameMemory.feature_name = feature_name
   FeatureNameMemory.invocation = 1
   else
