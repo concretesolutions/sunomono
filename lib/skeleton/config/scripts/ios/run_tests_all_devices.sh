@@ -9,20 +9,20 @@
 
 echo Start: $(date)
 
-# Exits if the the app path was not informed
+# Exits if the app path was not informed
 if [ -z $1 ]; then
   echo "The first parameter must be the app path"
   exit 1
 fi
 
-# Reads the parameter file
+# Reads the devices file line by line
 while read line
 do
   # Ignoring all comments
   echo $line | grep -q "^#" && continue
 
   # Reading the informations of the device in the devices file
-  # Any of this variable can contain spaces any kind of spaces, so we erase then off
+  # The variables can't contain any kind of spaces, so we erase then off
   target="$(echo $line | cut -d'|' -f1 | tr -d ' ')"
   endpoint="$(echo $line | cut -d'|' -f2 | tr -d ' ')"
   name="$(echo $line | cut -d'|' -f3 | tr -d ' ')"

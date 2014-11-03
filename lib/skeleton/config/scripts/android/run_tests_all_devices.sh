@@ -7,7 +7,7 @@
 
 
 ## CODE BEGIN  #############################################################
-echo Inicio da execução: $(date)
+echo Start: $(date)
 for device in $(adb devices | grep "device$" | cut -f 1)
 do
   rm -r $WORKSPACE/reports/$device &> /dev/null
@@ -19,5 +19,6 @@ do
   ADB_DEVICE_ARG=$device SCREENSHOT_PATH=$WORKSPACE/reports/$device/ calabash-android run $1 -p android --format 'Calabash::Formatters::Html' --out $WORKSPACE/reports/$device/reports.html $ignore &
 done
 wait
-echo Fim da execução: $(date)
+echo End: $(date)
+echo 'Bye!'
 ## CODE END  #############################################################

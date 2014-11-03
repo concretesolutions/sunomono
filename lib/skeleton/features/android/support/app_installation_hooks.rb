@@ -30,7 +30,7 @@ Before do |scenario|
     install_app(ENV["APP_PATH"])
 
     FeatureNameMemory.feature_name = feature_name
-  FeatureNameMemory.invocation = 1
+    FeatureNameMemory.invocation = 1
   else
     FeatureNameMemory.invocation += 1
   end

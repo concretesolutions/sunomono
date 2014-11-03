@@ -12,7 +12,7 @@
 
 ## CODE BEGIN  #############################################################
 
-# CI
+# When running on CI
 # It is a good pratice to run pod install when executing this script on the CI to avoid
 # building problems
 # pod install

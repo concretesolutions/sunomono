@@ -12,7 +12,7 @@ class AndroidScreenBase < Calabash::ABase
     alias :trait :element
   end
 
-  element(:loading_screen)      {"insert_loadin_view_id"}
+  element(:loading_screen)      {"insert_loading_view_id"}
 
   # The progress bar of the application is a custom view
   def wait_for_progress
