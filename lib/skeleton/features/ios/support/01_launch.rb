@@ -64,21 +64,42 @@ end
 # Install or reinstall the app on the device
 def reinstall_app
 
-  system( "echo 'Installing the app...'" )  
+  # If test is in a device
+  if( !ENV['APP_BUNDLE_PATH'].include?( "iphonesimulator" ) )
 
-  # Trying to reinstall the app
-  success = system "ios-deploy -r -b #{ENV['APP_BUNDLE_PATH']} -i #{ENV['DEVICE_TARGET']} -t 5 > /dev/null"
+    system( "echo 'Installing the app...'" )  
 
-  # If the app is not installed the above command will throw an error
-  # So we just install the app
-  if !success
-    success = system "ios-deploy -b #{ENV['APP_BUNDLE_PATH']} -i #{ENV['DEVICE_TARGET']} -t 5 > /dev/null"
-    if !success # If there is any error raises an exception
-      raise 'Error. Could not install the app.'
+    # Trying to reinstall the app
+    success = system "ios-deploy -r -b #{ENV['APP_BUNDLE_PATH']} -i #{ENV['DEVICE_TARGET']} -t 5 > /dev/null"
+
+    # If the app is not installed the above command will throw an error
+    # So we just install the app
+    if !success
+      success = system "ios-deploy -b #{ENV['APP_BUNDLE_PATH']} -i #{ENV['DEVICE_TARGET']} -t 5 > /dev/null"
+      if !success # If there is any error raises an exception
+        raise 'Error. Could not install the app.'
+      end
     end
+
+    system( "echo 'Installed.'" )
+
+    sleep(3) # Gives to the iphone a time to finish the installation of the app
+  else # If test is in a simulator
+
+    # APP_BUNDLE_ID must be set in order to uninstall the app from the simulator
+    # You can either pass it as a parameter in the cucumber command or set it here
+    #ENV["APP_BUNDLE_ID"] = "bundle_id"
+
+    # Reinstalling the app using terminal commands
+    system( "echo 'Installing the app...'" )
+    
+    # Removing the app
+    %x(xcrun simctl uninstall #{ENV['DEVICE_TARGET']} #{ENV["APP_BUNDLE_ID"]} > /dev/null)
+
+    # Installing the app
+    %x(xcrun simctl install #{ENV['DEVICE_TARGET']} #{ENV['APP_BUNDLE_PATH']} > /dev/null)
+
+    system( "echo 'Installed.'" )
+
   end
-
-  system( "echo 'Installed.'" )
-
-  sleep(3) # Gives to the iphone a time to finish the installation of the app
 end
