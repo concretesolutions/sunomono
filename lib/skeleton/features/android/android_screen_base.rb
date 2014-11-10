@@ -41,17 +41,15 @@ class AndroidScreenBase < Calabash::ABase
   end
 
   def drag_until_element_is_visible_with_special_query direction, element
-    drag_until_element_is_visible direction, element, "* {text CONTAINS[c] '#{self.get_translation(element)}'}"
+    drag_until_element_is_visible direction, element, "* {text CONTAINS[c] '#{element}'}"
   end
 
   def drag_until_element_is_visible direction, element, query = nil, limit = 15
     i = 0
 
-    element_text = get_translation(element)
-
     element_query = ""
     if query.nil?
-      element_query = "* marked:'#{element_text}'"
+      element_query = "* marked:'#{element}'"
     else
       element_query = query
     end
@@ -62,7 +60,7 @@ class AndroidScreenBase < Calabash::ABase
       i = i + 1
     end
 
-    raise ("Executed #{limit} moviments #{direction.to_s} and the element '#{element_text}' was not found on this view!") unless i < limit
+    raise ("Executed #{limit} moviments #{direction.to_s} and the element '#{element}' was not found on this view!") unless i < limit
   end
 
   def drag_for_specified_number_of_times direction, times
@@ -73,12 +71,10 @@ class AndroidScreenBase < Calabash::ABase
 
   def is_on_page? page_text
 
-    translated_page_text = get_translation(page_text)[0,50] # Using only the first 50 chars in the comparation
-
     begin
-      wait_for(:timeout => 5) { has_text? translated_page_text }
+      wait_for(:timeout => 5) { has_text? page_text }
     rescue
-      raise "Unexpected Page. Expected was: '#{translated_page_text}'"
+      raise "Unexpected Page. Expected was: '#{page_text}'"
     end
   end
 
