@@ -53,7 +53,7 @@ def create_steps_file name, platform = nil
   if platform.nil?
     file = File.join( @steps_dir, "#{name.downcase}_steps.rb" )
   else
-    file = File.join( @features_dir, platform.downcase, "steps_definition", "#{name.downcase}.feature" )
+    file = File.join( @features_dir, platform.downcase, "steps_definition", "#{name.downcase}_steps.rb" )
   end
 
   # Creating the steps file with the default content
