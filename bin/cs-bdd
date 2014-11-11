@@ -38,32 +38,29 @@ class CsBddRunner < Thor
 
     case generator
     when 'feature'
-      # Thor creates a file based on the feature.tt template
-      opts = {:name => camelize(name), :platform => ""}
-      template( "feature", File.join(File.join( FileUtils.pwd, "features" ), "#{name.downcase}.feature" ), opts )
-      template( "steps", File.join(File.join( FileUtils.pwd, "features", "step_definitions" ), "#{name.downcase}_steps.rb" ) )
-      opts[:platform] = "Android"
-      template( "screen", File.join( FileUtils.pwd, "features", opts[:platform].downcase, "screens", "#{name.downcase}_screen.rb"), opts )
-      opts[:platform] = "iOS"
-      template( "screen", File.join( FileUtils.pwd, "features", opts[:platform].downcase, "screens", "#{name.downcase}_screen.rb"), opts )
+      
+      create_feature_file name
+      create_steps_file name
+      create_screen_file name, 'Android'
+      create_screen_file name, 'IOS'
     when 'aFeature'
-      # create_feature_file name, 'Android'
-      # create_steps_file name, 'Android'
-      # create_screen_file name, 'Android'
+      create_feature_file name, 'Android'
+      create_steps_file name, 'Android'
+      create_screen_file name, 'Android'
     when 'iFeature'
-      # create_feature_file name, 'IOS'
-      # create_steps_file name, 'IOS'
-      # create_screen_file name, 'IOS'
+      create_feature_file name, 'IOS'
+      create_steps_file name, 'IOS'
+      create_screen_file name, 'IOS'
     when 'step'
-      # create_steps_file name
+      create_steps_file name
     when 'aStep'
-      # create_steps_file name, 'Android'
+      create_steps_file name, 'Android'
     when 'iStep'
-      # create_steps_file name, 'IOS'
+      create_steps_file name, 'IOS'
     when 'aScreen'
-      # create_screen_file name, 'Android'
+      create_screen_file name, 'Android'
     when 'iScreen'
-      # create_screen_file name, 'IOS'
+      create_screen_file name, 'IOS'
     end
   end
 
