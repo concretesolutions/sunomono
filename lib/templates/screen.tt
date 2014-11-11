@@ -1,4 +1,4 @@
-class ExampleScreen < AndroidScreenBase
+class <%= config[:name] %>Screen < <%= config[:platform] %>ScreenBase
 
   # The screen identificator
   #trait(:trait)                 { "* marked:'#{layout_name}'" }

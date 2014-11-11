@@ -71,3 +71,14 @@ def create_screen_file name, platform
   # Creating the feature file with the updated content
   File.open( File.join( @features_dir, platform.downcase, "screens", "#{name.downcase}_screen.rb" ), 'w' ) { |file| file.puts content }
 end
+
+def camelize string
+
+  camelized = ""
+
+  string.split("_").each do |s|
+    camelized = camelized + s.capitalize
+  end
+
+  return camelized
+end

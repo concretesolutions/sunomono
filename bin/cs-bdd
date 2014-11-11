@@ -1,43 +1,34 @@
 #!/usr/bin/env ruby
 
-# File based on https://github.com/calabash/calabash-android/blob/e2da2817809edf38256a55093dc1d3835c9c6410/ruby-gem/bin/calabash-android
+require 'thor'
 
-require 'fileutils'
-require 'rbconfig'
+require File.join(File.dirname(__FILE__), "cs-bdd-helpers")
 require_relative '../lib/cs/bdd/version'
 
-# for ruby 1.9.1 and earlier
-unless defined? RbConfig.ruby
-  def RbConfig.ruby
-    File.join(RbConfig::CONFIG["bindir"], RbConfig::CONFIG["ruby_install_name"] + RbConfig::CONFIG["EXEEXT"])
-  end
-end
+class CsBddRunner < Thor
+  include Thor::Actions
 
-require File.join(File.dirname(__FILE__), "cs-bdd-generate")
-require File.join(File.dirname(__FILE__), "cs-bdd-helpers")
+  # @steps_dir = File.join(@features_dir, "step_definitions" )
+  # @android_dir = File.join(@features_dir, "android" )
+  # @ios_dir = File.join(@features_dir, "ios" )
 
-@skeleton_dir = File.join( File.dirname(__FILE__), '..', 'lib', 'skeleton' )
-@examples_dir = File.join( File.dirname(__FILE__), "..", "lib", "examples" )
-@features_dir = File.join( FileUtils.pwd, "features" )
-@steps_dir = File.join(@features_dir, "step_definitions" )
-@android_dir = File.join(@features_dir, "android" )
-@ios_dir = File.join(@features_dir, "ios" )
+  default_task :help
 
-if ARGV.length == 0
-  print_usage
-else
-  cmd = ARGV.shift
+  desc "name", "The name of the project or feature"
 
-  case cmd
-  when 'new', 'n'
-    if ARGV.empty?
+  desc "new PROJECT_NAME", "Generates the structure of a new project that uses Calabash in both Android and iOS apps"
+  def new name
+    if name.empty?
       puts "Please specify the project name"
       exit 1
     else
-      @project_dir = File.join(FileUtils.pwd, ARGV.first)
-      generate_skeleton
+      # Thor will be responsible to look for identical files and possibles conflicts
+      directory File.join( File.dirname(__FILE__), '..', 'lib', 'skeleton' ), name
     end
-  when 'generate', 'g'
+  end
+
+  desc "generate GENERATOR, RESOURCE_NAME", "Generates a specific resource based on the given generator."
+  def generate generator, name
 
     # Looks if the user is in the root folder of the project
     unless Dir.exists? File.join(FileUtils.pwd, "features", "android", "features")
@@ -45,49 +36,45 @@ else
       exit 1
     end
 
-    if ARGV.empty?
-      puts "Please inform the generator that will be used. Type cs-bdd to see the usage info."
-      exit 1
-    else
-      generator = ARGV.shift
-
-      if ARGV.empty?
-        puts "Please specify the name of the resource to be generated."
-        exit 1
-      end
-
-      name = ARGV.first
-
-      case generator
-      when 'feature'
-        create_feature_file name
-        create_steps_file name
-        create_screen_file name, 'IOS'
-        create_screen_file name, 'Android'
-      when 'aFeature'
-        create_feature_file name, 'Android'
-        create_steps_file name, 'Android'
-        create_screen_file name, 'Android'
-      when 'iFeature'
-        create_feature_file name, 'IOS'
-        create_steps_file name, 'IOS'
-        create_screen_file name, 'IOS'
-      when 'step'
-        create_steps_file name
-      when 'aStep'
-        create_steps_file name, 'Android'
-      when 'iStep'
-        create_steps_file name, 'IOS'
-      when 'aScreen'
-        create_screen_file name, 'Android'
-      when 'iScreen'
-        create_screen_file name, 'IOS'
-      end
+    case generator
+    when 'feature'
+      # Thor creates a file based on the feature.tt template
+      opts = {:name => camelize(name), :platform => ""}
+      template( "feature", File.join(File.join( FileUtils.pwd, "features" ), "#{name.downcase}.feature" ), opts )
+      template( "steps", File.join(File.join( FileUtils.pwd, "features", "step_definitions" ), "#{name.downcase}_steps.rb" ) )
+      opts[:platform] = "Android"
+      template( "screen", File.join( FileUtils.pwd, "features", opts[:platform].downcase, "screens", "#{name.downcase}_screen.rb"), opts )
+      opts[:platform] = "iOS"
+      template( "screen", File.join( FileUtils.pwd, "features", opts[:platform].downcase, "screens", "#{name.downcase}_screen.rb"), opts )
+    when 'aFeature'
+      # create_feature_file name, 'Android'
+      # create_steps_file name, 'Android'
+      # create_screen_file name, 'Android'
+    when 'iFeature'
+      # create_feature_file name, 'IOS'
+      # create_steps_file name, 'IOS'
+      # create_screen_file name, 'IOS'
+    when 'step'
+      # create_steps_file name
+    when 'aStep'
+      # create_steps_file name, 'Android'
+    when 'iStep'
+      # create_steps_file name, 'IOS'
+    when 'aScreen'
+      # create_screen_file name, 'Android'
+    when 'iScreen'
+      # create_screen_file name, 'IOS'
     end
-  when 'version', 'v'
-    puts CS::BDD::VERSION
-  else
-    puts "Invalid command '#{cmd}'"
-    print_usage
+  end
+
+  desc "version", "Shows the gem version"
+  def version
+    puts "cs-bdd Version #{CS::BDD::VERSION}"
+  end
+
+  def self.source_root
+    File.join( File.dirname(__FILE__), '..', 'lib', 'templates' )
   end
 end
+
+CsBddRunner.start

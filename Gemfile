@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in cs-bdd.gemspec
 gemspec
 
+gem 'thor'
+
 # calabash gems
 gem 'calabash-common'
 # Only for Linux

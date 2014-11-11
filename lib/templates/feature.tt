@@ -1,0 +1,7 @@
+Feature: <%= config[:name] %> <%= !config[:platform].empty? ? "(#{config[:platform]} Only)" : "" %>
+
+  Background:
+    # Insert the steps
+    
+  Scenario: First Scenario
+    # Insert the steps
