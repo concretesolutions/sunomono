@@ -56,12 +56,13 @@ class IOSScreenBase < Calabash::IBase
   def ios_element_exists? query
     second_query = nil
 
-    if query.include? "marked"
-      second_query = query.gsub( 'marked', 'accessibilityLabel' )
-    end
-
-    if query.include? "accessibilityLabel"
-      second_query = query.gsub( 'accessibilityLabel', 'marked' )
+    if query.include? "CONTAINS[c]"
+      if query.include? "marked"
+        second_query = query.gsub( 'marked', 'accessibilityLabel' )
+      end
+      if query.include? "accessibilityLabel"
+        second_query = query.gsub( 'accessibilityLabel', 'marked' )
+      end
     end
 
     if second_query.nil?
@@ -69,7 +70,6 @@ class IOSScreenBase < Calabash::IBase
     else
       element_exists(query) or element_exists(second_query)
     end
-
   end
 
   def drag_until_element_is_visible_with_special_query direction, element
@@ -111,10 +111,13 @@ class IOSScreenBase < Calabash::IBase
 
   def enter text, element, query = nil
     if query.nil?
-      query( "* marked:'#{element}'", {:setText => text} )
-    else
-      query( query, {:setText => text} )
+      query = "* marked:'#{element}'"
     end
+
+    touch query
+    sleep(1)
+    keyboard_enter_text text
+    done
   end
 
   def touch_screen_element element

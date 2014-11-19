@@ -15,6 +15,10 @@ if [ -z $1 ]; then
   exit 1
 fi
 
+# Remember to install an application server to enable remote access to the reports
+# Remember to previous create the reports folder and give the appropriate permissions
+reports_path="/var/www/reports/$(date +"%Y%d%m")"
+
 # Reads the devices file line by line
 while read line
 do
@@ -28,14 +32,14 @@ do
   name="$(echo $line | cut -d'|' -f3 | tr -d ' ')"
 
   # Cleaning the previous reports folder and ensuring its existence
-  rm -rf "$WORKSPACE/reports/$name" &> /dev/null
-  mkdir -p "$WORKSPACE/reports/$name" &> /dev/null
+  rm -r "$reports_path"/"$name" &> /dev/null
+  mkdir -p "$reports_path"/"$name" &> /dev/null
 
   # Navigating to the tests root folder
   cd "$WORKSPACE"
 
   # Executing calabash for the device
-  APP_BUNDLE_PATH="$1" DEVICE_TARGET="$target" DEVICE_ENDPOINT="$endpoint" SCREENSHOT_PATH="$WORKSPACE/reports/$name/" cucumber -p ios --format 'Calabash::Formatters::Html' --out "$WORKSPACE/reports/$name/reports.html"
+  APP_BUNDLE_PATH="$1" DEVICE_TARGET="$target" DEVICE_ENDPOINT="$endpoint" SCREENSHOT_PATH="$reports_path"/"$name"/ cucumber -p ios --format 'Calabash::Formatters::Html' --out "$reports_path"/"$name/reports.html"
 
 done < config/scripts/ios/devices
 
