@@ -2,7 +2,7 @@
 <%= I18n.translate( :feature ) %>: <%= config[:name] %> <%= !config[:platform].empty? ? I18n.translate( "#{config[:platorm].downcase}_only") : "" %>
 
   <%= I18n.translate( :background ) %>:
-    # <%= I18n.translate( :insert_steps ) %>
+    # <%= I18n.translate( :comment_insert_steps ) %>
     
   <%= I18n.translate( :scenario ) %>: <%= I18n.translate( :first_scenario ) %>
-    # <%= I18n.translate( :insert_steps ) %>
+    # <%= I18n.translate( :comment_insert_steps ) %>

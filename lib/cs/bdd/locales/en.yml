@@ -1,11 +1,9 @@
 en:
-  feature: "Feature"
   android_only: "(Android Only)"
   ios_only: "(iOS Only)"
-  background: "Background"
-  scenario: "Scenario"
   first_scenario: "First Scenario"
-  insert_steps: "Insert steps"
-  given: "Given"
-  when: "When"
-  then: "Then"
+  comments:
+    trait: "The screen identificator"
+    insert_steps: "Insert steps"
+    elements: "Declare all the elements of this screen"
+    actions: "Declare all actions of this screen"

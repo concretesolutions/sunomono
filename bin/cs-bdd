@@ -128,12 +128,16 @@ module CS
         # Loading gherkin accepted translations
         translations_file_path = File.join(Gem.loaded_specs['gherkin'].full_gem_path, 'lib', 'gherkin', 'i18n.json')
         # Parsing the JSON file
-        translations_json = JSON.parse( File.read( translations_file_path ).gsub( /[\|\*]{1,2}.*\"/, '"') )
+        # Removing the sequence *| and all the alternative options for the gherkin translations
+        translations_json = JSON.parse( File.read( translations_file_path ).gsub(/\*\|/, "").gsub( /\|.*\"/, '"') )
         # Converting the translations to YAML and storing in a temp file
         translations_temp_file = Tempfile.new( ["translations", ".yml"] )
         File.write( translations_temp_file, translations_json.to_yaml )
-        # Loading the translations temp file with i18n
-        I18n.load_path = Dir[translations_temp_file]
+        # Loading the translations from gherkin and from the locales folder of this gem
+        locales_folder_path = File.join( File.dirname(__FILE__), '..', 'lib', 'cs', 'bdd', 'locales' )
+        I18n.load_path = Dir[translations_temp_file, File.join(locales_folder_path, "*.yml")]
+        I18n.backend.load_translations
+        I18n.config.enforce_available_locales = true
       end
 
     end

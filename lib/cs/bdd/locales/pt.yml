@@ -1,0 +1,9 @@
+pt:
+  android_only: "(Somente Android)"
+  ios_only: "(Somente iOS)"
+  first_scenario: "Primeiro Cenário"
+  comments:
+    trait: "Identificador da tela"
+    insert_steps: "Insira os passos"
+    elements: "Declare todos os elementos da tela"
+    actions: "Declare todas as ações da tela"
