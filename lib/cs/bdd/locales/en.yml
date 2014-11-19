@@ -1,0 +1,11 @@
+en:
+  feature: "Feature"
+  android_only: "(Android Only)"
+  ios_only: "(iOS Only)"
+  background: "Background"
+  scenario: "Scenario"
+  first_scenario: "First Scenario"
+  insert_steps: "Insert steps"
+  given: "Given"
+  when: "When"
+  then: "Then"

@@ -1,77 +1,143 @@
 #!/usr/bin/env ruby
 
 require 'thor'
+require 'thor/group'
+require 'i18n'
+require 'gherkin' # Used here as a translation source
+require 'json'
+require 'yaml'
 
 require File.join(File.dirname(__FILE__), "cs-bdd-helpers")
 require_relative '../lib/cs/bdd/version'
 
-class CsBddRunner < Thor
-  include Thor::Actions
+module CS
+  module BDD
+    class Generate < Thor
+      include Thor::Actions
 
-  # @steps_dir = File.join(@features_dir, "step_definitions" )
-  # @android_dir = File.join(@features_dir, "android" )
-  # @ios_dir = File.join(@features_dir, "ios" )
+      desc "feature [RESOURCE_NAME]", "Generates an OS independent feature"
+      option :lang, :banner => "any of the gherkin supported languages", :default => :en
+      def feature name
+        I18n.config.default_locale = options[:lang]
+        in_root_project_folder?
 
-  default_task :help
+        create_feature_file name
+        create_steps_file name
+        create_screen_file name, 'Android'
+        create_screen_file name, 'IOS'
+      end
 
-  desc "name", "The name of the project or feature"
+      desc "aFeature [RESOURCE_NAME]", "Generates an Android dependent feature"
+      option :lang, :banner => "any of the gherkin supported languages", :default => :en
+      def aFeature name
+        I18n.config.default_locale = options[:lang]
+        in_root_project_folder?
 
-  desc "new PROJECT_NAME", "Generates the structure of a new project that uses Calabash in both Android and iOS apps"
-  def new name
-    if name.empty?
-      puts "Please specify the project name"
-      exit 1
-    else
-      # Thor will be responsible to look for identical files and possibles conflicts
-      directory File.join( File.dirname(__FILE__), '..', 'lib', 'skeleton' ), name
+        create_feature_file name, 'Android'
+        create_steps_file name, 'Android'
+        create_screen_file name, 'Android'
+      end
+
+      desc "iFeature [RESOURCE_NAME]", "Generates an iOS dependent feature"
+      option :lang, :banner => "any of the gherkin supported languages", :default => :en
+      def iFeature name
+        I18n.config.default_locale = options[:lang]
+        in_root_project_folder?
+
+        create_feature_file name, 'IOS'
+        create_steps_file name, 'IOS'
+        create_screen_file name, 'IOS'
+      end
+
+      desc "step [RESOURCE_NAME]", "Generates an OS independent step"
+      option :lang, :banner => "any of the gherkin supported languages", :default => :en
+      def step name
+        I18n.config.default_locale = options[:lang]
+        in_root_project_folder?
+        create_steps_file name
+      end
+
+      desc "aStep [RESOURCE_NAME]", "Generates an Android dependent step"
+      option :lang, :banner => "any of the gherkin supported languages", :default => :en
+      def aStep name
+        I18n.config.default_locale = options[:lang]
+        in_root_project_folder?
+        create_steps_file name, 'Android'
+      end
+
+      desc "iStep [RESOURCE_NAME]", "Generates an iOS dependent step"
+      option :lang, :banner => "any of the gherkin supported languages", :default => :en
+      def iStep name
+        I18n.config.default_locale = options[:lang]
+        in_root_project_folder?
+        create_steps_file name, 'IOS'
+      end
+
+      desc "aScreen [RESOURCE_NAME]", "Generates an Android dependent screen"
+      option :lang, :banner => "any of the gherkin supported languages", :default => :en
+      def aScreen name
+        I18n.config.default_locale = options[:lang]
+        in_root_project_folder?
+        create_screen_file name, 'Android'
+      end
+
+      desc "iScreen [RESOURCE_NAME]", "Generates an iOS dependent screen"
+      option :lang, :banner => "any of the gherkin supported languages", :default => :en
+      def iScreen name
+        I18n.config.default_locale = options[:lang]
+        in_root_project_folder?
+        create_screen_file name, 'IOS'
+      end
+
+      def self.source_root
+        File.join( File.dirname(__FILE__), '..', 'lib', 'templates' )
+      end
     end
-  end
-
-  desc "generate GENERATOR, RESOURCE_NAME", "Generates a specific resource based on the given generator."
-  def generate generator, name
-
-    # Looks if the user is in the root folder of the project
-    unless Dir.exists? File.join(FileUtils.pwd, "features", "android", "features")
-      puts "Please run this command on the root folder of the project"
-      exit 1
-    end
-
-    case generator
-    when 'feature'
-      
-      create_feature_file name
-      create_steps_file name
-      create_screen_file name, 'Android'
-      create_screen_file name, 'IOS'
-    when 'aFeature'
-      create_feature_file name, 'Android'
-      create_steps_file name, 'Android'
-      create_screen_file name, 'Android'
-    when 'iFeature'
-      create_feature_file name, 'IOS'
-      create_steps_file name, 'IOS'
-      create_screen_file name, 'IOS'
-    when 'step'
-      create_steps_file name
-    when 'aStep'
-      create_steps_file name, 'Android'
-    when 'iStep'
-      create_steps_file name, 'IOS'
-    when 'aScreen'
-      create_screen_file name, 'Android'
-    when 'iScreen'
-      create_screen_file name, 'IOS'
-    end
-  end
-
-  desc "version", "Shows the gem version"
-  def version
-    puts "cs-bdd Version #{CS::BDD::VERSION}"
-  end
-
-  def self.source_root
-    File.join( File.dirname(__FILE__), '..', 'lib', 'templates' )
   end
 end
 
-CsBddRunner.start
+module CS
+  module BDD
+    class CsBddRunner < Thor
+      include Thor::Actions
+
+      default_task :help
+
+      register CS::BDD::Generate, 'generate', 'generate [GENERATOR] [RESOURCE_NAME]', 'Generates various resources'
+
+      desc "new PROJECT_NAME", "Generates the structure of a new project that uses Calabash in both Android and iOS apps"
+      option :lang, :banner => "any of the gherkin supported languages", :default => :en
+      def new name
+        I18n.config.default_locale = options[:lang]
+        # Thor will be responsible to look for identical files and possibles conflicts
+        directory File.join( File.dirname(__FILE__), '..', 'lib', 'skeleton' ), name
+      end
+
+      desc "version", "Shows the gem version"
+      def version
+        puts "cs-bdd Version #{CS::BDD::VERSION}"
+      end
+
+      def self.source_root
+        File.join( File.dirname(__FILE__), '..', 'lib', 'templates' )
+      end
+
+      # Overriding the initialize method to load all the translations supported by the gem gherkin
+      def initialize(*args)
+        super
+        # Loading gherkin accepted translations
+        translations_file_path = File.join(Gem.loaded_specs['gherkin'].full_gem_path, 'lib', 'gherkin', 'i18n.json')
+        # Parsing the JSON file
+        translations_json = JSON.parse( File.read( translations_file_path ).gsub( /[\|\*]{1,2}.*\"/, '"') )
+        # Converting the translations to YAML and storing in a temp file
+        translations_temp_file = Tempfile.new( ["translations", ".yml"] )
+        File.write( translations_temp_file, translations_json.to_yaml )
+        # Loading the translations temp file with i18n
+        I18n.load_path = Dir[translations_temp_file]
+      end
+
+    end
+  end
+end
+
+CS::BDD::CsBddRunner.start

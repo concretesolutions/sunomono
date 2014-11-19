@@ -4,6 +4,9 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'thor'
+gem 'i18n'
+gem 'json'
+gem 'gherkin'
 
 # calabash gems
 gem 'calabash-common'

@@ -1,7 +1,8 @@
-Feature: <%= config[:name] %> <%= !config[:platform].empty? ? "(#{config[:platform]} Only)" : "" %>
+<%= "# language: #{options[:lang]}" %>
+<%= I18n.translate( :feature ) %>: <%= config[:name] %> <%= !config[:platform].empty? ? I18n.translate( "#{config[:platorm].downcase}_only") : "" %>
 
-  Background:
-    # Insert the steps
+  <%= I18n.translate( :background ) %>:
+    # <%= I18n.translate( :insert_steps ) %>
     
-  Scenario: First Scenario
-    # Insert the steps
+  <%= I18n.translate( :scenario ) %>: <%= I18n.translate( :first_scenario ) %>
+    # <%= I18n.translate( :insert_steps ) %>
