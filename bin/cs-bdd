@@ -111,6 +111,9 @@ module CS
         I18n.config.default_locale = options[:lang]
         # Thor will be responsible to look for identical files and possibles conflicts
         directory File.join( File.dirname(__FILE__), '..', 'lib', 'skeleton' ), name
+
+        # Copying base steps file with localization
+        template( "base_steps", File.join(name, 'features', 'step_definitions', 'base_steps.rb') )
       end
 
       desc "version", "Shows the gem version"

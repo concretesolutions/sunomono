@@ -7,3 +7,12 @@ en:
     insert_steps: "Insert steps"
     elements: "Declare all the elements of this screen"
     actions: "Declare all actions of this screen"
+  steps:
+    drag_until: "I (?:drag|dragged) the screen (down|up|left|right) until I see the element"
+    page_contains: "I am on a page that contains"
+    drag_number_of_times: 'I drag the screen (left|right|down|up) (\d+) times'
+    touch_element: 'I (?:touch|touched) the "(.*?)" element'
+    drag_screen: "I drag the screen (down|up|left|right)"
+    wait_progress_bar: "I (?:wait|waited) for the progress bar to vanish"
+    should_see_page: "I should see the page"
+    should_see_page_that_contains: "I should see a page that contains"
