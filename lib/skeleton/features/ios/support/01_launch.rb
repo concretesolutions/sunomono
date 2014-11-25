@@ -90,6 +90,10 @@ def reinstall_app
     # You can either pass it as a parameter in the cucumber command or set it here
     #ENV["APP_BUNDLE_ID"] = "bundle_id"
 
+    # Booting the device to avoid problems with the app installation
+    %x(open -a "iOS Simulator" --args -CurrentDeviceUDID #{ENV['DEVICE_TARGET']} > /dev/null)
+    sleep(7)
+
     # Reinstalling the app using terminal commands
     system( "echo 'Installing the app...'" )
     

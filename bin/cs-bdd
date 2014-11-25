@@ -73,6 +73,15 @@ module CS
         create_steps_file name, 'IOS'
       end
 
+      desc "screen [RESOURCE_NAME]", "Generates the Android and iOS dependent screens"
+      option :lang, :banner => "any of the gherkin supported languages", :default => :en
+      def screen name
+        I18n.config.default_locale = options[:lang]
+        in_root_project_folder?
+        create_screen_file name, 'Android'
+        create_screen_file name, 'IOS'  
+      end
+
       desc "aScreen [RESOURCE_NAME]", "Generates an Android dependent screen"
       option :lang, :banner => "any of the gherkin supported languages", :default => :en
       def aScreen name
