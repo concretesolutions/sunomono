@@ -9,6 +9,7 @@
 #       When this script was created the available sdks were: 'iphoneos8.1' for 
 #       devices and iphonesimulator8.1 for simulator
 # $4 -> Configuration type. Ex.: 'Dev'
+# $5 -> The path to save the .app bundle
 
 ## CODE BEGIN  #############################################################
 
@@ -17,21 +18,26 @@
 # building problems
 # pod install
 
-[ $# -ne 4 ] && echo "Wrong number of parameters." && exit 1
+# Updating the calabash gem
+#gem update calabash-cucumber
+
+# Creating the calabash target
+#(echo y; sleep 5; echo CalabashTarget-cal) | calabash-ios setup
+
+[ $# -ne 5 ] && echo "Wrong number of parameters." && exit 1
+
+# Creating .app bundle path folder if it doesn't exists
+mkdir -p "$5"
+
+# Changing relative to absolute path if that is the case
+cd "$5"
+path="$(pwd)"
 
 echo "Building project for calabash"
 
-xcodebuild -workspace "$1" -scheme "$2" -sdk "$3" -configuration "$4" clean build
+xcodebuild -workspace "$1" -scheme "$2" -sdk "$3" -configuration "$4" clean build CONFIGURATION_BUILD_DIR="$path"
 
-BUILT_PRODUCTS_DIR=`xcodebuild -workspace "$1" -scheme "$2" -sdk "$3" -showBuildSettings -configuration "$4" | 
-                    grep -i "\bbuilt_products_dir" | 
-                    cut -d "=" -f2 `
-
-export APP_BUNDLE_PATH=`echo "$BUILT_PRODUCTS_DIR/$2.app" | 
-                        sed 's/^\ *//g' |
-                        sed 's/\ *$//g'`
-
-echo $APP_BUNDLE_PATH
+echo "APP_BUNDLE_PATH=$path/$2.app"
 
 echo End: $(date)
 echo 'Bye!'
