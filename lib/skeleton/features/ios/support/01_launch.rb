@@ -65,7 +65,11 @@ end
 def reinstall_app
 
   # If test is in a device
-  if( !ENV['APP_BUNDLE_PATH'].include?( "iphonesimulator" ) )
+  if( ENV['DEVICE_TYPE'].nil? or ENV['DEVICE_TYPE'].empty? )
+    system( "echo 'Please specify the DEVICE_TYPE ('simulator' or 'device')'" )
+  end
+
+  if( ENV['DEVICE_TYPE'] == 'device')
 
     system( "echo 'Installing the app...'" )  
 

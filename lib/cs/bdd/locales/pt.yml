@@ -8,11 +8,16 @@ pt:
     elements: "Declare todos os elementos da tela"
     actions: "Declare todas as ações da tela"
   steps:
-    drag_until: "que Eu (?:arrastei|arrasto) a tela para (baixo|cima|esquerda|direita) até ver o elemento"
-    page_contains: "que Eu estou em uma página que contem"
+    drag_until: 'que Eu (?:arrastei|arrasto) a tela para (baixo|cima|esquerda|direita) até ver o elemento "(.*?)"'
+    page_contains: "que Eu estou em uma página que contem '(.*?)'"
     drag_number_of_times: 'Eu arrasto a tela para (esquerda|direita|baixo|cima) (\d+) vezes'
     touch_element: 'Eu (?:clico|cliquei) no elemento "(.*?)"'
     drag_screen: "Eu arrasto a tela para (baixo|cima|esquerda|direita)"
-    wait_progress_bar: "Eu (?:espero|esperei) até a barar de progresso sumir"
-    should_see_page: "Eu deveria ver a página"
-    should_see_page_that_contains: "Eu deveria ver uma página que contem"
+    wait_progress_bar: "Eu (?:espero|esperei) até a barra de progresso sumir"
+    should_see_page: "Eu deveria ver a página '(.*?)'"
+    should_see_page_that_contains: "Eu deveria ver uma página que contem '(.*?)'"
+  directions:
+    up: 'cima'
+    down: 'baixo'
+    left: 'esquerda'
+    right: 'direita'

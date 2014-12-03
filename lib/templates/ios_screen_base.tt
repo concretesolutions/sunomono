@@ -32,14 +32,16 @@ class IOSScreenBase < Calabash::IBase
     # Setting swipe_opt that will define the swipe 'force'
     swipe_opt = nil
     case direction
-    when :left
+    when :<%= (I18n.translate "directions.left").to_sym %>
+      direction = :left
       swipe_opt = {:'swipe-delta' => {:horizontal=>{:dx => 280} }, :offset => { :x => 300, :y => 300 } }
-    when :right
+    when :<%= (I18n.translate "directions.right").to_sym %>
+      direction = :right
       swipe_opt = {:'swipe-delta' => {:horizontal=>{:dx => 250} }, :offset => { :x => 50, :y => 300 } }
-    when :up
+    when :<%= (I18n.translate "directions.up").to_sym %>
       direction = :down
       swipe_opt = {:'swipe-delta' => {:vertical=>{:dy => 200} }, :offset => { :x => 160, :y => 100 } }
-    when :down
+    when :<%= (I18n.translate "directions.down").to_sym %>
       direction = :up
       swipe_opt = {:'swipe-delta' => {:vertical=>{:dy => 200} }, :offset => { :x => 160, :y => 400 } }
     end

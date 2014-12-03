@@ -1,9 +1,9 @@
 ######### <%= I18n.translate( :given ).upcase %> #########
-<%= I18n.translate( :given ).capitalize %>(/^<%= I18n.translate( "steps.drag_until" ) %> "(.*?)"$/) do |direction, element|
+<%= I18n.translate( :given ).capitalize %>(/^<%= I18n.translate( "steps.drag_until" ) %>$/) do |direction, element|
   @page.drag_until_element_is_visible_with_special_query direction.to_sym, element
 end
 
-<%= I18n.translate( :given ).capitalize %>(/^<%= I18n.translate( "steps.page_contais" ) %> '(.*?)'$/) do |page_text|
+<%= I18n.translate( :given ).capitalize %>(/^<%= I18n.translate( "steps.page_contais" ) %>$/) do |page_text|
   @page.is_on_page? page_text
 end
 
@@ -29,10 +29,10 @@ end
   @page.wait_for_progress
 end
 
-<%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.should_see_page" %> '(.*?)'$/) do |page_text|
+<%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.should_see_page" %>$/) do |page_text|
   @page.is_on_page? page_text
 end
 
-<%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.should_see_page_that_contains" %> '(.*?)'$/) do |page_text|
+<%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.should_see_page_that_contains" %>$/) do |page_text|
   @page.is_on_page? page_text
 end

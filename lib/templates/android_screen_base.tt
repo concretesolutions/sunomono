@@ -2,8 +2,8 @@ require 'calabash-android/abase'
 
 class AndroidScreenBase < Calabash::ABase
 
-  def self.element element_name
-    define_method element_name.to_s
+  def self.element(element_name, &block)
+    define_method(element_name.to_s, *block)
   end
 
   class << self
@@ -24,13 +24,13 @@ class AndroidScreenBase < Calabash::ABase
     positions = [0,0,0,0] # [ 'from_x', 'to_x', 'from_y', 'to_y' ]
 
     case(direction)
-    when :down
+    when :<%= (I18n.translate "directions.down").to_sym %>
       positions = [30,30,60,30]
-    when :up
+    when :<%= (I18n.translate "directions.up").to_sym %>
       positions = [80,80,60,90]
-    when :left
+    when :<%= (I18n.translate "directions.left").to_sym %>
       positions = [90,20,80,80]
-    when :right
+    when :<%= (I18n.translate "directions.right").to_sym %>
       positions = [20,90,80,80]
     end
 
