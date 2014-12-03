@@ -30,8 +30,10 @@
 mkdir -p "$5"
 
 # Changing relative to absolute path if that is the case
+original_path="$(pwd)"
 cd "$5"
 path="$(pwd)"
+cd "$original_path"
 
 echo "Building project for calabash"
 
