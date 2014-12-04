@@ -16,7 +16,7 @@ class IOSScreenBase < Calabash::IBase
 
   # The progress bar of the application is a custom view
   def wait_for_progress
-    wait_for { element_does_not_exist "* marked:'#{loading_screen}'" }
+    wait_for(:timeout => 10) { element_does_not_exist "* marked:'#{loading_screen}'" }
   end
 
   def has_text?(text)

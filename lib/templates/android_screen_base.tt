@@ -16,7 +16,7 @@ class AndroidScreenBase < Calabash::ABase
 
   # The progress bar of the application is a custom view
   def wait_for_progress
-    wait_for_element_does_not_exist(loading_screen)
+    wait_for_element_does_not_exist("* id:'#{loading_screen}'", { :timeout => 10 } )
   end
 
   def drag_to direction
