@@ -24,14 +24,13 @@
   Install the following gems
 
   ```
-  gem install calabash-common
-  gem install calabash-android
+  gem install calabash-common calabash-android
   ```
 
   **Warning!**
   
-  The command **`gem install calabash-android`** installs the beta version of the cucumber gem.
-  This gem brokes the execution of the calabash. After the installation of calabash-android, install the stable version of the cucumber gem (command: `gem install cucumber`) and remove the beta version (command: `gem uninstall cucumber`).
+  The gem **`calabash-android`** can install the beta version of the cucumber gem.
+  This gem brokes the execution of the calabash. After the installation of calabash-android, check your installed gems with the command `gem list | grep cucumber` and install the stable version of the cucumber gem (command: `gem install cucumber`) and remove the beta version (command: `gem uninstall cucumber`), if that is the case.
 
 ## Running the tests
   To run the android tests, you need to:
@@ -96,8 +95,7 @@ To open the calabash terminal, you need to:
   Install the following gems
 
   ```
-  gem install calabash-common
-  gem install calabash-cucumber
+  gem install calabash-common calabash-cucumber
   ```
   
 ## Configuring the iOS project
