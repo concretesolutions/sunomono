@@ -18,22 +18,16 @@
 # building problems
 # pod install
 
-# Updating the calabash gem
-#gem update calabash-cucumber
-
-# Creating the calabash target
-#(echo y; sleep 5; echo CalabashTarget-cal) | calabash-ios setup
-
 [ $# -ne 5 ] && echo "Wrong number of parameters." && exit 1
 
 # Creating .app bundle path folder if it doesn't exists
 mkdir -p "$5"
 
 # Changing relative to absolute path if that is the case
-original_path="$(pwd)"
+original_path="$(pwd)" # Saving the original path where the command was executed
 cd "$5"
 path="$(pwd)"
-cd "$original_path"
+cd "$original_path" # Going back to the original path
 
 echo "Building project for calabash"
 
