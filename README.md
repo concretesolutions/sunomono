@@ -59,7 +59,9 @@ This command will create a folder named ProjectName in the current directory and
 
 Once the project is created, open its folder (`cd ProjectName`). 
 
-> **The generators commands ONLY WORK in the ROOT FOLDER of the project**.
+
+**The generators commands ONLY WORK in the ROOT FOLDER of the project**.
+
 
 There are nine generators that are responsible to create the templates for Features, Step definitions and Screens.
 
