@@ -117,6 +117,11 @@ The screen generator will create both Platform dependent screens in the folders 
 ```
 The aScreen and iScreen will create only the Android and iOS dependent screens respectively.
 
+## Continuous Integration (CI)
+
+The project contains a lot of scripts that will help you to configure you CI server.
+
+> Documentation under development.
 
 ## Contributing
 
