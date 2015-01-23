@@ -63,7 +63,7 @@ Once the project is created, open its folder (`cd ProjectName`).
 
 There are nine generators that are responsible to create the templates for Features, Step definitions and Screens.
 
-For Features you can type:
+####Features
 
 ```
   cs-bdd generate feature FeatureName
@@ -80,7 +80,7 @@ The aFeature and iFeature generator will create an Platform dependent feature. F
 
 Don't forget about internationalization. All the generators accept the option `--lang=pt` or with some other language.
 
-For Steps definitions you can type:
+####Steps
 
 ```
   cs-bdd generate step StepName
@@ -101,7 +101,7 @@ The iStep generator will create an iOS step file name iOSStepName_steps.rb in th
 
 
 
-For Screens type:
+####Screens
 
 ```
   cs-bdd generate screen ScreenName
