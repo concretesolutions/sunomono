@@ -3,45 +3,54 @@
 # Uncomment the next line to enable debug
 # set -x
 #
-# $1 -> parameter with the path of the .app bundle
+# $1 -> parameter with the path of the .app bundle for simulators
+# $2 -> parameter with the path of the .app bundle for devices
 
 ## CODE BEGIN  #############################################################
 
 echo Start: $(date)
 
 # Exits if the app path was not informed
-if [ -z $1 ]; then
-  echo "The first parameter must be the app path"
-  exit 1
-fi
+[ $# -lt 2 ] && echo "Wrong number of parameters." && exit 1
 
-# Remember to install an application server to enable remote access to the reports
-# Remember to previous create the reports folder and give the appropriate permissions
-reports_path="/var/www/reports/$(date +"%Y%d%m")"
+# Creating the reports path
+reports_path="$WORKSPACE/reports-cal"
+mkdir $reports_path
 
-# Reads the devices file line by line
-while read line
-do
-  # Ignoring all comments
-  echo $line | grep -q "^#" && continue
+# Changing relative to absolute path if that is the case
+# The simulator path
+original_path="$(pwd)" # Saving the original path where the command was executed
+cd "$1"
+SIMULATOR_APP_PATH="$(pwd)"
+# The device path
+cd "$original_path"
+cd "$2"
+DEVICE_APP_PATH="$(pwd)"
 
-  # Reading the informations of the device in the devices file
-  # The variables can't contain any kind of spaces, so we erase then off
-  target="$(echo $line | cut -d'|' -f1 | tr -d ' ')"
-  endpoint="$(echo $line | cut -d'|' -f2 | tr -d ' ')"
-  name="$(echo $line | cut -d'|' -f3 | tr -d ' ')"
+cd $WORKSPACE # All tests should run from the root folder of the tests project
 
-  # Cleaning the previous reports folder and ensuring its existence
-  rm -r "$reports_path"/"$name" &> /dev/null
-  mkdir -p "$reports_path"/"$name" &> /dev/null
+cat config/scripts/ios/devices.txt |  ## Reading the devices.txt file
+grep -v "#" | ## Removing the command lines
+tr -d " " | ## Trimming all the spaces
+while IFS='|' read UUID IP NAME TYPE ## Defining pipe as the separator char and reading the three variable fields
+do 
+    # Creating the report folder for this device or simulator
+    mkdir "$reports_path"/"$NAME"
 
-  # Navigating to the tests root folder
-  cd "$WORKSPACE"
+    if [ $TYPE == "Simulator" ]
+    then
+	APP_PATH=$SIMULATOR_APP_PATH
+    else
+	APP_PATH=$DEVICE_APP_PATH
+    fi
+    
+    # Executing calabash for the device or simulator
+    APP_BUNDLE_PATH="$APP_PATH" DEVICE_TARGET="$UUID" DEVICE_ENDPOINT="$IP" SCREENSHOT_PATH="$reports_path"/"$NAME"/ cucumber -p ios -f 'Calabash::Formatters::Html' -o "$reports_path"/"$NAME/reports.html" -f junit -o "$reports_path"/"$NAME"
 
-  # Executing calabash for the device
-  APP_BUNDLE_PATH="$1" DEVICE_TARGET="$target" DEVICE_ENDPOINT="$endpoint" SCREENSHOT_PATH="$reports_path"/"$name"/ cucumber -p ios --format 'Calabash::Formatters::Html' --out "$reports_path"/"$name/reports.html"
-
-done < config/scripts/ios/devices
+    # Calabash has a problem with images relative path, the command above will replace all the images path on the
+    # html report file to be a relative path
+    sed -i.bak 's|'"$reports_path"/"$NAME"/'||g' "$reports_path"/"$NAME"/reports.html
+done
 
 echo End: $(date)
 echo 'Bye!'

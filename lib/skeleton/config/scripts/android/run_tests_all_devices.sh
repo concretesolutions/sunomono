@@ -4,10 +4,10 @@
 # set -x
 #
 # $1 -> parameter with the name of the apk
-
+# $2 -> parameter to indicates the tapume to run. Can be null and can have other 2 values: must or should
 
 ## CODE BEGIN  #############################################################
-[ $# -ne 1 ] && echo "Wrong number of parameters." && exit 1
+[ $# -lt 1 ] && echo "Wrong number of parameters." && exit 1
 
 # Counting the number of lines returned from the command adb devices
 # This command will return at least 2 as result, because of one header line and one empty line at end
@@ -17,27 +17,25 @@ number_of_devices=$(adb devices | wc -l)
 
 echo Inicio da execução: $(date)
 
+# Creating the reports folder for the html format
 reports_path="$WORKSPACE/reports-cal"
 mkdir $reports_path
 
 for device in $(adb devices | grep "device$" | cut -f 1)
 do
-  # Cleaning the previous reports folder and ensuring its existence when running in dev machine
-  #rm -r "$reports_path"/"$device" &> /dev/null
-  #mkdir -p "$reports_path"/"$device" &> /dev/null
-  echo $device | grep -q emulator
-  # SET THE IGNORE TAGS TRUE IF THE TEST ARE RUNNING IN A DEVICE
-  [ $? -ne 0 ] && ignore='--tags ~@ignore_if_test_in_device'
   cd $WORKSPACE
-  ADB_DEVICE_ARG=$device SCREENSHOT_PATH="$reports_path"/"$device"/ calabash-android run $1 -p android --format 'Calabash::Formatters::Html' --out "$reports_path"/"$device"/reports.html $ignore &
+  # Creates the reports folder
+  mkdir "$reports_path"/"$device"
+
+  {
+      ADB_DEVICE_ARG=$device SCREENSHOT_PATH="$reports_path"/"$device"/ calabash-android run $1 -p android -f 'Calabash::Formatters::Html' -o "$reports_path"/"$device"/reports.html -f junit -o "$reports_path"/"$device"
+      # Calabash has a problem with images relative path, the command above will replace all the images path on the
+      # html report file to be a relative path
+      sed -i.bak 's|'"$reports_path"/"$device"/'||g' "$reports_path"/"$device"/reports.html
+  }&
+
 done
 wait
 
-# Calabash has a problem with images relative path, the command above will replace all the images path on the
-# html report file to be a relative path
-for device in $(adb devices | grep "device$" | cut -f 1)
-do
-  sed -i 's|'"$reports_path"/"$device"/'||g' "$reports_path"/"$device"/reports.html
-done
 echo Fim da execução: $(date)
 ## CODE END  #############################################################

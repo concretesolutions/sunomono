@@ -116,8 +116,23 @@ class IOSScreenBase < Calabash::IBase
       query = "* marked:'#{element}'"
     end
 
+    begin
+      wait_for(:timeout => 5) { element_exists query }
+    rescue
+      # Just a better exception message
+      raise "Element '#{element}' not found on view!"
+    end
+
     touch query
-    sleep(1)
+    # Waits up to 20 seconds for the keyboard to show up
+    begin
+      wait_for(:timeout => 10) { element_exists("view:'UIKeyboardAutomatic'") }
+    rescue
+      # If the keyboard didn't show up, tries another time before rainsing the error message
+      touch query
+      wait_for(:timeout => 5) { element_exists("view:'UIKeyboardAutomatic'") }
+    end
+
     keyboard_enter_text text
     done
   end

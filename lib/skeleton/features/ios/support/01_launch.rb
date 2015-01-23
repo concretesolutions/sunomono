@@ -64,14 +64,9 @@ end
 # Install or reinstall the app on the device
 def reinstall_app
 
-  # If test is in a device
-  if( ENV['DEVICE_TYPE'].nil? or ENV['DEVICE_TYPE'].empty? )
-    system( "echo 'Please specify the DEVICE_TYPE ('simulator' or 'device')'" )
-  end
+  if !is_simulator? ENV['DEVICE_TARGET']
 
-  if( ENV['DEVICE_TYPE'] == 'device')
-
-    system( "echo 'Installing the app...'" )  
+    system "echo 'Installing the app...'"   
 
     # Trying to reinstall the app
     success = system "ios-deploy -r -b #{ENV['APP_BUNDLE_PATH']} -i #{ENV['DEVICE_TARGET']} -t 5 > /dev/null"
@@ -85,29 +80,61 @@ def reinstall_app
       end
     end
 
-    system( "echo 'Installed.'" )
+    system "echo 'Installed.'"
 
     sleep(3) # Gives to the iphone a time to finish the installation of the app
   else # If test is in a simulator
+
+    # Shutdown all the booted simulators to avoid problems with the switch of simulatores
+    # on the automated tests (like when on jenkins)
+    shutdown_booted_simulators
 
     # APP_BUNDLE_ID must be set in order to uninstall the app from the simulator
     # You can either pass it as a parameter in the cucumber command or set it here
     #ENV["APP_BUNDLE_ID"] = "bundle_id"
 
     # Booting the device to avoid problems with the app installation
-    %x(open -a "iOS Simulator" --args -CurrentDeviceUDID #{ENV['DEVICE_TARGET']} > /dev/null)
+    %x(open -a 'iOS Simulator' --args -CurrentDeviceUDID #{ENV['DEVICE_TARGET']} > /dev/null)
     sleep(7)
 
     # Reinstalling the app using terminal commands
-    system( "echo 'Installing the app...'" )
+    system "echo 'Installing the app...'"
     
     # Removing the app
-    %x(xcrun simctl uninstall #{ENV['DEVICE_TARGET']} #{ENV["APP_BUNDLE_ID"]} > /dev/null)
+    %x(xcrun simctl uninstall #{ENV['DEVICE_TARGET']} #{ENV['APP_BUNDLE_ID']} > /dev/null)
 
     # Installing the app
     %x(xcrun simctl install #{ENV['DEVICE_TARGET']} #{ENV['APP_BUNDLE_PATH']} > /dev/null)
 
-    system( "echo 'Installed.'" )
+    system "echo 'Installed.'"
 
   end
+
+end
+
+# Checks if the UUID belongs to a Device or a Simulator
+def is_simulator? uuid
+  # Check if UUID is from a device or a simulator
+  # Getting all the simulator's UUID
+  uuids = `xcrun simctl list`
+  return true if uuids.include? uuid
+  return false
+end
+
+# Kill all simulators process, lists all the booted simulators and shut them down
+def shutdown_booted_simulators
+
+  # Closing all Simulators running
+  %x(killall "iOS Simulator")
+  
+  # Listing all the booted devices
+  booted_simulators = `xcrun simctl list | grep 'Booted'`
+
+  # Getting the UUIDs
+  booted_simulators.split("\n").each do |simulator|
+    uuid = simulator.split("(")[1].gsub(")", "").gsub(" ","")
+    # Shuting the simulator down
+    %x(xcrun simctl shutdown #{uuid})
+  end
+    
 end

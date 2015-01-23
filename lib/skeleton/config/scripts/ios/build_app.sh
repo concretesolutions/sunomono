@@ -20,6 +20,8 @@
 
 [ $# -ne 5 ] && echo "Wrong number of parameters." && exit 1
 
+echo Inicio da execução: $(date)
+
 # Creating .app bundle path folder if it doesn't exists
 mkdir -p "$5"
 
