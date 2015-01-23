@@ -103,11 +103,15 @@ class IOSScreenBase < Calabash::IBase
     end
   end
 
-  def is_on_page? page_text
+  # Negation indicates that we want a page that doesn't has the message passed as parameter
+  def is_on_page?(page_text, negation = '')
     begin
-      wait_for(:timeout => 5) { has_text? page_text }
+      wait_for(timeout: 5) { has_text? page_text }
+      # If negation is not nil, we should raise an error if this message was found on the view
+      raise "Unexpected Page. The page should not have: '${page_text}'" unless negation == ""
     rescue
-      raise "Unexpected Page. Expected was: '#{page_text}'"
+      # only raise exception if negation is nil, otherwise this is the expected behaviour
+      raise "Unexpected Page. Expected was: '#{page_text}'" if negation == ""
     end
   end
 
@@ -149,6 +153,27 @@ class IOSScreenBase < Calabash::IBase
   def touch_element_by_index id, index
     wait_for(:timeout => 5) { element_exists("* marked:'#{id}' index:#{index}") }
     touch("* marked:'#{id}' index:#{index}")
+  end
+
+  def clear_text_field field
+    clear_text("textField marked:'#{field}'")
+  end
+
+  def select_date_on_date_picker date, date_picker_field_id
+    # Touch the date picker element
+    touch_screen_element date_picker_field_id
+    # Waiting for the date picker to show up
+    wait_for(timeout: 5) { element_exists("view:'UIDatePicker'") }
+
+    # If date is today, then we have nothing to do
+    if date.year != DateTime.now.year || date.month != DateTime.now.month || date.day != DateTime.now.day
+      # Selecting 'date' on the date picker
+      picker_set_date_time date
+    end
+
+    # Touch the OK button
+    touch_screen_element  'Ok'
+    
   end
 
 end
