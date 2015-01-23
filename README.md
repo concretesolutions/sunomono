@@ -68,14 +68,15 @@ For Features you can type:
 ```
   cs-bdd generate feature FeatureName
 ```
-  > The feature generator will create a Platform independent feature and its files. So this command will create the FeatureName.feature file inside the folder `feature`, the file FeatureName_steps.rb inside the folder `features/step_definitions`, the files FeatureName_screen.rb inside the folders `features/android/screens` and `features/ios/screens`.
+The feature generator will create a Platform independent feature and its files. So this command will create the FeatureName.feature file inside the folder `feature`, the file FeatureName_steps.rb inside the folder `features/step_definitions`, the files FeatureName_screen.rb inside the folders `features/android/screens` and `features/ios/screens`.
   
   
 ```
   cs-bdd generate aFeature AndroidFeatureName
   cs-bdd generate iFeature iOSFeatureName
 ```
-  > The aFeature and iFeature generator will create an Platform dependent feature. For example, the aFeature generator will create the AndroidFeatureName.feature file inside the folder `features/android/features`, the file AndroidFeatureName_steps.rb inside the folder `features/androd/step_definitions` and the screen file AndroidFeatureName_screen.rb inside the folder `features/android/screens`.
+The aFeature and iFeature generator will create an Platform dependent feature. For example, the aFeature generator will create the AndroidFeatureName.feature file inside the folder `features/android/features`, the file AndroidFeatureName_steps.rb inside the folder `features/androd/step_definitions` and the screen file AndroidFeatureName_screen.rb inside the folder `features/android/screens`.
+
 
 Don't forget about internationalization. All the generators accept the option `--lang=pt` or with some other language.
 
@@ -84,17 +85,20 @@ For Steps definitions you can type:
 ```
   cs-bdd generate step StepName
 ```
-  > The step generator will create a Platform independent step file named StepName_steps.rb in the folder `features/step_definitions`
+The step generator will create a Platform independent step file named StepName_steps.rb in the folder `features/step_definitions`
+
   
 ```
   cs-bdd generate aStep AndroidStepName
 ```
-  > The aStep generator will create an Android step file named AndroidStepName_steps.rb in the folder `features/android/step_definitions`
+The aStep generator will create an Android step file named AndroidStepName_steps.rb in the folder `features/android/step_definitions`
+
 
 ```
   cs-bdd generate iStep iOSStepName
 ```
-  > The iStep generator will create an iOS step file name iOSStepName_steps.rb in the folder `features/ios/step_definitions`
+The iStep generator will create an iOS step file name iOSStepName_steps.rb in the folder `features/ios/step_definitions`
+
 
 
 For Screens type:
@@ -102,14 +106,14 @@ For Screens type:
 ```
   cs-bdd generate screen ScreenName
 ```
-> The screen generator will create both Platform dependent screens in the folders `features/android/screens` and `features/ios/screens`.
+The screen generator will create both Platform dependent screens in the folders `features/android/screens` and `features/ios/screens`.
 
 
 ```
   cs-bdd generate aScreen AndroidScreenName
   cs-bdd generate iScreen iOSScreenName
 ```
-  > The aScreen and iScreen will create only the Android and iOS dependent screens respectively.
+The aScreen and iScreen will create only the Android and iOS dependent screens respectively.
 
 
 ## Contributing
