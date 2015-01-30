@@ -3,7 +3,7 @@
   @page.drag_until_element_is_visible_with_special_query direction.to_sym, element
 end
 
-<%= I18n.translate( :given ).capitalize %>(/^<%= I18n.translate( "steps.page_contais" ) %>$/) do |page_text|
+<%= I18n.translate( :given ).capitalize %>(/^<%= I18n.translate( "steps.page_contains" ) %>$/) do |page_text|
   @page.is_on_page? page_text
 end
 
