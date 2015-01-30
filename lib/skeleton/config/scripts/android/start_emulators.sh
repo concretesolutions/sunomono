@@ -15,7 +15,7 @@ do
     echo $AVD
     AVD="$(basename ${AVD/.avd/})" 
     echo starting "$AVD"... 
-    emulator -gpu on -noaudio -scale 0.5 -no-boot-anim -accel on -avd "$AVD" -qemu -m 1024 -enable-kvm &
+    emulator -wipe-data -gpu on -noaudio -scale 0.5 -no-boot-anim -accel on -avd "$AVD" -qemu -m 1024 -enable-kvm &
 done
 
 sleep 15
