@@ -71,14 +71,20 @@ class AndroidScreenBase < Calabash::ABase
 
   # Negation indicates that we want a page that doesn't has the message passed as parameter
   def is_on_page? page_text, negation = ''
+    should_not_have_exception = false
+    should_have_exception = false
     begin
       wait_for(timeout: 5) { has_text? page_text }
       # If negation is not nil, we should raise an error if this message was found on the view
-      raise "Unexpected Page. The page should not have: '${page_text}'" unless negation == ""
+      should_not_have_exception = true unless negation == ''
     rescue
       # only raise exception if negation is nil, otherwise this is the expected behaviour
-      raise "Unexpected Page. Expected was: '#{page_text}'" if negation == ""
+      should_have_exception = true if negation == ''
     end
+
+    raise "Unexpected Page. The page should not have: '#{page_text}'" if should_not_have_exception
+
+    raise "Unexpected Page. Expected was: '#{page_text}'" if should_have_exception
   end
 
   def enter text, element, query = nil
