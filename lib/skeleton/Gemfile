@@ -1,4 +1,4 @@
-# Gemfile help setup the initial development environment
+# Gemfile to help setting up the initial development environment
 source "https://rubygems.org"
 
 gem 'calabash-common', '~> 0.0.1'

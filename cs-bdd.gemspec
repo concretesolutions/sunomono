@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Oscar Tanner"]
   spec.email         = ["oscar.tanner@concretesolutions.com.br"]
   spec.summary       = %q{Generates an android and iOS calabash project.}
-  spec.description   = %q{A simple gem to generate all the folder and files needed to create an android and iOS calabash project.}
+  spec.description   = %q{A simple gem to generate all files needed in a project that will support Calabash for both Android and iOS.}
   spec.homepage      = "https://github.com/CSOscarTanner/cs-bdd"
   spec.license       = "MIT"
 
