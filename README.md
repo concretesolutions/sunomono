@@ -1,4 +1,5 @@
 # CS::BDD
+[![cs-bdd API Documentation](https://www.omniref.com/ruby/gems/cs-bdd.png)](https://www.omniref.com/ruby/gems/cs-bdd)
 
 A simple gem to generate all files needed in a project that will support calabash for both Android and iOS.
 
@@ -57,13 +58,16 @@ This command will create a folder named ProjectName in the current directory and
   
   > **Don't you know how to name your translation yml file?** See the Gherkin supported languages [here](https://github.com/cucumber/gherkin/blob/master/lib/gherkin/i18n.json) for reference.
 
-Once the project is created, open its folder (`cd ProjectName`). 
+Once the project is created, open its folder (`cd ProjectName`) and run `bundle install`
 
-
-**The generators commands ONLY WORK in the ROOT FOLDER of the project**.
+  > This project supports both Android and iOS, so if you are on a PC you will not need the gems that are only for Macs, so you can run the command `bundle install --without mac_os`
+  
+  > Remember to fix a calabash-cucumber version on the Gemfile. When updating the calabash-cucumber gem version you need to update the Calabash framework that was embeded on your iOS code. So I suggest doing the update manually. [In this page](https://github.com/calabash/calabash-ios/wiki/B1-Updating-your-Calabash-iOS-version) you can find more informations on how to update the Calabash framework.
 
 
 There are nine generators that are responsible to create the templates for Features, Step definitions and Screens.
+
+**The generators commands ONLY WORK in the ROOT FOLDER of the project**.
 
 ####Features
 
