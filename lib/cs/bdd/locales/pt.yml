@@ -16,6 +16,7 @@ pt:
     wait_progress_bar: "Eu (?:espero|esperei) até a barra de progresso sumir"
     should_see_page: "Eu deveria ver a página '(.*?)'"
     should_see_page_that_contains: "Eu deveria ver uma página que contem '(.*?)'"
+    take_print: "faço um print"    
   directions:
     up: 'cima'
     down: 'baixo'

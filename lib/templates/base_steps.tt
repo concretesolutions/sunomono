@@ -36,3 +36,7 @@ end
 <%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.should_see_page_that_contains" %>$/) do |page_text|
   @page.is_on_page? page_text
 end
+
+<%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.take_print" %>$/) do
+  screenshot_embed
+end

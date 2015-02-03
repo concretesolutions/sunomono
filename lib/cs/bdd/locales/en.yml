@@ -16,6 +16,7 @@ en:
     wait_progress_bar: "I (?:wait|waited) for the progress bar to vanish"
     should_see_page: "I should see the page '(.*?)'"
     should_see_page_that_contains: "I should see a page that contains '(.*?)'"
+    take_print: "take picture"
   directions:
     up: 'up'
     down: 'down'
