@@ -1,0 +1,15 @@
+dev:
+  xcworkspace: "Path_to_the_xcworkspace_folder"
+  target: TargetName
+  sdk_simulator: iphonesimulator8.1
+  sdk_device: iphoneos8.1
+  configuration: Debug
+  export_path: "Path_to_export_app_folder"
+
+jenkins:
+  xcworkspace: <%= ENV['WORKSPACE']%>/Project.xcworkspace
+  target: TargetName
+  sdk_simulator: iphonesimulator8.1
+  sdk_device: iphoneos8.1
+  configuration: Debug
+  export_path: <%= ENV['WORKSPACE']%>/releases/normal
