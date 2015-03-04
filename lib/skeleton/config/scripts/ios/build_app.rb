@@ -22,7 +22,7 @@ config = YAML.load_file(File.join(File.dirname(__FILE__), 'build_app.yml'))
 if ARGV.length < 2
   puts 'Error: Wrong number of arguments!'
   puts 'Usage: build_app.rb environment device_type'
-  puts "Available Environments: #{config.keys}"
+  puts "Available Environments: #{config.keys.join(', ')}"
   puts "Device type: 'simulator' or 'device'"
   exit 1
 end
@@ -46,12 +46,12 @@ puts 'Building project'
 
 system <<eos
   xcodebuild -workspace "#{config['xcworkspace']}" \
-  -scheme "#{config['target']}" -sdk "#{config["sdk_#{ARGV[1]}"]}" \
+  -scheme "#{config['scheme']}" -sdk "#{config["sdk_#{ARGV[1]}"]}" \
   -configuration "#{config['configuration']}" clean build \
   CONFIGURATION_BUILD_DIR="#{export_path}"
 eos
 
-puts "APP_BUNDLE_PATH=#{File.join(export_path, config['target'])}.app"
+puts "APP_BUNDLE_PATH=#{File.join(export_path, config['scheme'])}.app"
 
 puts "End: #{Time.now.strftime('%H:%M:%S')}"
 puts 'Bye!'

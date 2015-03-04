@@ -1,6 +1,6 @@
 dev:
   xcworkspace: "Path_to_the_xcworkspace_folder"
-  target: TargetName
+  scheme: TargetName
   sdk_simulator: iphonesimulator8.1
   sdk_device: iphoneos8.1
   configuration: Debug
@@ -8,7 +8,7 @@ dev:
 
 jenkins:
   xcworkspace: <%= ENV['WORKSPACE']%>/Project.xcworkspace
-  target: TargetName
+  scheme: TargetName
   sdk_simulator: iphonesimulator8.1
   sdk_device: iphoneos8.1
   configuration: Debug
