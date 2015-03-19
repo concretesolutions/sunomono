@@ -17,6 +17,8 @@ en:
     should_see_page: "I should see the page '(.*?)'"
     should_see_page_that_contains: "I should see a page that contains '(.*?)'"
     take_print: "take picture"
+    been_in_page: "I am at (?:page|screen) '(.*?)'"
+    move_to_page: "I went to (?:page|screen) '(.*?)'"
   directions:
     up: 'up'
     down: 'down'
