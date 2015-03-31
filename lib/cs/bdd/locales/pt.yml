@@ -17,8 +17,8 @@ pt:
     should_see_page: "Eu deveria ver a página '(.*?)'"
     should_see_page_that_contains: "Eu deveria ver uma página que contem '(.*?)'"
     take_print: "faço um print"
-    been_in_page: "que eu (?:estou|estava) na (?:página|tela) (?:de) '(.*?)'"
-    move_to_page: "eu (?:devo|deveria) estar na (?:página|tela) (?:de) '(.*?)'"
+    been_in_page: "que eu (?:estou|estava) na (?:página|tela)(?: de|) '(.*?)'"
+    move_to_page: "eu (?:devo|deveria) estar na (?:página|tela)(?: de|) '(.*?)'"
   directions:
     up: 'cima'
     down: 'baixo'
