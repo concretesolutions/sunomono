@@ -42,11 +42,20 @@ export_path = File.join(config['export_path'], ARGV[1])
 # Creating the folder where the .app will be stored
 FileUtils.mkdir_p export_path
 
+# Choosing the SDK for device or simulator
+sdk = ""
+if ARGV[1] == "device"
+  sdk = "iphoneos"
+else
+  sdk = "iphonesimulator"
+end
+
+
 puts 'Building project'
 
 system <<eos
   xcodebuild -workspace "#{config['xcworkspace']}" \
-  -scheme "#{config['scheme']}" -sdk "#{config["sdk_#{ARGV[1]}"]}" \
+  -scheme "#{config['scheme']}" -sdk "#{sdk}" \
   -configuration "#{config['configuration']}" clean build \
   CONFIGURATION_BUILD_DIR="#{export_path}"
 eos
