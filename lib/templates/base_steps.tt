@@ -24,8 +24,8 @@ end
 ######### <%= I18n.translate( :then ).upcase %> #########
 
 <%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.wait_progress_bar" %>$/) do
-  # wait_for_progress is a method of the base class, so doesn't matter what is the value
-  # of the @page variable, because all screens will have this method
+  # wait_for_progress is a method of the base class, so doesn't matter what is
+  # the value of the @page variable, because all screens will have this method
   @page.wait_for_progress
 end
 
