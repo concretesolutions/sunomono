@@ -48,7 +48,3 @@ end
 end
 
 <% end %>
-<%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.move_to_page" %>$/) do
-  @page = page( eval(page_text.split.map(&:capitalize).join('').concat("Screen")) )
-  @page.is_showed
-end
