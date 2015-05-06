@@ -41,11 +41,13 @@ end
 <%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.should_see_page_that_contains" %>$/) do |page_text|
   @page.is_on_page? page_text
 end
+<% unless I18n.config.default_locale == :en %>
 
 <%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.take_print" %>$/) do
   screenshot_embed
 end
 
+<% end %>
 <%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.move_to_page" %>$/) do
   @page = page( eval(page_text.split.map(&:capitalize).join('').concat("Screen")) )
   @page.is_showed
