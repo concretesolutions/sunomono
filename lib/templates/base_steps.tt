@@ -7,11 +7,6 @@ end
   @page.is_on_page? page_text
 end
 
-<%= I18n.translate( :given ).capitalize %>(/^<%= I18n.translate( "steps.been_in_page" ) %>$/) do |page_text|
-  @page = page( eval(page_text.capitalize.concat("Screen")) )
-  @page.is_showed
-end
-
 ######### <%= I18n.translate( :when ).upcase %> #########
 
 <%= I18n.translate( :when ).capitalize %>(/^<%= I18n.translate( "steps.drag_number_of_times" ) %>$/) do |direction, times|
