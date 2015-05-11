@@ -1,15 +1,13 @@
 class <%= config[:name] %>Screen < <%= config[:platform] %>ScreenBase
-
   # <%= I18n.translate 'comments.trait' %>
-  #trait(:trait)                 { "* <%= (config[:platform] == 'Android') ? 'id' : 'marked' %>:'#{layout_name}'" }
+  # trait(:trait)                 { "* <%= (config[:platform] == 'Android') ? 'id' : 'marked' %>:'#{layout_name}'" }
 
   # <%= I18n.translate 'comments.elements' %>
-  #element(:layout_name)         { 'insert_layout_identificator' }
-  #element(:button)              { 'insert_button_identificator' }
+  # element(:layout_name)         { 'insert_layout_identificator' }
+  # element(:button)              { 'insert_button_identificator' }
 
   # <%= I18n.translate 'comments.actions' %>
   # action(:touch_button) {
   #   touch("* <%= (config[:platform] == 'Android') ? 'id' : 'marked' %>:'#{button}'")
   # }
-
 end
