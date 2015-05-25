@@ -43,13 +43,12 @@ export_path = File.join(config['export_path'], ARGV[1])
 FileUtils.mkdir_p export_path
 
 # Choosing the SDK for device or simulator
-sdk = ""
-if ARGV[1] == "device"
-  sdk = "iphoneos"
+sdk = ''
+if ARGV[1] == 'device'
+  sdk = 'iphoneos'
 else
-  sdk = "iphonesimulator"
+  sdk = 'iphonesimulator'
 end
-
 
 puts 'Building project'
 
