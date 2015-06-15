@@ -9,5 +9,3 @@ do
 	export TESTS_RESULT="Failed"
     fi
 done
-
-echo "$TESTS_RESULT"
