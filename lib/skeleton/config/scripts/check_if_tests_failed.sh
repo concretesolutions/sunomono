@@ -1,13 +1,13 @@
 # Looking for errors on the report files and returns an error
 cd "$WORKSPACE/reports-cal"
-export TESTS_RESULT=""
+
+export TESTS_RESULT="Ok"
 for folder in *
 do
-    if egrep '\([0-9]+ passed\)' "$folder/reports.html"
+    if egrep '[0-9]+ failed' "$folder/reports.html"
     then
-	[ "$TESTS_RESULT" == "Failed" ] && continue
-	export TESTS_RESULT="Ok"
-    else
 	export TESTS_RESULT="Failed"
     fi
 done
+
+echo "$TESTS_RESULT"
