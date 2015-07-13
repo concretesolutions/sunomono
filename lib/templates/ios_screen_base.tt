@@ -146,12 +146,14 @@ class IOSScreenBase < Calabash::IBase
     keyboard_enter_text text
   end
 
-  def touch_screen_element(element)
+  def touch_screen_element(element, query = nil)
+    sleep 1
+    query = "* marked:'#{element}'" if query.nil?
     begin
-      wait_for(timeout: 5) { element_exists("* marked:'#{element}'") }
-      touch "* marked:'#{element}'"
+      wait_for(timeout: 5) { element_exists(query) }
+      touch query
     rescue
-      raise "Element #{element} not found on the view"
+      raise "Element '#{element}' not found on the view"
     end
   end
 
