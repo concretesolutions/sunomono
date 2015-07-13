@@ -67,8 +67,8 @@ end
 
 def in_root_project_folder?
   # Looks if the user is in the root folder of the project
-  if !Dir.exist? File.join(FileUtils.pwd, 'features', 'android', 'features') or 
-     !Dir.exist? File.join(FileUtils.pwd, 'features', 'ios', 'features')
+  if !Dir.exist?(File.join(FileUtils.pwd, 'features', 'android', 'features')) \
+    || !Dir.exist?(File.join(FileUtils.pwd, 'features', 'ios', 'features'))
     puts 'Please run this command on the root folder of the project'
     exit 1
   end

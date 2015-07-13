@@ -1,4 +1,4 @@
-require "cs/bdd/version"
+require 'cs/bdd/version'
 
 module CS
   module BDD
