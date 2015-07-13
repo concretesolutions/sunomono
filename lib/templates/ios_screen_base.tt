@@ -1,32 +1,32 @@
 require 'calabash-cucumber/ibase'
 
 class IOSScreenBase < Calabash::IBase
-
   def self.element(element_name, &block)
     define_method(element_name.to_s, *block)
   end
 
   class << self
-    alias :value :element
-    alias :action :element
-    alias :trait :element
+    alias_method :value, :element
+    alias_method :action, :element
+    alias_method :trait, :element
   end
 
   element(:loading_screen)            { 'LOADING' }
 
   # The progress bar of the application is a custom view
   def wait_for_progress
-    wait_for(:timeout => 10) { element_does_not_exist "* marked:'#{loading_screen}'" }
+    wait_for(timeout: 10) { element_does_not_exist "* marked:'#{loading_screen}'" }
   end
 
   def has_text?(text)
-    !query("* {text CONTAINS[c] '#{text}'}").empty? or !query("* {accessibilityLabel CONTAINS[c] '#{text}'}").empty?
+    !query("* {text CONTAINS[c] '#{text}'}").empty? ||
+      !query("* {accessibilityLabel CONTAINS[c] '#{text}'}").empty?
   end
 
-  def drag_to direction
-
+  def drag_to(direction)
     # iOS swipe command doesn't work.
-    # For a workaround we need to use the scroll function, but it only work after a swipe command
+    # For a workaround we need to use the scroll function,
+    # but it only work after a swipe command
 
     # iOS swipe :up and :down are the opposite of the Android directions
     # Setting swipe_opt that will define the swipe 'force'
@@ -34,20 +34,19 @@ class IOSScreenBase < Calabash::IBase
     case direction
     when :<%= (I18n.translate "directions.left").to_sym %>
       direction = :left
-      swipe_opt = {:'swipe-delta' => {:horizontal=>{:dx => 280} }, :offset => { :x => 300, :y => 300 } }
+      swipe_opt = { :'swipe-delta' => { :horizontal=>{:dx => 280} }, :offset => { :x => 300, :y => 300 } }
     when :<%= (I18n.translate "directions.right").to_sym %>
       direction = :right
-      swipe_opt = {:'swipe-delta' => {:horizontal=>{:dx => 250} }, :offset => { :x => 50, :y => 300 } }
+      swipe_opt = { :'swipe-delta' => { :horizontal=>{:dx => 250} }, :offset => { :x => 50, :y => 300 } }
     when :<%= (I18n.translate "directions.up").to_sym %>
       direction = :down
-      swipe_opt = {:'swipe-delta' => {:vertical=>{:dy => 200} }, :offset => { :x => 160, :y => 100 } }
+      swipe_opt = { :'swipe-delta' => { :vertical=>{:dy => 200} }, :offset => { :x => 160, :y => 100 } }
     when :<%= (I18n.translate "directions.down").to_sym %>
       direction = :up
-      swipe_opt = {:'swipe-delta' => {:vertical=>{:dy => 200} }, :offset => { :x => 160, :y => 400 } }
+      swipe_opt = { :'swipe-delta' => { :vertical=>{:dy => 200} }, :offset => { :x => 160, :y => 400 } }
     end
 
     swipe(direction, swipe_opt)
-
     sleep(1)
   end
 
@@ -55,79 +54,79 @@ class IOSScreenBase < Calabash::IBase
   # so this function looks for these two properties on the screen. When the query
   # looks for just a part of the text (CONTAINS[c]) then we need to specify if
   # we will look in accessibilityLabel or in any other propertie (marked)
-  def ios_element_exists? query
+  def ios_element_exists?(query)
     second_query = nil
 
-    if query.include? "CONTAINS[c]"
-      if query.include? "marked"
-        second_query = query.gsub( 'marked', 'accessibilityLabel' )
+    if query.include? 'CONTAINS[c]'
+      if query.include? 'marked'
+        second_query = query.gsub('marked', 'accessibilityLabel')
       end
-      if query.include? "accessibilityLabel"
-        second_query = query.gsub( 'accessibilityLabel', 'marked' )
+      if query.include? 'accessibilityLabel'
+        second_query = query.gsub('accessibilityLabel', 'marked')
       end
     end
 
     if second_query.nil?
       return element_exists(query)
     else
-      element_exists(query) or element_exists(second_query)
+      element_exists(query) || element_exists(second_query)
     end
   end
 
-  def drag_until_element_is_visible_with_special_query direction, element
-    drag_until_element_is_visible direction, element, "* {accessibilityLabel CONTAINS[c] '#{element}'}"
+  def drag_until_element_is_visible_with_special_query(direction, element)
+    drag_until_element_is_visible direction, element,
+                                  "* {accessibilityLabel CONTAINS[c] '#{element}'}"
   end
 
-  def drag_until_element_is_visible direction, element, query = nil, limit = 15
+  def drag_until_element_is_visible(direction, element, query = nil, limit = 15)
     i = 0
 
-    element_query = ""
-    if query.nil?
-      element_query = "* marked:'#{element}'"
-    else
-      element_query = query
-    end
+    query = "* marked:'#{element}'" if query.nil?
 
     sleep(1)
-    while( !ios_element_exists?(element_query) and i < limit) do
+    while !ios_element_exists?(query) && i < limit
       drag_to direction
-      i = i + 1
+      i += 1
     end
 
-    raise ("Executed #{limit} moviments #{direction.to_s} and the element '#{element}' was not found on this view!") unless i < limit
+    fail "Executed #{limit} moviments #{direction} and the "\
+         "element '#{element}' was not found on this view!" unless i < limit
   end
 
-  def drag_for_specified_number_of_times direction, times
+  def drag_for_specified_number_of_times(direction, times)
     times.times do
       drag_to direction
     end
   end
 
-  # Negation indicates that we want a page that doesn't has the message passed as parameter
+  # Negation indicates that we want a page that doesn't has
+  # the message passed as parameter
   def is_on_page?(page_text, negation = '')
     should_not_have_exception = false
     should_have_exception = false
     begin
       wait_for(timeout: 5) { has_text? page_text }
-      # If negation is not nil, we should raise an error if this message was found on the view
+      # If negation is not nil, we should raise an error
+      # if this message was found on the view
       should_not_have_exception = true unless negation == ''
     rescue
-      # only raise exception if negation is nil, otherwise this is the expected behaviour
+      # only raise exception if negation is nil,
+      # otherwise this is the expected behaviour
       should_have_exception = true if negation == ''
     end
 
-    raise "Unexpected Page. The page should not have: '#{page_text}'" if should_not_have_exception
+    fail "Unexpected Page. The page should not have: '#{page_text}'" if
+      should_not_have_exception
 
-    raise "Unexpected Page. Expected was: '#{page_text}'" if should_have_exception
+    fail "Unexpected Page. Expected was: '#{page_text}'" if
+      should_have_exception
   end
 
-  def enter text, element, query = nil
-    if query.nil?
-      query = "* marked:'#{element}'"
-    end
+  def enter(text, element, query = nil)
+    query = "* marked:'#{element}'" if query.nil?
 
     begin
-      wait_for(:timeout => 5) { element_exists query }
+      wait_for(timeout: 5) { element_exists query }
     rescue
       # Just a better exception message
       raise "Element '#{element}' not found on view!"
@@ -136,50 +135,51 @@ class IOSScreenBase < Calabash::IBase
     touch query
     # Waits up to 20 seconds for the keyboard to show up
     begin
-      wait_for(:timeout => 10) { element_exists("view:'UIKeyboardAutomatic'") }
+      wait_for(timeout: 10) { element_exists("view:'UIKeyboardAutomatic'") }
     rescue
-      # If the keyboard didn't show up, tries another time before rainsing the error message
+      # If the keyboard didn't show up, tries another time
+      # before rainsing the error message
       touch query
-      wait_for(:timeout => 5) { element_exists("view:'UIKeyboardAutomatic'") }
+      wait_for(timeout: 5) { element_exists("view:'UIKeyboardAutomatic'") }
     end
 
     keyboard_enter_text text
-    done
   end
 
-  def touch_screen_element element
+  def touch_screen_element(element)
     begin
-      wait_for(:timeout => 5) { element_exists("* marked:'#{element}'") }
+      wait_for(timeout: 5) { element_exists("* marked:'#{element}'") }
       touch "* marked:'#{element}'"
     rescue
       raise "Element #{element} not found on the view"
     end
   end
 
-  def touch_element_by_index id, index
-    wait_for(:timeout => 5) { element_exists("* marked:'#{id}' index:#{index}") }
-    touch("* marked:'#{id}' index:#{index}")
+  def touch_element_by_index(id, index)
+    query = "* marked:'#{id}' index:#{index}"
+    wait_for(timeout: 5) { element_exists(query) }
+    touch(query)
   end
 
-  def clear_text_field field
+  def clear_text_field(field)
     clear_text("textField marked:'#{field}'")
   end
 
-  def select_date_on_date_picker date, date_picker_field_id
+  def select_date_on_date_picker(date, date_picker_field_id)
     # Touch the date picker element
     touch_screen_element date_picker_field_id
     # Waiting for the date picker to show up
     wait_for(timeout: 5) { element_exists("view:'UIDatePicker'") }
 
     # If date is today, then we have nothing to do
-    if date.year != DateTime.now.year || date.month != DateTime.now.month || date.day != DateTime.now.day
+    if date.year != DateTime.now.year ||
+       date.month != DateTime.now.month ||
+       date.day != DateTime.now.day
       # Selecting 'date' on the date picker
       picker_set_date_time date
     end
 
     # Touch the OK button
-    touch_screen_element  'Ok'
-    
+    touch_screen_element 'Ok'
   end
-
 end

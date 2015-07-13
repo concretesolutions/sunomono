@@ -1,22 +1,22 @@
 require 'calabash-android/abase'
 
 class AndroidScreenBase < Calabash::ABase
-
   def self.element(element_name, &block)
     define_method(element_name.to_s, *block)
   end
 
   class << self
-    alias :value :element
-    alias :action :element
-    alias :trait :element
+    alias_method :value, :element
+    alias_method :action, :element
+    alias_method :trait, :element
   end
 
-  element(:loading_screen)      {"insert_loading_view_id"}
+  element(:loading_screen)      { 'insert_loading_view_id' }
 
   # The progress bar of the application is a custom view
   def wait_for_progress
-    wait_for_element_does_not_exist("* id:'#{loading_screen}'", { :timeout => 10 } )
+    wait_for_element_does_not_exist("* id:'#{loading_screen}'",
+                                    timeout: 10)
   end
 
   def drag_to direction
@@ -34,20 +34,22 @@ class AndroidScreenBase < Calabash::ABase
       positions = [20,90,80,80]
     end
 
-    # perform_action( 'action', 'from_x', 'to_x', 'from_y', 'to_y', 'number of steps (in this case, velocity of drag' )
-    perform_action('drag', positions[0], positions[1], positions[2], positions[3], 15)
-    
+    # perform_action( 'action', 'from_x', 'to_x', 'from_y', 'to_y',
+    # 'number of steps (in this case, velocity of drag' )
+    perform_action('drag', positions[0], positions[1],
+                   positions[2], positions[3], 15)
     sleep(1)
   end
 
-  def drag_until_element_is_visible_with_special_query direction, element
-    drag_until_element_is_visible direction, element, "* {text CONTAINS[c] '#{element}'}"
+  def drag_until_element_is_visible_with_special_query(direction, element)
+    drag_until_element_is_visible direction, element,
+                                  "* {text CONTAINS[c] '#{element}'}"
   end
 
-  def drag_until_element_is_visible direction, element, query = nil, limit = 15
+  def drag_until_element_is_visible(direction, element, query = nil, limit = 15)
     i = 0
 
-    element_query = ""
+    element_query = ''
     if query.nil?
       element_query = "* marked:'#{element}'"
     else
@@ -55,62 +57,73 @@ class AndroidScreenBase < Calabash::ABase
     end
 
     sleep(2)
-    while( !element_exists(element_query) and i < limit) do
+    while !element_exists(element_query) && i < limit
       drag_to direction
-      i = i + 1
+      i += 1
     end
 
-    raise ("Executed #{limit} moviments #{direction.to_s} and the element '#{element}' was not found on this view!") unless i < limit
+    fail "Executed #{limit} moviments #{direction} and "\
+          "the element '#{element}' was not found on this view!" unless
+      i < limit
   end
 
-  def drag_for_specified_number_of_times direction, times
+  def drag_for_specified_number_of_times(direction, times)
     times.times do
       drag_to direction
     end
   end
 
-  # Negation indicates that we want a page that doesn't has the message passed as parameter
-  def is_on_page? page_text, negation = ''
+  # Negation indicates that we want a page that doesn't
+  # has the message passed as parameter
+  def is_on_page?(page_text, negation = '')
     should_not_have_exception = false
     should_have_exception = false
     begin
       wait_for(timeout: 5) { has_text? page_text }
-      # If negation is not nil, we should raise an error if this message was found on the view
+      # If negation is not nil, we should raise an error
+      # if this message was found on the view
       should_not_have_exception = true unless negation == ''
     rescue
-      # only raise exception if negation is nil, otherwise this is the expected behaviour
+      # only raise exception if negation is nil,
+      # otherwise this is the expected behaviour
       should_have_exception = true if negation == ''
     end
 
-    raise "Unexpected Page. The page should not have: '#{page_text}'" if should_not_have_exception
+    fail "Unexpected Page. The page should not have: '#{page_text}'" if
+      should_not_have_exception
 
-    raise "Unexpected Page. Expected was: '#{page_text}'" if should_have_exception
+    fail "Unexpected Page. Expected was: '#{page_text}'" if
+      should_have_exception
   end
 
-  def enter text, element, query = nil
+  def enter(text, element, query = nil)
     if query.nil?
-      query( "* marked:'#{element}'", {:setText => text} )
+      query("* marked:'#{element}'", setText: text)
     else
-      query( query, {:setText => text} )
+      query(query, setText: text)
     end
   end
 
-  def touch_screen_element element, query = nil
+  def touch_screen_element(element, query = nil)
     query = "* id:'#{element}'" if query.nil?
-    wait_for(timeout: 5) { element_exists(query) }
-    touch(query)
-  end  
+    begin
+      wait_for(timeout: 5) { element_exists(query) }
+      touch(query)
+    rescue
+      raise "Element #{element} not found on the view"
+    end
+  end
 
-  def touch_element_by_index id, index
-    wait_for(:timeout => 5) { element_exists("* id:'#{id}' index:#{index}") }
+  def touch_element_by_index(id, index)
+    wait_for(timeout: 5) { element_exists("* id:'#{id}' index:#{index}") }
     touch("* id:'#{id}' index:#{index}")
   end
 
-  def clear_text_field field
+  def clear_text_field(field)
     clear_text_in("android.widget.EditText id:'#{field}'}")
   end
 
-  def select_date_on_date_picker date, date_picker_field_id
+  def select_date_on_date_picker(date, date_picker_field_id)
     # Touch the date picker field
     touch "* id:'#{date_picker_field_id}'"
 
@@ -120,5 +133,4 @@ class AndroidScreenBase < Calabash::ABase
     # Clicking in the Done button
     touch "* id:'button1'"
   end
-
 end
