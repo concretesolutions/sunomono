@@ -2,3 +2,4 @@
 reports/*
 test_servers/*
 .DS_Store
+screenshot*.png
