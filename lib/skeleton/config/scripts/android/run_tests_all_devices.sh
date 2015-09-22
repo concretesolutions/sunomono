@@ -5,7 +5,7 @@
 #
 # $1 -> parameter with the name of the apk
 # $2 -> parameter to indicates the tapume to run. Can be null and can have other 2 values: must or should
-# $3 -> parameter with tests specs. For exxameple, use  "feature/<feature_name>" to select an specific feature file; use "" for everything
+# $3 -> parameter with tests specs. For exxameple, put "feature/<feature_name>" to select an specific feature file; put "" for everything
 
 ## CODE BEGIN  #############################################################
 [ $# -lt 1 ] && echo "Wrong number of parameters." && exit 1
@@ -41,7 +41,7 @@ do
     reports_url="$reports_url""$JOB_URL""ws/reports-cal/$device/report_1/reports.html "
     reports_folders="$reports_folders""$JOB_URL""ws/reports-cal/$device "
   else 
-    #para uso em ambiente de máquina local...
+    #for use on local developer machines...
     reports_url="$reports_url$WORKSPACE/reports-cal/$device/report_1/reports.html "
     reports_folders="$reports_folders$WORKSPACE/reports-cal/$device "
   fi
@@ -59,8 +59,8 @@ for device in $(adb devices | grep "device$" | cut -f 1)
 do
   cd $WORKSPACE
   # Creates the reports folder
-  mkdir -p "$reports_path"/"$device"/report_1/report_1/
-  mkdir -p "$reports_path"/"$device"/report_1/report_2/
+  mkdir -p "$reports_path"/"$device"/report_1/
+  mkdir -p "$reports_path"/"$device"/report_2/
   port=$((port+1)) #increase port
   {
 
@@ -70,18 +70,18 @@ do
       then
         
         echo Tentativa de destravar a tela de $device 
-        #travando, com redundancia
+        #locking twice, just to guarantee (ensure they always start equally)
         adb -s $device shell input keyevent 26
         adb -s $device shell input keyevent 26
 
-        #destravando
+        #unlocking
         wait 2
         adb -s $device shell input keyevent 82
         adb -s $device shell input keyevent 82
 
       fi
 
-      #dando Home uma vez...
+      #press Home once...
       adb -s $device shell input keyevent 3
 
      
@@ -97,14 +97,14 @@ do
       sed -i.bak 's|'"$reports_path"/"$device"/report_1/'||g' "$reports_path"/"$device"/report_1/reports.html
       sed -i.bak 's|'"$reports_path"/"$device"/report_2/'||g' "$reports_path"/"$device"/report_2/reports.html
 
-      #dando Home uma vez...
+      #pressing home once... (to ensure everything else goes to background)
       adb -s $device shell input keyevent 3
   }&
 
 done
 wait
 
-#verifico se tem relatório de retestes e se eles tem falhas e adiciono à lista de relatorios para o relatório consolidado
+#checking if there's any retest report and if they contain errors. If so they are referenced on the summary report...
 cd "$WORKSPACE/reports-cal"
 
 for aFolder in *
@@ -113,7 +113,7 @@ do
   
   echo  "Vamos buscar retestes em $aFolder"
   if [ -a "$aFolder/report_2/reports.html" ]  
-  then     #se contem arquivo reports2.html (estando ele com coisas certas ou não)
+  then     
       echo "Achou-se reports.html em $aFolder/report2/reports.html depois de iterar na pasta de reports do device ou emulator $device \n"
 
       reports_url="$reports_url$aFolder/report_2/reports.html "
@@ -121,7 +121,7 @@ do
 done
 
 cd $WORKSPACE
-#gera relatorio consolidado
+#making the summary report
 echo "A sequencia de url ficou como: \n $reports_url"
 ./config/scripts/gera_reports_html.sh $reports_url > reports-cal/reports.html
 
