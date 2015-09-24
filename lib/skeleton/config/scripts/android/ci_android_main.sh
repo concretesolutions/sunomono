@@ -37,7 +37,7 @@ sed -i.bak "s/_OS_/Android/g" ${WORKSPACE}/config/email/template.html
 echo "Enviando e-mail\n"
 
 # Sending the email (descomentar para quando for rodar em homolog/prod)
-mutt -e 'set from="MacCI Jenkins <macci@concretesolutions.com.br>"' -e "set content_type=text/html" -s "Itaú Soluções - Participante Mobile - Testes BDD Android - ${STATUS_TITLE}" itausolucoes-mobile@googlegroups.com < ${WORKSPACE}/config/email/template.html
+mutt -e 'set from="MacCI Jenkins <macci@concretesolutions.com.br>"' -e "set content_type=text/html" -s "Itaú Soluções - Participante Mobile - Testes BDD Android - ${STATUS_TITLE}" setar_aqui@setar_aqui.com < ${WORKSPACE}/config/email/template.html
 
 
 # Breaking the build if there was any error on the test result htmls.
