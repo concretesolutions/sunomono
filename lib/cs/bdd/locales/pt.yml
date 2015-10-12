@@ -6,7 +6,7 @@ pt:
     trait: "Identificador da tela"
     insert_steps: "Insira os passos"
     elements: "Declare todos os elementos da tela"
-    actions: "Declare todas as ações da tela"
+    actions: "Declare todas as acoes da tela"
   steps:
     drag_until: 'que Eu (?:arrastei|arrasto) a tela para (baixo|cima|esquerda|direita) até ver o elemento "(.*?)"'
     page_contains: "que Eu estou em uma página que contem '(.*?)'"

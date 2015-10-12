@@ -7,7 +7,7 @@
 # $2 -> parameter with the path of the .app bundle for devices
 
 ## CODE BEGIN  #############################################################
-
+export LC_ALL="en_US.UTF-8"
 echo Start: $(date)
 
 # Exits if the app path was not informed

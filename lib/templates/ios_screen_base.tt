@@ -15,6 +15,7 @@ class IOSScreenBase < Calabash::IBase
 
   # The progress bar of the application is a custom view
   def wait_for_progress
+    sleep(2)
     wait_for(timeout: 10) { element_does_not_exist "* marked:'#{loading_screen}'" }
   end
 
@@ -23,30 +24,9 @@ class IOSScreenBase < Calabash::IBase
       !query("* {accessibilityLabel CONTAINS[c] '#{text}'}").empty?
   end
 
-  def drag_to(direction)
-    # iOS swipe command doesn't work.
-    # For a workaround we need to use the scroll function,
-    # but it only work after a swipe command
-
-    # iOS swipe :up and :down are the opposite of the Android directions
-    # Setting swipe_opt that will define the swipe 'force'
-    swipe_opt = nil
-    case direction
-    when :<%= (I18n.translate "directions.left").to_sym %>
-      direction = :left
-      swipe_opt = { :'swipe-delta' => { :horizontal=>{:dx => 280} }, :offset => { :x => 300, :y => 300 } }
-    when :<%= (I18n.translate "directions.right").to_sym %>
-      direction = :right
-      swipe_opt = { :'swipe-delta' => { :horizontal=>{:dx => 250} }, :offset => { :x => 50, :y => 300 } }
-    when :<%= (I18n.translate "directions.up").to_sym %>
-      direction = :down
-      swipe_opt = { :'swipe-delta' => { :vertical=>{:dy => 200} }, :offset => { :x => 160, :y => 100 } }
-    when :<%= (I18n.translate "directions.down").to_sym %>
-      direction = :up
-      swipe_opt = { :'swipe-delta' => { :vertical=>{:dy => 200} }, :offset => { :x => 160, :y => 400 } }
-    end
-
-    swipe(direction, swipe_opt)
+  def drag_to(direction, element = nil)
+    element = 'tableView' if element.nil?
+    scroll(element, direction)
     sleep(1)
   end
 
@@ -147,13 +127,12 @@ class IOSScreenBase < Calabash::IBase
   end
 
   def touch_screen_element(element, query = nil)
-    sleep 1
     query = "* marked:'#{element}'" if query.nil?
     begin
       wait_for(timeout: 5) { element_exists(query) }
       touch query
     rescue => e
-      raise "Element #{element} not found on the view\nError Message: #{e.message}"
+      raise "Problem in touch screen element: '#{element}'\nError Message: #{e.message}"
     end
   end
 
@@ -183,5 +162,22 @@ class IOSScreenBase < Calabash::IBase
 
     # Touch the OK button
     touch_screen_element 'Ok'
+  end
+
+  def touch_picker_item_by_index(index)
+    label = query('pickerView', :delegate,
+                  [{ pickerView: nil }, { titleForRow: index },
+                   { forComponent: 0 }])
+
+    # Exception if element no found
+    fail "Picker item index #{index} not found." if label.nil?
+    # Label is an array of 1 element. Just picking the first.
+    label = label.first
+
+    # Touching the first item using it's text and Javascript function
+    uia(%[uia.selectPickerValues('{0 "#{label}"}')])
+
+    # Touching the OK button to close the Picker
+    touch "* marked:'OK'"
   end
 end

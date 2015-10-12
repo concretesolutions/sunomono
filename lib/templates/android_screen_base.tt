@@ -15,13 +15,13 @@ class AndroidScreenBase < Calabash::ABase
 
   # The progress bar of the application is a custom view
   def wait_for_progress
+    sleep(2)
     wait_for_element_does_not_exist("* id:'#{loading_screen}'",
                                     timeout: 10)
   end
 
-  def drag_to direction
-
-    positions = [0,0,0,0] # [ 'from_x', 'to_x', 'from_y', 'to_y' ]
+  def drag_to(direction)
+    positions = [0, 0, 0, 0] # [ 'from_x', 'to_x', 'from_y', 'to_y' ]
 
     case(direction)
     when :<%= (I18n.translate "directions.down").to_sym %>
@@ -110,7 +110,7 @@ class AndroidScreenBase < Calabash::ABase
       wait_for(timeout: 5) { element_exists(query) }
       touch(query)
     rescue => e
-      raise "Element #{element} not found on the view\nError Message: #{e.message}"
+      raise "Problem in touch screen element: '#{element}'\nError Message: #{e.message}"
     end
   end
 
