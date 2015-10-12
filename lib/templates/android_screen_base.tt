@@ -109,8 +109,8 @@ class AndroidScreenBase < Calabash::ABase
     begin
       wait_for(timeout: 5) { element_exists(query) }
       touch(query)
-    rescue
-      raise "Element #{element} not found on the view"
+    rescue => e
+      raise "Element #{element} not found on the view\nError Message: #{e.message}"
     end
   end
 
