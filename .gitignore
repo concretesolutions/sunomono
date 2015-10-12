@@ -13,3 +13,4 @@
 *.a
 mkmf.log
 .irb-history
+.DS_Store
