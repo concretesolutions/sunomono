@@ -44,7 +44,7 @@ FileUtils.mkdir_p export_path
 
 # Choosing the SDK for device or simulator
 sdk = ''
-if ARGV[1] == 'device'
+if (ARGV[1] == 'devices' || ARGV[1] == 'device') 
   sdk = 'iphoneos'
 else
   sdk = 'iphonesimulator'
