@@ -1,7 +1,7 @@
 require 'calabash-android/management/app_installation'
 
 AfterConfiguration do
-  FeatureNameMemory.feature_name = nil
+  FeatureMemory.feature = nil
 end
 
 Before('@reinstall') do
@@ -11,13 +11,11 @@ Before('@reinstall') do
 end
 
 Before do |scenario|
-  @scenario_is_outline =
-    (scenario.class == Cucumber::Ast::OutlineTable::ExampleRow)
-  scenario = scenario.scenario_outline if @scenario_is_outline
+  scenario = scenario.scenario_outline if
+    scenario.respond_to?(:scenario_outline)
 
-  feature_name = scenario.feature.title
-  if FeatureNameMemory.feature_name != feature_name ||
-     ENV['RESET_BETWEEN_SCENARIOS'] == '1'
+  feature = scenario.feature
+  if FeatureMemory.feature != feature || ENV['RESET_BETWEEN_SCENARIOS'] == '1'
     if ENV['RESET_BETWEEN_SCENARIOS'] == '1'
       log 'New scenario - reinstalling apps'
     else
@@ -28,15 +26,11 @@ Before do |scenario|
     install_app(ENV['TEST_APP_PATH'])
     install_app(ENV['APP_PATH'])
 
-    FeatureNameMemory.feature_name = feature_name
-    FeatureNameMemory.invocation = 1
+    FeatureMemory.feature = feature
+    FeatureMemory.invocation = 1
   else
-    FeatureNameMemory.invocation += 1
+    FeatureMemory.invocation += 1
   end
 end
 
-FeatureNameMemory = Class.new
-class << FeatureNameMemory
-  @feature_name = nil
-  attr_accessor :feature_name, :invocation
-end
+FeatureMemory = Struct.new(:feature, :invocation).new
