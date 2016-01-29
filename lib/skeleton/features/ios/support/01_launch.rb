@@ -5,7 +5,7 @@
 #   When running calabash-ios tests at #
 #   www.xamarin.com/test-cloud         #
 #   the  methods invoked by            #
-#   CalabashLauncher are overriden.    #
+#   CalabashLauncher are overridden.   #
 #   It will automatically ensure       #
 #   running on device, installing apps #
 #   etc.                               #
@@ -14,35 +14,54 @@
 
 require 'calabash-cucumber/launcher'
 
-Before do |scenario|
-  @calabash_launcher = Calabash::Cucumber::Launcher.new
-
-  @scenario_is_outline =
-    (scenario.class == Cucumber::Ast::OutlineTable::ExampleRow)
-  scenario = scenario.scenario_outline if @scenario_is_outline
-
-  scenario_tags = scenario.source_tag_names
-  # Resetting the app between scenarios
-  # ENV['FEATURE_NAME'] is just an aux created to store the feature name
-  if ENV['FEATURE_NAME'] != scenario.feature.title ||
-     ENV['RESET_BETWEEN_SCENARIOS'] == '1' ||
-     scenario_tags.include?('@reinstall')
-
-    @calabash_launcher.reset_app_jail
-    ENV['FEATURE_NAME'] = scenario.feature.title
+module Calabash::Launcher
+  @@launcher = nil
+  def self.launcher
+    @@launcher ||= Calabash::Cucumber::Launcher.new
   end
 
-  unless @calabash_launcher.calabash_no_launch?
-    @calabash_launcher.relaunch
-    @calabash_launcher.calabash_notify(self)
+  def self.launcher=(launcher)
+    @@launcher = launcher
+  end
+end
+
+AfterConfiguration do
+  FeatureMemory.feature = nil
+end
+
+Before do |scenario|
+  launcher = Calabash::Launcher.launcher
+  # Relaunch options
+  options = { timeout: 3000 }
+
+  scenario = scenario.scenario_outline if
+    scenario.respond_to?(:scenario_outline)
+  feature = scenario.feature
+
+  scenario_tags = scenario.source_tag_names
+  if FeatureMemory.feature != feature ||
+     ENV['RESET_BETWEEN_SCENARIOS'] == '1' ||
+     scenario_tags.include?('@reinstall')
+    reinstall_app
+    # Reset app if it is a new feature
+    options[:reset] = true
+
+    FeatureMemory.feature = feature
+    FeatureMemory.invocation = 1
+  else
+    FeatureMemory.invocation += 1
+  end
+
+  FeatureMemory.feature = feature
+  FeatureMemory.invocation = 1
+  unless launcher.calabash_no_launch?
+    launcher.relaunch(options)
+    launcher.calabash_notify(self)
   end
 end
 
 After do
-  unless @calabash_launcher.calabash_no_stop?
-    calabash_exit
-    @calabash_launcher.stop if @calabash_launcher.active?
-  end
+  calabash_exit unless launcher.calabash_no_stop?
 end
 
 at_exit do
@@ -51,3 +70,32 @@ at_exit do
     launcher.simulator_launcher.stop unless launcher.calabash_no_stop?
   end
 end
+
+def device?
+  # Check if UUID (ENV['DEVICE_TARGET']) is from a device or a simulator
+  # Getting all the simulator's UUID
+  uuids = `xcrun simctl list`
+  return false if uuids.include? ENV['DEVICE_TARGET']
+  return true
+end
+
+def reinstall_app
+  if device?
+    system "echo 'Installing the app...'"
+    # Trying to reinstall the app
+    success = system "ios-deploy -r -b #{ENV['APP_BUNDLE_PATH']} -i #{ENV['DEVICE_TARGET']} -t 5 > /dev/null"
+
+    # If the app is not installed the above command will throw an error
+    # So we just install the app
+    unless success
+      success = system "ios-deploy -b #{ENV['APP_BUNDLE_PATH']} -i #{ENV['DEVICE_TARGET']} -t 5 > /dev/null"
+      fail 'Error. Could not install the app.' unless
+        success # If there is any error raises an exception
+    end
+
+    system "echo 'Installed.'"
+    sleep(3) # Gives a time to finish the installation of the app in the device
+  end
+end
+
+FeatureMemory = Struct.new(:feature, :invocation).new
