@@ -3,6 +3,8 @@
 
 A simple gem to generate all files needed in a project that will support calabash for both Android and iOS.
 
+iOS Build script works only with iOS SDK 9.2 or newer
+
 [Calabash](http://calaba.sh/) uses cucumber to support functional tests in Android and iOS and has one gem for each Platform:
 
   > calabash-android (for Android) [(link)](https://github.com/calabash/calabash-android)
