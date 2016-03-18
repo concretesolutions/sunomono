@@ -11,6 +11,55 @@ class IOSScreenBase < Calabash::IBase
     alias_method :trait, :element
   end
 
+  def restart_app
+    # Relaunch options
+    options = { timeout: 3000 }
+
+    launcher.relaunch(options)
+    launcher.calabash_notify(self)
+  end
+
+  def method_missing(method, *args)
+    if method.to_s.start_with?('touch_')
+      # If method name starts with touch_, executes the touch
+      # screen element method using the element name which is the
+      # method name without the first 'touch_' chars
+      touch_screen_element public_send(method.to_s.sub('touch_', ''))
+    elsif method.to_s.start_with?('enter_')
+      # If method starts with enter_, execute the enter method using
+      # the field name, which is the method name without the initial
+      # 'enter_' chars and appended '_field' chars
+      enter args[0], public_send("#{method.to_s.sub('enter_', '')}_field")
+    elsif method.to_s.end_with?('_visible?')
+      # If method ends with _visible?, executes the visible? method
+      # The field name is the method name without de ending
+      # '_visible? chars
+      visible? public_send(method.to_s.sub('_visible?', ''))
+    elsif method.to_s.end_with?('_visible!')
+      # Do the same as the method above, but throws an exception
+      # if the field is not visible
+      field_name = method.to_s.sub('_visible!', '')
+                         .sub('_field', '')
+                         .sub('_', ' ')
+                         .capitalize
+      raise ElementNotFoundError, "ID: #{field_name}" unless
+        visible? public_send(method.to_s.sub('_visible!', ''))
+    else
+      super
+    end
+  end
+
+  def visible?(id, query = nil)
+    query = "* id:'#{id}'" if query.nil?
+    begin
+      wait_for(timeout: 3) { element_exists query }
+    rescue
+      return false
+    end
+    true
+  end
+
+
   element(:loading_screen)            { 'LOADING' }
 
   # The progress bar of the application is a custom view

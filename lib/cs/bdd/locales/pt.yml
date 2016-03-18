@@ -19,6 +19,7 @@ pt:
     take_print: "faço um print"
     been_in_page: "que eu (?:estou|estava) na (?:página|tela)(?: de|) '(.*?)'"
     move_to_page: "eu (?:devo|deveria) estar na (?:página|tela)(?: de|) '(.*?)'"
+    restart_app: "(Eu |)reiniciar o aplicativo"
   directions:
     up: 'cima'
     down: 'baixo'

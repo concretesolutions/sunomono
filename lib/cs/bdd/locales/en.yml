@@ -19,6 +19,7 @@ en:
     take_print: "take picture"
     been_in_page: "I am at (?:page|screen) '(.*?)'"
     move_to_page: "I went to (?:page|screen) '(.*?)'"
+    restart_app: "I restart the app"
   directions:
     up: 'up'
     down: 'down'

@@ -21,6 +21,10 @@ end
   @page.drag_to direction.to_sym
 end
 
+<%= I18n.translate( :when ).capitalize %>(/^<%= I18n.translate( "steps.restart_app" ) %>$/) do
+  @page.restart_app
+end
+
 ######### <%= I18n.translate( :then ).upcase %> #########
 
 <%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.wait_progress_bar" %>$/) do
@@ -41,5 +45,4 @@ end
 <%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.take_print" %>$/) do
   screenshot_embed
 end
-
 <% end %>
