@@ -75,6 +75,18 @@ class IOSScreenBase < Calabash::IBase
 
   def drag_to(direction, element = nil)
     element = 'tableView' if element.nil?
+
+    case(direction)
+    when :<%= (I18n.translate "directions.down").to_sym %>
+      direction = :down
+    when :<%= (I18n.translate "directions.up").to_sym %>
+      direction = :up
+    when :<%= (I18n.translate "directions.left").to_sym %>
+      positions = :left
+    when :<%= (I18n.translate "directions.right").to_sym %>
+      positions = :right
+    end
+
     scroll(element, direction)
     sleep(1)
   end
