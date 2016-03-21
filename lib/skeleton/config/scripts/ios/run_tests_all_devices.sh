@@ -45,7 +45,7 @@ do
     fi
     
     # Executing calabash for the device or simulator
-    APP_BUNDLE_PATH="$APP_PATH" DEVICE_TARGET="$UUID" DEVICE_ENDPOINT="$IP" SCREENSHOT_PATH="$reports_path"/"$NAME"/ cucumber -p ios -f 'Calabash::Formatters::Html' -o "$reports_path"/"$NAME/reports.html" -f junit -o "$reports_path"/"$NAME"
+    APP_BUNDLE_PATH="$APP_PATH" DEVICE_TARGET="$UUID" DEVICE_ENDPOINT="$IP" cucumber -p ios SCREENSHOT_PATH="$reports_path"/"$NAME"/ -f 'Calabash::Formatters::Html' -o "$reports_path"/"$NAME/reports.html" -f junit -o "$reports_path"/"$NAME"
 
     # Calabash has a problem with images relative path, the command above will replace all the images path on the
     # html report file to be a relative path

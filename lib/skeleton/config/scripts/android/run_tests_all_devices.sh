@@ -28,7 +28,7 @@ do
   mkdir "$reports_path"/"$device"
 
   {
-      ADB_DEVICE_ARG=$device SCREENSHOT_PATH="$reports_path"/"$device"/ calabash-android run $1 -p android -f 'Calabash::Formatters::Html' -o "$reports_path"/"$device"/reports.html -f junit -o "$reports_path"/"$device"
+      ADB_DEVICE_ARG=$device calabash-android run $1 -p android SCREENSHOT_PATH="$reports_path"/"$device"/ -f 'Calabash::Formatters::Html' -o "$reports_path"/"$device"/reports.html -f junit -o "$reports_path"/"$device"
       # Calabash has a problem with images relative path, the command above will replace all the images path on the
       # html report file to be a relative path
       sed -i.bak 's|'"$reports_path"/"$device"/'||g' "$reports_path"/"$device"/reports.html
