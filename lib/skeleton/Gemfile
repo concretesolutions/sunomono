@@ -1,6 +1,6 @@
 # Gemfile to help setting up the initial development environment
 source 'https://rubygems.org'
 
-gem 'calabash-common', '~> 0.0.2'
-gem 'calabash-android', '~> 0.5.15'
-gem 'calabash-cucumber', '~> 0.17.1'
+gem 'calabash-common'
+gem 'calabash-android'
+gem 'calabash-cucumber'
