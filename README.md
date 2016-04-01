@@ -54,17 +54,17 @@ This command will create a folder named ProjectName in the current directory and
   cs-bdd new ProjectName --lang=pt
 ```
 
-  > The default language is English ('en'). The elements of Gherkin such as Given, When, Than, And, Scenario will be translated to all Gherkin supported languages, but this gem has a little quantity of translation files (see than in folder: `lib/cs/bdd/locales`). 
+  > The default language is English ('en'). The elements of Gherkin such as Given, When, Then, And, Scenario will be translated to all Gherkin supported languages, but this gem has just a few translation files (see that in folder: `lib/cs/bdd/locales`). 
   
   > **CS-BDD doesn't support your mother language?** No problem. Fork it, create your yml translation file, uses the en.yml file as a template. Translate it and make a pull request. There are only 15 lines to be translated, this will take no time.
   
-  > **Don't you know how to name your translation yml file?** See the Gherkin supported languages [here](https://github.com/cucumber/gherkin/blob/master/lib/gherkin/i18n.json) for reference.
+  > **Want to know how to name your translation yml file?** See the Gherkin supported languages [here](https://github.com/cucumber/gherkin/blob/master/lib/gherkin/i18n.json) for reference.
 
 Once the project is created, open its folder (`cd ProjectName`) and run `bundle install`
 
   > This project supports both Android and iOS, so if you are on a PC you will not need the gems that are only for Macs, so you can run the command `bundle install --without mac_os`
   
-  > Remember to fix a calabash-cucumber version on the Gemfile. When updating the calabash-cucumber gem version you need to update the Calabash framework that was embeded on your iOS code. So I suggest doing the update manually. [In this page](https://github.com/calabash/calabash-ios/wiki/B1-Updating-your-Calabash-iOS-version) you can find more informations on how to update the Calabash framework.
+  > Remember to fix the calabash-cucumber version on the Gemfile. When updating the calabash-cucumber gem version you need to update the Calabash framework that was embedded on your iOS code. So, my suggestion is to update it manually. [In this page](https://github.com/calabash/calabash-ios/wiki/B1-Updating-your-Calabash-iOS-version) you can find more information on how to update the Calabash framework.
 
 
 There are nine generators that are responsible to create the templates for Features, Step definitions and Screens.
