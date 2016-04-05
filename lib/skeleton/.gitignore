@@ -3,3 +3,7 @@ reports/*
 test_servers/*
 .DS_Store
 screenshot*.png
+screenshots/android/*
+!screenshots/android/.*
+screenshots/ios/*
+!screenshots/ios/.*
