@@ -54,21 +54,14 @@ Before do |scenario|
 
   FeatureMemory.feature = feature
   FeatureMemory.invocation = 1
-  unless launcher.calabash_no_launch?
-    launcher.relaunch(options)
-    launcher.calabash_notify(self)
-  end
+
+  launcher.relaunch(options)
+  # Avoid resetting when is not necessary
+  options[:reset] = false
 end
 
 After do
-  calabash_exit unless launcher.calabash_no_stop?
-end
-
-at_exit do
-  launcher = Calabash::Cucumber::Launcher.new
-  if launcher.simulator_target?
-    launcher.simulator_launcher.stop unless launcher.calabash_no_stop?
-  end
+  calabash_exit if launcher.quit_app_after_scenario?
 end
 
 def device?

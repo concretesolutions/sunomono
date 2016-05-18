@@ -26,15 +26,15 @@ if ARGV.length != 1
   exit 1
 end
 
-puts "Starting at #{Time.now.strftime('%H:%M:%S')}"
-
 if config[ARGV[0]].nil?
   puts 'Error: Wrong configuration environment!'
-  puts "Available Environments: #{config.keys}"
+  puts "Available Environments: #{config.keys.join(', ')}"
   exit 1
 else
   config = config[ARGV[0]]
 end
+
+puts "Starting at #{Time.now.strftime('%H:%M:%S')}"
 
 # Creating a folder name from the destination configuration parameter
 folder_name = config['destination'].gsub('platform=', '').gsub('name=', '')
