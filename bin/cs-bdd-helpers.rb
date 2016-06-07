@@ -115,3 +115,7 @@ end
 def ios_project_build_exist?(project_build)
   File.exist?(project_build)
 end
+
+def uuid_get_type_target(uuid)
+  options[:device].include?("-") ? "simulator" : "device"
+end
