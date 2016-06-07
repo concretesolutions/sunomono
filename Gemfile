@@ -6,4 +6,6 @@ gemspec
 gem 'thor'
 gem 'i18n'
 gem 'json'
-gem 'gherkin'
+gem 'gherkin', '~> 2.12.2'
+gem 'highline'
+gem 'colorize'

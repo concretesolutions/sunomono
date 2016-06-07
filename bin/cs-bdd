@@ -6,120 +6,115 @@ require 'i18n'
 require 'gherkin' # Used here as a translation source
 require 'json'
 require 'yaml'
+require 'highline'
 
 require File.join(File.dirname(__FILE__), 'cs-bdd-helpers')
 require_relative '../lib/cs/bdd/version'
 
 module CS
   module BDD
-    # Definition of all gem generators
-    class Generate < Thor
-      include Thor::Actions
-
-      desc 'feature [RESOURCE_NAME]', 'Generates an OS independent feature'
-      option :lang,
-             banner: 'any of the gherkin supported languages',
-             default: :en
-      def feature(name)
-        I18n.config.default_locale = options[:lang]
-        in_root_project_folder?
-
-        create_feature_file(name)
-        create_steps_file name
-        create_screen_file name, 'Android'
-        create_screen_file name, 'IOS'
+    class Runner < Thor
+      desc 'ios [IP_ADDRESS] [PROFILE]',
+           'Run tests in IOS.'
+      option  :tags,
+              :desc => 'Only execute the features or scenarios with tags matching TAG_EXPRESSION.',
+              :aliases => '-t',
+              :banner => 'TAG_EXPRESSION'
+      option  :port,
+              :desc => 'Port number to proxy connect.',
+              :banner => 'NUMBER',
+              :default => '37265'
+      option  :device,
+              :desc => 'UUID to device install app.',
+              :banner => 'UUID'
+              
+      def ios(ip_address, profile = nil)
+        @cli.say("Loading...") if not in_root_project_folder?
+        
+        profile ||= answer_profile
+        options[:device] ||= answer_device_ios
+        
+        if !profile_exist? (profile)
+          @cli.say("Profile inválid.")
+          profile = answer_profile
+        end
+        configs = profile_configs[profile]
+        
+        command = "APP_BUNDLE_PATH='#{configs["export_path"]}/#{configs["scheme"]}.app'"
+        command += " PROJECT_DIR='#{project_folder_by_xcworkspace(configs["xcworkspace"])}'"
+        command += " DEVICET=#{options[:device]}"
+        command += " DEVICE_ENDPOINT=http://#{ip_address}:#{options[:port]}"
+        command += " bundle exec cucumber -p ios"
+        command += " -t #{options[:tags]}" if options[:tags]
+        
+        @cli.say("\nRunning command:\n")
+        @cli.say("#{command.colorize(:light_blue)}\n\n")
+        exec(command)
       end
-
-      desc 'aFeature [RESOURCE_NAME]', 'Generates an Android dependent feature'
-      option :lang,
-             banner: 'any of the gherkin supported languages',
-             default: :en
-      def aFeature(name)
-        I18n.config.default_locale = options[:lang]
-        in_root_project_folder?
-
-        create_feature_file name, 'Android'
-        create_steps_file name, 'Android'
-        create_screen_file name, 'Android'
+      
+      desc 'android [APK]',
+           'Run tests in Android.'
+      option  :tags,
+              :desc => 'Only execute the features or scenarios with tags matching TAG_EXPRESSION.',
+              :aliases => '-t',
+              :banner => 'TAG_EXPRESSION'
+              
+      def android(apk)
+        @cli.say("Loading...") if not in_root_project_folder?
+        command = "bundle exec calabash-android run '#{apk}' -p android"
+        command += " -t #{options[:tags]}" if options[:tags]
+        
+        @cli.say("\nRunning command:\n")
+        @cli.say("#{command.colorize(:light_blue)}\n\n")
+        exec(command)
       end
-
-      desc 'iFeature [RESOURCE_NAME]', 'Generates an iOS dependent feature'
-      option :lang,
-             banner: 'any of the gherkin supported languages',
-             default: :en
-      def iFeature(name)
-        I18n.config.default_locale = options[:lang]
-        in_root_project_folder?
-
-        create_feature_file name, 'IOS'
-        create_steps_file name, 'IOS'
-        create_screen_file name, 'IOS'
+      
+      def initialize(*args)
+        super        
+        # Load CLI
+        @cli = HighLine.new
       end
+    end
+  end
+end
 
-      desc 'step [RESOURCE_NAME]', 'Generates an OS independent step'
-      option :lang,
-             banner: 'any of the gherkin supported languages',
-             default: :en
-      def step(name)
-        I18n.config.default_locale = options[:lang]
-        in_root_project_folder?
-        create_steps_file name
+module CS
+  module BDD
+    class Build < Thor
+      desc 'ios [PROFILE]',
+           'Build project in IOS.'
+      option  :device,
+              :desc => 'UUID to device install app.',
+              :banner => 'UUID'
+              
+      def ios(profile = nil)
+        @cli.say("Loading...") if #!in_root_project_folder?
+        
+        profile ||= answer_profile
+        
+        if !profile_exist? (profile)
+          @cli.say("Profile inválid.")
+          profile = answer_profile
+        end
+        configs = profile_configs[profile]
+        
+        command = "APP_BUNDLE_PATH='#{configs["export_path"]}/#{configs["scheme"]}.app'"
+        command += " PROJECT_DIR='#{project_folder_by_xcworkspace(configs["xcworkspace"])}'"
+        command += " DEVICET=#{options[:device]}"
+        command += " DEVICE_ENDPOINT=http://#{ip_address}:#{options[:port]}"
+        command += " bundle exec cucumber -p ios"
+        command += " -t #{options[:tags]}" if options[:tags]
+        
+        @cli.say("Running command:\n")
+        @cli.say("#{command.colorize(:blue)}\n\n")
+        
+        exec(command)
       end
-
-      desc 'aStep [RESOURCE_NAME]', 'Generates an Android dependent step'
-      option :lang,
-             banner: 'any of the gherkin supported languages',
-             default: :en
-      def aStep(name)
-        I18n.config.default_locale = options[:lang]
-        in_root_project_folder?
-        create_steps_file name, 'Android'
-      end
-
-      desc 'iStep [RESOURCE_NAME]', 'Generates an iOS dependent step'
-      option :lang,
-             banner: 'any of the gherkin supported languages',
-             default: :en
-      def iStep(name)
-        I18n.config.default_locale = options[:lang]
-        in_root_project_folder?
-        create_steps_file name, 'IOS'
-      end
-
-      desc 'screen [RESOURCE_NAME]',
-           'Generates the Android and iOS dependent screens'
-      option :lang,
-             banner: 'any of the gherkin supported languages',
-             default: :en
-      def screen(name)
-        I18n.config.default_locale = options[:lang]
-        in_root_project_folder?
-        create_screen_file name, 'Android'
-        create_screen_file name, 'IOS'
-      end
-
-      desc 'aScreen [RESOURCE_NAME]', 'Generates an Android dependent screen'
-      option :lang,
-             banner: 'any of the gherkin supported languages',
-             default: :en
-      def aScreen(name)
-        I18n.config.default_locale = options[:lang]
-        in_root_project_folder?
-        create_screen_file name, 'Android'
-      end
-
-      desc 'iScreen [RESOURCE_NAME]', 'Generates an iOS dependent screen'
-      option :lang,
-             banner: 'any of the gherkin supported languages',
-             default: :en
-      def iScreen(name)
-        I18n.config.default_locale = options[:lang]
-        in_root_project_folder?
-        create_screen_file name, 'IOS'
-      end
-
-      def self.source_root
-        File.join(File.dirname(__FILE__), '..', 'lib', 'templates')
+      
+      def initialize(*args)
+        super        
+        # Load CLI
+        @cli = HighLine.new
       end
     end
   end
@@ -134,14 +129,15 @@ module CS
       map '-v' => :version
       map '--version' => :version
 
-      default_task :help
-
       register CS::BDD::Generate, 'generate',
                'generate [GENERATOR] [RESOURCE_NAME]',
                'Generates various resources'
       register CS::BDD::Generate, 'g',
                'g [GENERATOR] [RESOURCE_NAME]',
                'Generates various resources'
+      register CS::BDD::Runner, 'runner',
+              'run [PLATFORM]',
+              'Run tests in Android or iOS'
 
       desc 'new PROJECT_NAME',
            'Generates the structure of a new project that uses '\
@@ -211,6 +207,9 @@ module CS
         ]
         I18n.backend.load_translations
         I18n.config.enforce_available_locales = true
+        
+        # Load Colorize
+        require 'colorize'
       end
     end
   end
