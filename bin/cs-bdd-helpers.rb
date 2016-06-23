@@ -75,3 +75,47 @@ def in_root_project_folder?
 
   true
 end
+
+def profile_configs
+  build_app_path = File.join(FileUtils.pwd, 'config', "scripts", "ios", "build_app.yml")
+  YAML.load_file(build_app_path)
+end
+
+def answer_profile
+  @cli.say("\n")
+  @cli.choose do |menu|
+    menu.prompt = "\nPlease choose your profile config?  "
+    profile_configs.keys.each do |profile|
+      menu.choice(profile.to_sym) { return profile }
+    end
+  end
+end
+
+def answer_device_ios
+  @cli.say("\n")
+  devices = `instruments -s devices || exit`
+  device = @cli.choose do |menu|
+    menu.prompt = "\nPlease choose your device? "
+    devices.each_line do |line|
+      menu.choice(line.strip) if /\[(.+)\]/ =~ line
+    end
+  end
+  /\[(.+)\]/.match(device).captures.first
+end
+
+def profile_exist?(profile)
+  profile_configs.keys.include?(profile)
+end
+
+def project_folder_by_xcworkspace(xcworkspace)
+  filename = xcworkspace.split('/').last
+  xcworkspace.chomp(filename)
+end
+
+def ios_project_build_exist?(project_build)
+  File.exist?(project_build)
+end
+
+def uuid_get_type_target(uuid)
+  options[:device].include?("-") ? "simulator" : "device"
+end

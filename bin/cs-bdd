@@ -6,6 +6,8 @@ require 'i18n'
 require 'gherkin' # Used here as a translation source
 require 'json'
 require 'yaml'
+require 'highline'
+require 'colorize'
 
 require File.join(File.dirname(__FILE__), 'cs-bdd-helpers')
 require_relative '../lib/cs/bdd/version'
@@ -127,6 +129,119 @@ end
 
 module CS
   module BDD
+    class Runner < Thor
+      desc 'ios [IP_ADDRESS] [PROFILE]',
+           'Run tests in IOS.'
+      option  :tags,
+              :desc => 'Only execute the features or scenarios with tags matching TAG_EXPRESSION.',
+              :aliases => '-t',
+              :banner => 'TAG_EXPRESSION'
+      option  :port,
+              :desc => 'Port number to proxy connect.',
+              :banner => 'NUMBER',
+              :default => '37265'
+      option  :device,
+              :desc => 'UUID to device install app.',
+              :banner => 'UUID'
+              
+      def ios(ip_address, profile = nil)
+        @cli.say("Loading...") if !in_root_project_folder?
+        
+        profile ||= answer_profile
+        options[:device] ||= answer_device_ios
+        target = uuid_get_type_target(options[:device])
+        
+        if !profile_exist? (profile)
+          @cli.say("Profile inválid.")
+          profile = answer_profile
+        end
+        configs = profile_configs[profile]
+        app_file = "#{configs["export_path"]}/#{target}/#{configs["scheme"]}.app"
+        
+        if !File.exist?(app_file)
+          @cli.say("\nNão foi possivel encontrar #{app_file}")
+          @cli.agree("\nDeseja fazer o build? [Y/n]")
+          invoke CS::BDD::Build, "ios", [profile], options
+        end
+        
+        command = "APP_BUNDLE_PATH='#{app_file}'"
+        command += " PROJECT_DIR='#{project_folder_by_xcworkspace(configs["xcworkspace"])}'"
+        command += " DEVICE_TARGET=#{options[:device]}"
+        command += " DEVICE_ENDPOINT=http://#{ip_address}:#{options[:port]}"
+        command += " bundle exec cucumber -p ios"
+        command += " -t #{options[:tags]}" if options[:tags]
+        
+        @cli.say("\nRunning command:\n")
+        @cli.say("#{command.colorize(:light_blue)}\n\n")
+        exec(command)
+      end
+      
+      desc 'android [APK]',
+           'Run tests in Android.'
+      option  :tags,
+              :desc => 'Only execute the features or scenarios with tags matching TAG_EXPRESSION.',
+              :aliases => '-t',
+              :banner => 'TAG_EXPRESSION'
+              
+      def android(apk)
+        @cli.say("Loading...") if !in_root_project_folder?
+        command = "bundle exec calabash-android run '#{apk}' -p android"
+        command += " -t #{options[:tags]}" if options[:tags]
+        
+        @cli.say("\nRunning command:\n")
+        @cli.say("#{command.colorize(:light_blue)}\n\n")
+        exec(command)
+      end
+      
+      def initialize(*args)
+        super        
+        # Load CLI
+        @cli = HighLine.new
+      end
+    end
+  end
+end
+
+module CS
+  module BDD
+    class Build < Thor
+      desc 'ios [PROFILE]',
+           'Build project in IOS.'
+      option  :device,
+              :desc => 'UUID to device install app.',
+              :banner => 'UUID'
+              
+      def ios(profile = nil)
+        @cli.say("Loading...") if !in_root_project_folder?
+        
+        profile ||= answer_profile
+        options[:device] ||= answer_device_ios
+        
+        if !profile_exist? (profile)
+          @cli.say("Profile inválid.")
+          profile = answer_profile
+        end
+        
+        target = uuid_get_type_target(options[:device])
+        command = "ruby config/scripts/ios/build_app.rb #{profile} #{target}"
+        
+        @cli.say("Running command:\n")
+        @cli.say("#{command.colorize(:blue)}\n\n")
+        
+        exec(command)
+      end
+      
+      def initialize(*args)
+        super        
+        # Load CLI
+        @cli = HighLine.new
+      end
+    end
+  end
+end
+
+module CS
+  module BDD
     # Definition of the generators groups
     class CsBddRunner < Thor
       include Thor::Actions
@@ -134,14 +249,18 @@ module CS
       map '-v' => :version
       map '--version' => :version
 
-      default_task :help
-
       register CS::BDD::Generate, 'generate',
                'generate [GENERATOR] [RESOURCE_NAME]',
                'Generates various resources'
       register CS::BDD::Generate, 'g',
                'g [GENERATOR] [RESOURCE_NAME]',
                'Generates various resources'
+      register CS::BDD::Runner, 'runner',
+              'run [PLATFORM]',
+              'Run tests in Android or iOS'
+      register CS::BDD::Build, 'build',
+              'build [PLATFORM]',
+              'Build project in Android or iOS'
 
       desc 'new PROJECT_NAME',
            'Generates the structure of a new project that uses '\
