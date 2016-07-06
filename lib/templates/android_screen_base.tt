@@ -42,7 +42,7 @@ class AndroidScreenBase < Calabash::ABase
       raise ElementNotFoundError, "ID: #{field_name}" unless
         visible? public_send(method.to_s.sub('_visible!', ''))
     else
-      super
+      super(method, args)
     end
   end
 
