@@ -45,7 +45,7 @@ class IOSScreenBase < Calabash::IBase
       raise ElementNotFoundError, "ID: #{field_name}" unless
         visible? public_send(method.to_s.sub('_visible!', ''))
     else
-      super
+      super(method, args)
     end
   end
 
@@ -74,20 +74,14 @@ class IOSScreenBase < Calabash::IBase
   end
 
   def drag_to(direction, element = nil)
-    element = 'tableView' if element.nil?
+    element = 'scrollView' if element.nil?
 
-    case(direction)
-    when :<%= (I18n.translate "directions.down").to_sym %>
-      direction = :down
-    when :<%= (I18n.translate "directions.up").to_sym %>
-      direction = :up
-    when :<%= (I18n.translate "directions.left").to_sym %>
-      positions = :left
-    when :<%= (I18n.translate "directions.right").to_sym %>
-      positions = :right
-    end
+    direction = { x: 0, y: 100 } if direction == <%= (I18n.translate "directions.up").to_sym %>
+    direction = { x: 0, y: -100 } if direction == <%= (I18n.translate "directions.down").to_sym %>
+    direction = { x: 100, y: 0 } if direction == <%= (I18n.translate "directions.left").to_sym %>
+    direction = { x: -100, y: 0 } if direction == <%= (I18n.translate "directions.right").to_sym %>
 
-    scroll(element, direction)
+    flick(element, direction)
     sleep(1)
   end
 
