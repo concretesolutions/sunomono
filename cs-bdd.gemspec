@@ -18,9 +18,9 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'bundler', '>=1.7'
-  spec.add_runtime_dependency 'rake', '>=10.0'
-  spec.add_runtime_dependency 'thor', '>=0.19.1'
-  spec.add_runtime_dependency 'i18n', '>=0.6.11'
-  spec.add_runtime_dependency 'gherkin', '>=2.12.2'
+  spec.add_runtime_dependency 'bundler', '>= 1.7'
+  spec.add_runtime_dependency 'rake', '>= 10.0'
+  spec.add_runtime_dependency 'thor', '>= 0.19.1'
+  spec.add_runtime_dependency 'i18n', '>= 0.6.11'
+  spec.add_runtime_dependency 'gherkin', '2.12.2'
 end
