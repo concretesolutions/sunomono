@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['oscarpanda@gmail.com']
   spec.summary       = 'Generates an android and iOS calabash project.'
   spec.description   = %q{A simple gem to generate all files needed in a project that will support Calabash for both Android and iOS.}
-  spec.homepage      = 'https://github.com/CSOscarTanner/cs-bdd'
+  spec.homepage      = 'https://github.com/concretesolutions/cs-bdd'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
