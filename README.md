@@ -54,6 +54,13 @@ This command will create a folder named ProjectName in the current directory and
   cs-bdd new ProjectName --lang=pt
 ```
 
+If you use Windows, to avoid encoding problems, run the following command in cmd:
+
+```
+[HKEY_CURRENT_USER\Software\Microsoft\Command Processor] "AutoRun"="chcp 65001"
+```
+
+
   > The default language is English ('en'). The elements of Gherkin such as Given, When, Then, And, Scenario will be translated to all Gherkin supported languages, but this gem has just a few translation files (see that in folder: `lib/cs/bdd/locales`). 
   
   > **CS-BDD doesn't support your mother language?** No problem. Fork it, create your yml translation file, uses the en.yml file as a template. Translate it and make a pull request. There are only 15 lines to be translated, this will take no time.
