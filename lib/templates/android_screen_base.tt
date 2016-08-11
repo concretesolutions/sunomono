@@ -121,7 +121,7 @@ class AndroidScreenBase < Calabash::ABase
   # Negation indicates that we want a page that doesn't
   # has the message passed as parameter
   def is_on_page?(page_text, negation = '')
-  fail 'Unexpected Page. Enter with a valid message' if
+  fail 'Error! Invalid query string!' if
        page_text.to_s == ''
 
     should_not_have_exception = false

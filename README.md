@@ -54,7 +54,7 @@ This command will create a folder named ProjectName in the current directory and
   cs-bdd new ProjectName --lang=pt
 ```
 
-If you use Windows, type:
+If you use Windows, to avoid encoding problems, run the following command in cmd:
 
 ```
 [HKEY_CURRENT_USER\Software\Microsoft\Command Processor] "AutoRun"="chcp 65001"
