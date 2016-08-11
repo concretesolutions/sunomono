@@ -77,6 +77,8 @@ class AndroidScreenBase < Calabash::ABase
       positions = [90,20,80,80]
     when :<%= (I18n.translate "directions.right").to_sym %>
       positions = [20,90,80,80]
+    else
+      raise 'Direction not known!'
     end
 
     # perform_action( 'action', 'from_x', 'to_x', 'from_y', 'to_y',
@@ -143,9 +145,9 @@ class AndroidScreenBase < Calabash::ABase
 
   def enter(text, element, query = nil)
     if query.nil?
-      query("* marked:'#{element}'", setText: text)
+      query("* marked:'#{element}'", setText: text.to_s)
     else
-      query(query, setText: text)
+      query(query, setText: text.to_s)
     end
   end
 

@@ -118,6 +118,42 @@ module CS
         create_screen_file name, 'IOS'
       end
 
+      desc 'aws_zip', 'Prepare a zip file for AWS Device Farm execution'
+      def aws_zip
+        in_root_project_folder?
+
+        # Temp folder that will hold the project files to be zipped
+        dir = Dir.mktmpdir
+        begin
+          # Copying all folders from specs that are valid in AWS context
+          directory FileUtils.pwd,
+                    dir,
+                    exclude_pattern: /(.git|.DS_Store|.irb-history|.gitignore|.gitkeep|screenshot|.apk|.zip)/
+          # Replacing launcher files to avoid problems with AWS Device Farm
+          copy_file File.join(File.dirname(__FILE__), '..', 'lib',
+                              'aws', 'android', 'app_installation_hooks.rb'),
+                    File.join(dir, 'features', 'android',
+                              'support', 'app_installation_hooks.rb'),
+                    force: true
+          copy_file File.join(File.dirname(__FILE__), '..', 'lib',
+                              'aws', 'android', 'app_life_cycle_hooks.rb'),
+                    File.join(dir, 'features', 'android',
+                              'support', 'app_life_cycle_hooks.rb'),
+                    force: true
+          copy_file File.join(File.dirname(__FILE__), '..', 'lib',
+                              'aws', 'ios', '01_launch.rb'),
+                    File.join(dir, 'features', 'ios',
+                              'support', '01_launch.rb'),
+                    force: true
+          # Creating zip file
+          zip_file_name = zip_folder(dir)
+          say_status(:create, zip_file_name)
+        ensure
+          # remove the directory.
+          FileUtils.remove_entry_secure dir
+        end
+      end
+
       def self.source_root
         File.join(File.dirname(__FILE__), '..', 'lib', 'templates')
       end

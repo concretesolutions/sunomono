@@ -1,3 +1,5 @@
+require_relative '../lib/cs/bdd/zip'
+
 def create_feature_file(name, platform = nil)
   # options used to generate the file in the template function
   opts = { name: camelize(name) }
@@ -51,8 +53,8 @@ def create_screen_file(name, platform)
   template('screen',
            File.join(
              FileUtils.pwd, 'features', platform.downcase, 'screens',
-             "#{name.downcase}_screen.rb"),
-           opts)
+             "#{name.downcase}_screen.rb"
+           ), opts)
 end
 
 def camelize(string)
@@ -74,4 +76,11 @@ def in_root_project_folder?
   end
 
   true
+end
+
+def zip_folder(dir)
+  file_name = "#{Time.now.strftime('%Y%m%d%H%M%S')}_specs.zip"
+  zf = ZipFileGenerator.new(dir, file_name)
+  zf.write
+  file_name
 end

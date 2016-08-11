@@ -76,10 +76,18 @@ class IOSScreenBase < Calabash::IBase
   def drag_to(direction, element = nil)
     element = 'scrollView' if element.nil?
 
-    direction = { x: 0, y: 100 } if direction == :<%= (I18n.translate "directions.up").to_sym %>
-    direction = { x: 0, y: -100 } if direction == :<%= (I18n.translate "directions.down").to_sym %>
-    direction = { x: 100, y: 0 } if direction == :<%= (I18n.translate "directions.left").to_sym %>
-    direction = { x: -100, y: 0 } if direction == :<%= (I18n.translate "directions.right").to_sym %>
+    case direction
+    when :<%= (I18n.translate "directions.down").to_sym %>
+      direction = { x: 0, y: -100 }
+    when :<%= (I18n.translate "directions.up").to_sym %>
+      direction = { x: 0, y: 100 }
+    when :<%= (I18n.translate "directions.left").to_sym %>
+      direction = { x: 100, y: 0 }
+    when :<%= (I18n.translate "directions.right").to_sym %>
+      direction = { x: -100, y: 0 }
+    else
+      raise 'Direction not known!'
+    end
 
     flick(element, direction)
     sleep(1)
