@@ -60,7 +60,6 @@ If you use Windows, to avoid encoding problems, run the following command in cmd
 [HKEY_CURRENT_USER\Software\Microsoft\Command Processor] "AutoRun"="chcp 65001"
 ```
 
-to resolve encoding problems.
 
   > The default language is English ('en'). The elements of Gherkin such as Given, When, Then, And, Scenario will be translated to all Gherkin supported languages, but this gem has just a few translation files (see that in folder: `lib/cs/bdd/locales`). 
   
