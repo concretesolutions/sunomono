@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
 
 require 'thor'
 require 'thor/group'
@@ -119,8 +120,30 @@ module CS
       end
 
       desc 'aws_zip', 'Prepare a zip file for AWS Device Farm execution'
+      option 'skip-char-validation',
+             banner: 'skips the special chars validation that can cancel the zip creation',
+             type: :boolean,
+             lazy_default: true
       def aws_zip
         in_root_project_folder?
+
+        # Looking for special chars in the specs folder
+        unless options['skip-char-validation']
+          entries = `grep -inrE 'á|â|ã|é|ê|í|ó|õ|ô|ú|ç' . --exclude-dir={.git,screenshots,config,support,test_servers} --exclude='*.zip'`
+          if entries.count("\n") > 0
+            puts <<-END
+
+There are special chars in your specs.
+This can block AWS Device Farm execution.'
+Entries found:
+#{entries}
+
+To skip this validation use: '--skip-char-validation'
+Exiting...
+END
+            exit 1
+          end
+        end
 
         # Temp folder that will hold the project files to be zipped
         dir = Dir.mktmpdir
@@ -145,6 +168,7 @@ module CS
                     File.join(dir, 'features', 'ios',
                               'support', '01_launch.rb'),
                     force: true
+
           # Creating zip file
           zip_file_name = zip_folder(dir)
           say_status(:create, zip_file_name)
