@@ -26,8 +26,12 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'rubyzip', '~>1.1'
 
   spec.post_install_message = <<-MESSAGE
-!    warn "[DEPRECATION] This gem has been renamed to sunomono and will no longer be supported. Please switch to sunomono as soon as possible."
-!    See: https://rubygems.org/gems/sunomono
-!    And: https://github.com/concretesolutions/sunomono
+
+
+!   warn "[DEPRECATION] This gem has been renamed to sunomono and will no longer be supported. Please switch to sunomono as soon as possible."
+!   See: https://rubygems.org/gems/sunomono
+!   And: https://github.com/concretesolutions/sunomono
+
+
   MESSAGE
 end
