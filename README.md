@@ -1,4 +1,15 @@
+
+##[DEPRECATION] 
+
+This gem has been renamed to sunomono and will no longer be supported. Please switch to sunomono as soon as possible.
+
+ > See: https://rubygems.org/gems/sunomono
+   
+ > And: https://github.com/concretesolutions/sunomono
+
 # CS::BDD
+
+
 [![cs-bdd API Documentation](https://www.omniref.com/ruby/gems/cs-bdd.png)](https://www.omniref.com/ruby/gems/cs-bdd)
 
 A simple gem to generate all files needed in a project that will support calabash for both Android and iOS.
