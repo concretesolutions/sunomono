@@ -22,6 +22,8 @@ module CS
              banner: 'any of the gherkin supported languages',
              default: :en
       def feature(name)
+        deprecated_warnings
+
         I18n.config.default_locale = options[:lang]
         in_root_project_folder?
 
@@ -36,6 +38,8 @@ module CS
              banner: 'any of the gherkin supported languages',
              default: :en
       def aFeature(name)
+        deprecated_warnings
+
         I18n.config.default_locale = options[:lang]
         in_root_project_folder?
 
@@ -49,6 +53,8 @@ module CS
              banner: 'any of the gherkin supported languages',
              default: :en
       def iFeature(name)
+        deprecated_warnings
+
         I18n.config.default_locale = options[:lang]
         in_root_project_folder?
 
@@ -62,6 +68,8 @@ module CS
              banner: 'any of the gherkin supported languages',
              default: :en
       def step(name)
+        deprecated_warnings
+
         I18n.config.default_locale = options[:lang]
         in_root_project_folder?
         create_steps_file name
@@ -72,6 +80,8 @@ module CS
              banner: 'any of the gherkin supported languages',
              default: :en
       def aStep(name)
+        deprecated_warnings
+
         I18n.config.default_locale = options[:lang]
         in_root_project_folder?
         create_steps_file name, 'Android'
@@ -82,6 +92,8 @@ module CS
              banner: 'any of the gherkin supported languages',
              default: :en
       def iStep(name)
+        deprecated_warnings
+
         I18n.config.default_locale = options[:lang]
         in_root_project_folder?
         create_steps_file name, 'IOS'
@@ -93,6 +105,8 @@ module CS
              banner: 'any of the gherkin supported languages',
              default: :en
       def screen(name)
+        deprecated_warnings
+
         I18n.config.default_locale = options[:lang]
         in_root_project_folder?
         create_screen_file name, 'Android'
@@ -104,6 +118,8 @@ module CS
              banner: 'any of the gherkin supported languages',
              default: :en
       def aScreen(name)
+        deprecated_warnings
+
         I18n.config.default_locale = options[:lang]
         in_root_project_folder?
         create_screen_file name, 'Android'
@@ -114,6 +130,8 @@ module CS
              banner: 'any of the gherkin supported languages',
              default: :en
       def iScreen(name)
+        deprecated_warnings
+
         I18n.config.default_locale = options[:lang]
         in_root_project_folder?
         create_screen_file name, 'IOS'
@@ -125,6 +143,8 @@ module CS
              type: :boolean,
              lazy_default: true
       def aws_zip
+        deprecated_warnings
+
         in_root_project_folder?
 
         # Looking for special chars in the specs folder
@@ -210,6 +230,8 @@ module CS
              banner: 'any of the gherkin supported languages',
              default: :en
       def new(name)
+        deprecated_warnings
+
         I18n.config.default_locale = options[:lang]
         # Thor will be responsible to look for identical
         # files and possibles conflicts
@@ -231,6 +253,8 @@ module CS
 
       desc 'version', 'Shows the gem version'
       def version
+        deprecated_warnings
+
         puts "cs-bdd Version #{CS::BDD::VERSION}"
       end
 

@@ -84,3 +84,12 @@ def zip_folder(dir)
   zf.write
   file_name
 end
+
+def deprecated_warnings
+  puts "
+========================================= WARNING:[DEPRECATION] ===================================================================\n
+ This gem has been renamed to sunomono and will no longer be supported. Please switch to sunomono as soon as possible.\n
+ See:  See: https://rubygems.org/gems/sunomono \n And: https://github.com/concretesolutions/sunomono\n
+====================================================================================================================================
+"
+end
