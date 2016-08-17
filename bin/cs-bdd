@@ -188,6 +188,9 @@ END
                     File.join(dir, 'features', 'ios',
                               'support', '01_launch.rb'),
                     force: true
+          Dir.mkdir File.join(dir, 'screenshots')
+          Dir.mkdir File.join(dir, 'screenshots', 'ios')
+          Dir.mkdir File.join(dir, 'screenshots', 'android')
 
           # Creating zip file
           zip_file_name = zip_folder(dir)
