@@ -7,10 +7,8 @@ This gem has been renamed to sunomono and will no longer be supported. Please sw
    
  > And: https://github.com/concretesolutions/sunomono
 
-# CS::BDD
+# Sunomono
 
-
-[![cs-bdd API Documentation](https://www.omniref.com/ruby/gems/cs-bdd.png)](https://www.omniref.com/ruby/gems/cs-bdd)
 
 A simple gem to generate all files needed in a project that will support calabash for both Android and iOS.
 
@@ -36,33 +34,38 @@ The project structure is based on [this site](http://rubygemtsl.com/2014/01/06/d
 
 Install it as:
 
-    $ gem install cs-bdd
+    $ gem install sunomono
 
 ## Usage
 
 In the terminal, type for help:
 
 ```
-  cs-bdd
-  cs-bdd generate
+  suno
+```
+
+Or
+
+```
+  sunomono
 ```
 
 To see the gem version type:
 
 ```
-  cs-bdd version
+  suno version
 ```
 
 To generate a project that support both Android and iOS features type:
 
 ```
-  cs-bdd new ProjectName
+  suno new ProjectName
 ```
 
 This command will create a folder named ProjectName in the current directory and will create all the needed files. This gem support localizations. To create a localized project, in Portuguese, type:
 
 ```
-  cs-bdd new ProjectName --lang=pt
+  suno new ProjectName --lang=pt
 ```
 
 If you use Windows, to avoid encoding problems, run the following command in cmd:
@@ -72,16 +75,14 @@ If you use Windows, to avoid encoding problems, run the following command in cmd
 ```
 
 
-  > The default language is English ('en'). The elements of Gherkin such as Given, When, Then, And, Scenario will be translated to all Gherkin supported languages, but this gem has just a few translation files (see that in folder: `lib/cs/bdd/locales`). 
+  > The default language is English ('en'). The elements of Gherkin such as Given, When, Then, And, Scenario will be translated to all Gherkin supported languages, but this gem has just a few translation files (see that in folder: `lib/sunomono/locales`). 
   
-  > **CS-BDD doesn't support your mother language?** No problem. Fork it, create your yml translation file, uses the en.yml file as a template. Translate it and make a pull request. There are only 15 lines to be translated, this will take no time.
+  > **Sunomono doesn't support your mother language?** No problem. Fork it, create your yml translation file, uses the en.yml file as a template. Translate it and make a pull request. There are only 15 lines to be translated, this will take no time.
   
   > **Want to know how to name your translation yml file?** See the Gherkin supported languages [here](https://github.com/cucumber/gherkin/blob/master/lib/gherkin/i18n.json) for reference.
 
 Once the project is created, open its folder (`cd ProjectName`) and run `bundle install`
 
-  > This project supports both Android and iOS, so if you are on a PC you will not need the gems that are only for Macs, so you can run the command `bundle install --without mac_os`
-  
   > Remember to fix the calabash-cucumber version on the Gemfile. When updating the calabash-cucumber gem version you need to update the Calabash framework that was embedded on your iOS code. So, my suggestion is to update it manually. [In this page](https://github.com/calabash/calabash-ios/wiki/B1-Updating-your-Calabash-iOS-version) you can find more information on how to update the Calabash framework.
 
 
@@ -92,14 +93,14 @@ There are nine generators that are responsible to create the templates for Featu
 ####Features
 
 ```
-  cs-bdd generate feature FeatureName
+  suno generate feature FeatureName
 ```
 The feature generator will create a Platform independent feature and its files. So this command will create the FeatureName.feature file inside the folder `feature`, the file FeatureName_steps.rb inside the folder `features/step_definitions`, the files FeatureName_screen.rb inside the folders `features/android/screens` and `features/ios/screens`.
   
   
 ```
-  cs-bdd generate aFeature AndroidFeatureName
-  cs-bdd generate iFeature iOSFeatureName
+  suno generate android-feature AndroidFeatureName
+  suno generate ios-feature iOSFeatureName
 ```
 The aFeature and iFeature generator will create an Platform dependent feature. For example, the aFeature generator will create the AndroidFeatureName.feature file inside the folder `features/android/features`, the file AndroidFeatureName_steps.rb inside the folder `features/androd/step_definitions` and the screen file AndroidFeatureName_screen.rb inside the folder `features/android/screens`.
 
@@ -109,19 +110,19 @@ Don't forget about internationalization. All the generators accept the option `-
 ####Steps
 
 ```
-  cs-bdd generate step StepName
+  suno generate step StepName
 ```
 The step generator will create a Platform independent step file named StepName_steps.rb in the folder `features/step_definitions`
 
   
 ```
-  cs-bdd generate aStep AndroidStepName
+  suno generate android-step AndroidStepName
 ```
-The aStep generator will create an Android step file named AndroidStepName_steps.rb in the folder `features/android/step_definitions`
+The android-step generator will create an Android step file named AndroidStepName_steps.rb in the folder `features/android/step_definitions`
 
 
 ```
-  cs-bdd generate iStep iOSStepName
+  suno generate ios-step iOSStepName
 ```
 The iStep generator will create an iOS step file name iOSStepName_steps.rb in the folder `features/ios/step_definitions`
 
@@ -130,16 +131,16 @@ The iStep generator will create an iOS step file name iOSStepName_steps.rb in th
 ####Screens
 
 ```
-  cs-bdd generate screen ScreenName
+  suno generate screen ScreenName
 ```
 The screen generator will create both Platform dependent screens in the folders `features/android/screens` and `features/ios/screens`.
 
 
 ```
-  cs-bdd generate aScreen AndroidScreenName
-  cs-bdd generate iScreen iOSScreenName
+  suno generate android-screen AndroidScreenName
+  suno generate ios-screen iOSScreenName
 ```
-The aScreen and iScreen will create only the Android and iOS dependent screens respectively.
+The android-screen and ios-screen will create only the Android and iOS dependent screens respectively.
 
 ## Continuous Integration (CI)
 

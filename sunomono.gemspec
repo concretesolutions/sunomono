@@ -1,20 +1,20 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'cs/bdd/version'
+require 'sunomono/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'cs-bdd'
-  spec.version       = CS::BDD::VERSION
+  spec.name          = 'sunomono'
+  spec.version       = Sunomono::VERSION
   spec.authors       = ['Oscar Tanner']
   spec.email         = ['oscarpanda@gmail.com']
   spec.summary       = 'Generates an android and iOS calabash project.'
   spec.description   = %q{A simple gem to generate all files needed in a project that will support Calabash for both Android and iOS.}
-  spec.homepage      = 'https://github.com/concretesolutions/cs-bdd'
+  spec.homepage      = 'https://github.com/concretesolutions/sunomono'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = ['cs-bdd']
+  spec.executables   = ['sunomono', 'suno']
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
@@ -24,15 +24,4 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'i18n', '>= 0.6.11'
   spec.add_runtime_dependency 'gherkin', '2.12.2'
   spec.add_runtime_dependency 'rubyzip', '~>1.1'
-
-  spec.post_install_message = <<-MESSAGE
-
-
-========================================= WARNING:[DEPRECATION] ===================================================================\n
- This gem has been renamed to sunomono and will no longer be supported. Please switch to sunomono as soon as possible.\n
- See:  See: https://rubygems.org/gems/sunomono \n And: https://github.com/concretesolutions/sunomono\n
-====================================================================================================================================
-
-
-  MESSAGE
 end

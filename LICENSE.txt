@@ -1,4 +1,4 @@
-Copyright (c) 2014 CSOscarTanner
+Copyright (c) 2014 oscartanner
 
 MIT License
 

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in cs-bdd.gemspec
+# Specify your gem's dependencies in sunomono.gemspec
 gemspec
 
 gem 'thor'
