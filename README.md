@@ -142,7 +142,7 @@ The project contains a lot of scripts that will help you to configure you CI ser
 
 ## Contributing
 
-1. Fork it ( https://github.com/concretesolutions/cs-bdd/fork )
+1. Fork it ( https://github.com/concretesolutions/sunomono/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
