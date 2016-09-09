@@ -53,7 +53,7 @@ system <<eos
   xcodebuild -workspace "#{config['xcworkspace']}" \
   -scheme "#{config['scheme']}" -destination "#{config['destination']}" \
   -configuration "#{config['configuration']}" clean build \
-  CONFIGURATION_BUILD_DIR="#{export_path}"
+  CONFIGURATION_BUILD_DIR="#{export_path}" | xcpretty
 eos
 
 # Getting the app folder that was created
