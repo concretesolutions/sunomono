@@ -1,5 +1,6 @@
 require 'sunomono'
 
+
 describe Sunomono do
 
   before(:each) do

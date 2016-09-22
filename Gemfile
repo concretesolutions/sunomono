@@ -8,3 +8,4 @@ gem 'i18n'
 gem 'json'
 gem 'gherkin'
 gem 'rspec'
+gem 'simplecov', :require => false, :group => :test
