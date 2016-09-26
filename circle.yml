@@ -2,9 +2,11 @@ machine:
   ruby:
     version: 2.3.0
 
- dependencies:
-  pre:
-  - gem install bundler
+dependencies:
+  override:
+    - gem install bundler
+    - gem install rake
 
-  test:
-  - bundle exec rake
+test:
+  override:
+    - rake 
