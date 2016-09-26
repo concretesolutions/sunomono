@@ -9,4 +9,4 @@ dependencies:
 
 test:
   override:
-    - rake 
+    - bundle exec rake
