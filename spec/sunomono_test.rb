@@ -247,8 +247,8 @@ describe Sunomono do
             not_to include("#{feature_name}.feature")
         expect(Dir.entries("#{@project_name}/features/step_definitions")).
             not_to include("#{feature_name}_steps.rb")
-        expect(Dir.entries("#{@project_name}/features/android/screens"))
-        not_to include("#{feature_name}_screen.rb")
+        expect(Dir.entries("#{@project_name}/features/android/screens")).
+            not_to include("#{feature_name}_screen.rb")
         expect(Dir.entries("#{@project_name}/features/ios/screens")).
             not_to include("#{feature_name}_screen.rb")
       end

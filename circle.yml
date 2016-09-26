@@ -1,0 +1,10 @@
+machine:
+  ruby:
+    version: 2.3.0
+
+ dependencies:
+  pre:
+  - gem install bundler
+
+  test:
+  - bundle exec rake
