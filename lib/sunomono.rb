@@ -8,6 +8,7 @@ require 'json'
 require 'yaml'
 require 'simplecov'
 
+SimpleCov.command_name 'Cucumber'
 SimpleCov.start
 
 require_relative File.join('helpers', 'sunomono_helpers')

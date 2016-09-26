@@ -5,7 +5,7 @@ task :default => [:spec]
 
 desc 'Run the specs.'
 RSpec::Core::RakeTask.new do |task|
-  task.pattern = 'test/*_test.rb'
+  task.pattern = 'spec/*_test.rb'
   task.verbose = false
 end
 

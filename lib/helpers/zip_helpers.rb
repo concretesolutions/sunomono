@@ -1,4 +1,7 @@
 require 'zip'
+require 'simplecov'
+
+SimpleCov.start
 
 # This is a simple example which uses rubyzip to
 # recursively generate a zip file from the contents of
