@@ -6,7 +6,7 @@ dependencies:
   override:
     - gem install bundler
     - gem install rake
-    - gem install
+    - bundle install
 
 test:
   override:
