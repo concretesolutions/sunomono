@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 require_relative 'zip_helpers'
-require 'simplecov'
-
-SimpleCov.start
-
 
 def create_feature_file(name, platform = nil)
   # options used to generate the file in the template function
