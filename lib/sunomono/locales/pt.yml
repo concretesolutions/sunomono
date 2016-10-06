@@ -8,14 +8,14 @@ pt:
     elements: "Declare todos os elementos da tela"
     actions: "Declare todas as acoes da tela"
   steps:
-    drag_until: 'que Eu (?:arrastei|arrasto) a tela para (baixo|cima|esquerda|direita) ate ver o elemento "(.*?)"'
-    page_contains: "que Eu estou em uma pagina que contem '(.*?)'"
-    drag_number_of_times: 'Eu arrasto a tela para (esquerda|direita|baixo|cima) (\d+) vezes'
-    touch_element: 'Eu (?:clico|cliquei) no elemento "(.*?)"'
-    drag_screen: "Eu arrasto a tela para (baixo|cima|esquerda|direita)"
-    wait_progress_bar: "Eu (?:espero|esperei) ate a barra de progresso sumir"
-    should_see_page: "Eu deveria ver a pagina '(.*?)'"
-    should_see_page_that_contains: "Eu deveria ver uma pagina que contem '(.*?)'"
+    drag_until: 'que (?:Eu|eu) (?:arrastei|arrasto) a tela para (baixo|cima|esquerda|direita) ate ver o elemento "(.*?)"'
+    page_contains: "que (?:Eu|eu) estou em uma pagina que contem '(.*?)'"
+    drag_number_of_times: '(?:Eu|eu) arrasto a tela para (esquerda|direita|baixo|cima) (\d+) vezes'
+    touch_element: '(?:Eu|eu) (?:clico|cliquei) no elemento "(.*?)"'
+    drag_screen: "(?:Eu|eu) arrasto a tela para (baixo|cima|esquerda|direita)"
+    wait_progress_bar: "(?:Eu|eu) (?:espero|esperei) ate a barra de progresso sumir"
+    should_see_page: "(?:Eu|eu) deveria ver a pagina '(.*?)'"
+    should_see_page_that_contains: "(?:Eu|eu) deveria ver uma pagina que contem '(.*?)'"
     take_print: "faco um print"
     been_in_page: "que eu (?:estou|estava) na (?:pagina|tela)(?: de|) '(.*?)'"
     move_to_page: "eu (?:devo|deveria) estar na (?:pagina|tela)(?: de|) '(.*?)'"
