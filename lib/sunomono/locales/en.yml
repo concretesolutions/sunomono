@@ -10,9 +10,9 @@ en:
   steps:
     drag_until: '(?:I|i) (?:drag|dragged) the screen (down|up|left|right) until I see the element "(.*?)"'
     page_contains: "(?:I|i) am on a page that contains '(.*?)'"
-    drag_number_of_times: '(?:I|i) drag the screen (left|right|down|up) (\d+) times'
+    drag_number_of_times: '(?:I|i) (?:drag|dragged) the screen (left|right|down|up) (\d+) times'
     touch_element: '(?:I|i) (?:touch|touched) the "(.*?)" element'
-    drag_screen: "(?:I|i) drag the screen (down|up|left|right)"
+    drag_screen: "(?:I|i) (?:drag|dragged) the screen (down|up|left|right)"
     wait_progress_bar: "(?:I|i) (?:wait|waited) for the progress bar to vanish"
     should_see_page: "(?:I|i) should see the page '(.*?)'"
     should_see_page_that_contains: "(?:I|i) should see a page that contains '(.*?)'"

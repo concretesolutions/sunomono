@@ -10,9 +10,9 @@ pt:
   steps:
     drag_until: 'que (?:Eu|eu) (?:arrastei|arrasto) a tela para (baixo|cima|esquerda|direita) ate ver o elemento "(.*?)"'
     page_contains: "que (?:Eu|eu) estou em uma pagina que contem '(.*?)'"
-    drag_number_of_times: '(?:Eu|eu) arrasto a tela para (esquerda|direita|baixo|cima) (\d+) vezes'
+    drag_number_of_times: '(?:Eu|eu) (?:arrastei|arrasto) a tela para (esquerda|direita|baixo|cima) (\d+) vezes'
     touch_element: '(?:Eu|eu) (?:clico|cliquei) no elemento "(.*?)"'
-    drag_screen: "(?:Eu|eu) arrasto a tela para (baixo|cima|esquerda|direita)"
+    drag_screen: "(?:Eu|eu) (?:arrastei|arrasto) a tela para (baixo|cima|esquerda|direita)"
     wait_progress_bar: "(?:Eu|eu) (?:espero|esperei) ate a barra de progresso sumir"
     should_see_page: "(?:Eu|eu) deveria ver a pagina '(.*?)'"
     should_see_page_that_contains: "(?:Eu|eu) deveria ver uma pagina que contem '(.*?)'"
