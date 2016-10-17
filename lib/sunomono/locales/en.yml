@@ -8,18 +8,18 @@ en:
     elements: "Declare all the elements of this screen"
     actions: "Declare all actions of this screen"
   steps:
-    drag_until: '(?:I|i) (?:drag|dragged) the screen (down|up|left|right) until I see the element "(.*?)"'
-    page_contains: "(?:I|i) am on a page that contains '(.*?)'"
-    drag_number_of_times: '(?:I|i) (?:drag|dragged) the screen (left|right|down|up) (\d+) times'
-    touch_element: '(?:I|i) (?:touch|touched) the "(.*?)" element'
-    drag_screen: "(?:I|i) (?:drag|dragged) the screen (down|up|left|right)"
-    wait_progress_bar: "(?:I|i) (?:wait|waited) for the progress bar to vanish"
-    should_see_page: "(?:I|i) should see the page '(.*?)'"
-    should_see_page_that_contains: "(?:I|i) should see a page that contains '(.*?)'"
+    drag_until: 'I (?:drag|dragged) the screen (down|up|left|right) until I see the element "(.*?)"'
+    page_contains: "I am on a page that contains '(.*?)'"
+    drag_number_of_times: 'I (?:drag|dragged) the screen (left|right|down|up) (\d+) times'
+    touch_element: 'I (?:touch|touched) the "(.*?)" element'
+    drag_screen: "I (?:drag|dragged) the screen (down|up|left|right)"
+    wait_progress_bar: "I (?:wait|waited) for the progress bar to vanish"
+    should_see_page: "I should see the page '(.*?)'"
+    should_see_page_that_contains: "I should see a page that contains '(.*?)'"
     take_print: "take picture"
-    been_in_page: "(?:I|i) am at (?:page|screen) '(.*?)'"
-    move_to_page: "(?:I|i) went to (?:page|screen) '(.*?)'"
-    restart_app: "(?:I|i) restart the app"
+    been_in_page: "I am at (?:page|screen) '(.*?)'"
+    move_to_page: "I went to (?:page|screen) '(.*?)'"
+    restart_app: "I restart the app"
   directions:
     up: 'up'
     down: 'down'
