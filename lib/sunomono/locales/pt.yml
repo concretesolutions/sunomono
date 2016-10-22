@@ -7,6 +7,29 @@ pt:
     insert_steps: "Insira os passos"
     elements: "Declare todos os elementos da tela"
     actions: "Declare todas as acoes da tela"
+    wait_1: "aguardar_progresso é um metodo da classe base, então não importa o que é"
+    wait_2: "o valor da variavel @page, porque todas as screens vão ter este metodo"
+    method_missing_1: " Se o nome do metodo começar com tocar_, executar o metodo"
+    method_missing_2: " tocar no elemento da tela usando o nome do elemento que é o"
+    method_missing_3: " nome do metodo sem o primeiro caracteres 'tocar_'"
+    starts_enter_1: " Se o metodo começar com enter_, eecutar o metodo enter usando"
+    starts_enter_2: " o nome do campo, que é o nome do metodo sem os caracteres"
+    starts_enter_3: " 'enter_ e os caracteres finais '_field"
+    termina_com_visible_1: "Se o metodo termina com _visivel?, executar o metodo visivel?"
+    termina_com_visible_2: "O nome do campo é o nome do metodo sem o final"
+    termina_com_visible_3: "com os caracteres '_visivel?"
+    termina_com_visible_4: "Faz o mesmo que o metodo acima, mas joga uma exception"
+    termina_com_visible_5: "se p campo não estiver visivel"
+    wait_for_progress: "A barra de progresso da aplicação é uma view customizada"
+    is_on_page_1: "Negação indica que queremos uma pagina que não"
+    is_on_page_2: "tenha a mensagem passada como parâmetro"
+    is_on_page_3: "Se a negação não for nil, temos que exibir um erro"
+    is_on_page_4: "se a mensagem for encontrada na view"
+    is_on_page_5: "somente exibir a execption se a negação foi nil,"
+    is_on_page_6: "senão este será o comportamento esperado"
+    select_date_1: "Tocar no campo seletor da data"
+    select_date_2: "Definindo a data"
+    select_date_3: "Clicando no botão Feito"
   steps:
     drag_until: 'que Eu (?:arrastei|arrasto) a tela para (baixo|cima|esquerda|direita) ate ver o elemento "(.*?)"'
     page_contains: "que Eu estou em uma pagina que contem '(.*?)'"
@@ -25,3 +48,29 @@ pt:
     down: 'baixo'
     left: 'esquerda'
     right: 'direita'
+  screen_base:
+    restart_app: 'reiniciar_app'
+    wait_for_progress: 'aguardar_progresso'
+    wait_for_element_does_not_exist: 'aguardar_por_elemento_nao_existe'
+    is_on_page?: 'esta_na_pagina?'
+    drag_until_element_is_visible_with_special_query: 'arraste_ate_elemento_estar_visivel_com_query_especial'
+    drag_for_specified_number_of_times: 'arraste_por_um_numero_especifico_de_vezes'
+    drag_until_element_is_visible: 'arrastar_ate_elemento_estar_visivel'
+    touch_screen_element: 'tocar_elemento_da_tela'
+    touch_element_by_index: 'tocar_elemento_pelo_index'
+    drag_to: 'arrastar_para'
+    method_missing: 'metodo_ausente'
+    start_with?: 'comeca_com?'
+    end_with?: 'termina_com?'
+    touch_: 'tocar_'
+    _visible?: '_visivel?'
+    visivel?: 'visivel?'
+    _visible!: '_visivel!'
+    field_name: 'nome_do_campo'
+    clear_text_field: "apagar_campo_texto"
+    clear_text_in: "apagar_texto"
+    select_date_on_date_picker: "selecionar_data_no_seletor_de_datas"
+  exceptions:
+    unexpected_page: "Pagina inesperada. Esta pagina não deveria"
+    unexpected_page_expected_was: "Pagina inesperada. O esperado era"
+    problem_in_touch_screen: "Problema em tocar no elemento da tela"
