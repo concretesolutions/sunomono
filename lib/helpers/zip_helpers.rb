@@ -1,6 +1,5 @@
 require 'zip'
 
-
 # This is a simple example which uses rubyzip to
 # recursively generate a zip file from the contents of
 # a specified directory. The directory itself is not
