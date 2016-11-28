@@ -16,3 +16,5 @@ mkmf.log
 .DS_Store
 .idea/
 coverage
+File::NULL
+.ruby-version
