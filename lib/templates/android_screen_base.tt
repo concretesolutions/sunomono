@@ -16,37 +16,37 @@ class AndroidScreenBase < Calabash::ABase
     start_test_server_in_background
   end
 
-  def method_missing(method, *args)
-    if method.to_s.start_with?('touch_')
-      # If method name starts with touch_, executes the touch
-      # screen element method using the element name which is the
-      # method name without the first 'touch_' chars
-      touch_screen_element public_send(method.to_s.sub('touch_', ''))
-    elsif method.to_s.start_with?('enter_')
-      # If method starts with enter_, execute the enter method using
-      # the field name, which is the method name without the initial
-      # 'enter_' chars and appended '_field' chars
+  def <%= I18n.translate( "screen_base.method_missing" ) %> (method, *args)
+    if method.to_s.<%= I18n.translate "screen_base.start_with?" %>('<%= I18n.translate "screen_base.touch_" %>')
+      # <%= I18n.translate( "comments.method_missing_1" ) %>
+      # <%= I18n.translate( "comments.method_missing_2" ) %>
+      # <%= I18n.translate( "comments.method_missing_3" ) %>
+      <%= I18n.translate( "screen_base.touch_screen_element" ) %> public_send(method.to_s.sub('<%= I18n.translate"screen_base.touch_" %>', ''))
+    elsif method.to_s.<%= I18n.translate "screen_base.start_with?" %>('enter_')
+      # <%= I18n.translate( "comments.starts_enter_1" ) %>
+      # <%= I18n.translate( "comments.starts_enter_2" ) %>
+      # <%= I18n.translate( "comments.starts_enter_3" ) %>
       enter args[0], public_send("#{method.to_s.sub('enter_', '')}_field")
-    elsif method.to_s.end_with?('_visible?')
-      # If method ends with _visible?, executes the visible? method
-      # The field name is the method name without de ending
-      # '_visible? chars
-      visible? public_send(method.to_s.sub('_visible?', ''))
-    elsif method.to_s.end_with?('_visible!')
-      # Do the same as the method above, but throws an exception
-      # if the field is not visible
-      field_name = method.to_s.sub('_visible!', '')
+    elsif method.to_s.<%= I18n.translate "screen_base.end_with?" %>('<%= I18n.translate "screen_base._visible?" %>')
+      # <%= I18n.translate( "comments.termina_com_visible_1" ) %>
+      # <%= I18n.translate( "comments.termina_com_visible_2" ) %>
+      # <%= I18n.translate( "comments.termina_com_visible_3" ) %>
+      <%= I18n.translate( "screen_base.visible?" ) %> public_send(method.to_s.sub('<%= I18n.translate "screen_base._visible?" %>', ''))
+    elsif method.to_s.<%= I18n.translate "screen_base.end_with?" %>('<%= I18n.translate "screen_base._visible!" %>')
+      # <%= I18n.translate( "comments.termina_com_visible_4" ) %>
+      # <%= I18n.translate( "comments.termina_com_visible_5" ) %>
+      <%= I18n.translate( "screen_base.field_name" ) %> = method.to_s.sub('<%= I18n.translate "screen_base._visible!" %>', '')
                          .sub('_field', '')
                          .sub('_', ' ')
                          .capitalize
       raise ElementNotFoundError, "ID: #{field_name}" unless
-        visible? public_send(method.to_s.sub('_visible!', ''))
+        <%= I18n.translate( "screen_base._visible?" ) %> public_send(method.to_s.sub('<%= I18n.translate "screen_base._visible!" %>', ''))
     else
       super(method, args)
     end
   end
 
-  def visible?(id, query = nil)
+  def <%= I18n.translate( "screen_base._visible?" ) %>(id, query = nil)
     query = "* id:'#{id}'" if query.nil?
     begin
       wait_for(timeout: 3) { element_exists query }
@@ -58,14 +58,14 @@ class AndroidScreenBase < Calabash::ABase
 
   element(:loading_screen)      { 'insert_loading_view_id' }
 
-  # The progress bar of the application is a custom view
-  def wait_for_progress
+  # <%= I18n.translate( "comments.wait_for_progress" ) %>
+  def <%= I18n.translate( "screen_base.wait_for_progress" ) %>
     sleep(2)
-    wait_for_element_does_not_exist("* id:'#{loading_screen}'",
+    <%= I18n.translate( "screen_base.wait_for_element_does_not_exist" ) %>("* id:'#{loading_screen}'",
                                     timeout: 10)
   end
 
-  def drag_to(direction)
+  def <%= I18n.translate( "screen_base.drag_to" ) %>(direction)
     positions = [0, 0, 0, 0] # [ 'from_x', 'to_x', 'from_y', 'to_y' ]
 
     case(direction)
@@ -88,12 +88,12 @@ class AndroidScreenBase < Calabash::ABase
     sleep(1)
   end
 
-  def drag_until_element_is_visible_with_special_query(direction, element)
-    drag_until_element_is_visible direction, element,
+  def <%= I18n.translate( "screen_base.drag_until_element_is_visible_with_special_query" ) %>(direction, element)
+    <%= I18n.translate( "screen_base.drag_until_element_is_visible" ) %>, element,
                                   "* {text CONTAINS[c] '#{element}'}"
   end
 
-  def drag_until_element_is_visible(direction, element, query = nil, limit = 15)
+  def <%= I18n.translate( "screen_base.drag_until_element_is_visible" ) %>(direction, element, query = nil, limit = 15)
     i = 0
 
     element_query = ''
@@ -105,7 +105,7 @@ class AndroidScreenBase < Calabash::ABase
 
     sleep(2)
     while !element_exists(element_query) && i < limit
-      drag_to direction
+      <%= I18n.translate( "screen_base.drag_to" ) %> direction
       i += 1
     end
 
@@ -114,15 +114,15 @@ class AndroidScreenBase < Calabash::ABase
       i < limit
   end
 
-  def drag_for_specified_number_of_times(direction, times)
+  def <%= I18n.translate( "screen_base.drag_for_specified_number_of_times ") %>(direction, times)
     times.times do
-      drag_to direction
+      <%= I18n.translate( "screen_base.drag_to" ) %> direction
     end
   end
 
-  # Negation indicates that we want a page that doesn't
-  # has the message passed as parameter
-  def is_on_page?(page_text, negation = '')
+  # <%= I18n.translate( "comments.is_on_page_1" ) %>
+  # <%= I18n.translate( "comments.is_on_page_2" ) %>
+  def <%= I18n.translate( "screen_base.is_on_page?" ) %>(page_text, negation = '')
   fail 'Error! Invalid query string!' if
        page_text.to_s == ''
 
@@ -130,19 +130,19 @@ class AndroidScreenBase < Calabash::ABase
     should_have_exception = false
     begin
       wait_for(timeout: 5) { has_text? page_text }
-      # If negation is not nil, we should raise an error
-      # if this message was found on the view
+      # <%= I18n.translate( "comments.is_on_page_3" ) %>
+      # <%= I18n.translate("comments.is_on_page_4" ) %>
       should_not_have_exception = true unless negation == ''
     rescue
-      # only raise exception if negation is nil,
-      # otherwise this is the expected behaviour
+      # <%= I18n.translate( "comments.is_on_page_5" ) %>
+      # <%= I18n.translate( "comments.is_on_page_6" ) %>
       should_have_exception = true if negation == ''
     end
 
-    fail "Unexpected Page. The page should not have: '#{page_text}'" if
+    fail "<%= I18n.translate( "exceptions.unexpected_page" ) %>: '#{page_text}'" if
       should_not_have_exception
 
-    fail "Unexpected Page. Expected was: '#{page_text}'" if
+    fail "<%= I18n.translate( "exceptions.unexpected_page_expected_was" ) %>: '#{page_text}'" if
       should_have_exception
   end
 
@@ -154,33 +154,33 @@ class AndroidScreenBase < Calabash::ABase
     end
   end
 
-  def touch_screen_element(element, query = nil)
+  def <%= I18n.translate( "screen_base.touch_screen_element" ) %>(element, query = nil)
     query = "* id:'#{element}'" if query.nil?
     begin
       wait_for(timeout: 5) { element_exists(query) }
       touch(query)
     rescue => e
-      raise "Problem in touch screen element: '#{element}'\nError Message: #{e.message}"
+      raise "<%= I18n.translate( "exceptions.problem_in_touch_screen" ) %>: '#{element}'\nError Message: #{e.message}"
     end
   end
 
-  def touch_element_by_index(id, index)
+  def <%= I18n.translate( "screen_base.touch_element_by_index" ) %>(id, index)
     wait_for(timeout: 5) { element_exists("* id:'#{id}' index:#{index}") }
     touch("* id:'#{id}' index:#{index}")
   end
 
-  def clear_text_field(field)
-    clear_text_in("android.widget.EditText id:'#{field}'}")
+  def <%= I18n.translate( "screen_base.clear_text_field" ) %>(field)
+    <%= I18n.translate( "screen_base.clear_text_in" ) %>("android.widget.EditText id:'#{field}'}")
   end
 
-  def select_date_on_date_picker(date, date_picker_field_id)
-    # Touch the date picker field
+  def <%= I18n.translate( "screen_base.select_date_on_date_picker" ) %>(date, date_picker_field_id)
+    # <%= I18n.translate( "comments.select_date_1" ) %>
     touch "* id:'#{date_picker_field_id}'"
 
-    # Setting the date
+    # <%= I18n.translate( "comments.select_date_2" ) %>
     set_date 'DatePicker', date.year, date.month, date.day
 
-    # Clicking in the Done button
+    # <%= I18n.translate( "comments.select_date_2" ) %>
     touch "* id:'button1'"
   end
 end
