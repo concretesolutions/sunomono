@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = ['sunomono', 'suno']
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.test_files    = spec.files.grep(%r{^(spec|spec|features)/})
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'bundler', '>= 1.7'
