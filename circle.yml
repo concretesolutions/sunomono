@@ -10,4 +10,4 @@ dependencies:
 
 test:
   override:
-    - bundle exec rake spec_tests
+    - bundle exec rake spec
