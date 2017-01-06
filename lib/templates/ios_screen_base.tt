@@ -246,4 +246,21 @@ class IOSScreenBase < Calabash::IBase
     # Touching the OK button to close the Picker
     touch "* marked:'OK'"
   end
+
+  # @param [String] marked The view's 'marked' attribute
+  # @param [String] query_text The complete view query (optional)
+  # @return [Array] return an array[String] associated with the views
+  def text_array_from(marked, query_text = nil)
+    query_text = "* marked:'#{marked}'" unless query_text.nil?
+    array_text = query(query_text, :text)
+    array_text
+  end
+
+  # @param [String] marked The view's 'marked' attribute
+  # @param [String] query_text The complete view query (optional)
+  # @return [String] returns a string associated with a single view
+  def text_from(marked, query_text = nil)
+    text_array_from(marked, query_text).first
+  end
+
 end
