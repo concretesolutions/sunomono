@@ -1,0 +1,13 @@
+machine:
+  ruby:
+    version: 2.3.0
+
+dependencies:
+  override:
+    - gem install bundler
+    - gem install rake
+    - bundle install
+
+test:
+  override:
+    - bundle exec rake spec
