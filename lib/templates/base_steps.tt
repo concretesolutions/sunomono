@@ -4,7 +4,7 @@
 end
 
 <%= I18n.translate( :given ).capitalize %>(/^<%= I18n.translate( "steps.page_contains" ) %>$/) do |page_text|
-  @page.is_on_page? page_text
+  @page.is_on_page! page_text
 end
 
 ######### <%= I18n.translate( :when ).upcase %> #########
@@ -34,11 +34,11 @@ end
 end
 
 <%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.should_see_page" %>$/) do |page_text|
-  @page.is_on_page? page_text
+  @page.is_on_page! page_text
 end
 
 <%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.should_see_page_that_contains" %>$/) do |page_text|
-  @page.is_on_page? page_text
+  @page.is_on_page! page_text
 end
 <% unless I18n.config.default_locale == :en %>
 
