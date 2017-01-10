@@ -196,4 +196,20 @@ class AndroidScreenBase < Calabash::ABase
     # Clicking in the Done button
     touch "* id:'button1'"
   end
+
+  # @param [String] id The view's id
+  # @param [String] The complete view query (optional)
+  # @return [Array] return an array[String] associated with the views
+  def text_array_from(id, query = nil)
+    query = "* id:'#{id}'" if query.nil?
+    query(query, :text)
+  end
+
+  # @param [String] id The view's id
+  # @param [String] The complete view query (optional)
+  # @return [String] returns a string associated with a single view
+  def text_from(id, query = nil)
+    text_array_from(id, query).first
+  end
+
 end
