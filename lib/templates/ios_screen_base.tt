@@ -251,7 +251,7 @@ class IOSScreenBase < Calabash::IBase
   # @param [String] query The complete view query (optional)
   # @return [Array] return an array[String] associated with the views
   def text_array_from(marked, query = nil)
-    query = "* marked:'#{marked}'" unless query.nil?
+    query = "* marked:'#{marked}'" if query.nil?
     query(query, :text)
   end
 
