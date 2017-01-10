@@ -248,19 +248,18 @@ class IOSScreenBase < Calabash::IBase
   end
 
   # @param [String] marked The view's 'marked' attribute
-  # @param [String] query_text The complete view query (optional)
+  # @param [String] query The complete view query (optional)
   # @return [Array] return an array[String] associated with the views
-  def text_array_from(marked, query_text = nil)
-    query_text = "* marked:'#{marked}'" unless query_text.nil?
-    array_text = query(query_text, :text)
-    array_text
+  def text_array_from(marked, query = nil)
+    query = "* marked:'#{marked}'" unless query.nil?
+    query(query, :text)
   end
 
   # @param [String] marked The view's 'marked' attribute
-  # @param [String] query_text The complete view query (optional)
+  # @param [String] query The complete view query (optional)
   # @return [String] returns a string associated with a single view
-  def text_from(marked, query_text = nil)
-    text_array_from(marked, query_text).first
+  def text_from(marked, query = nil)
+    text_array_from(marked, query).first
   end
 
 end
