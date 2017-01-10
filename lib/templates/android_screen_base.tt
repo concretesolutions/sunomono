@@ -184,8 +184,6 @@ class AndroidScreenBase < Calabash::ABase
     touch "* id:'button1'"
   end
 
-
-
   # @param [String] id The view's id
   # @param [String] The complete view query (optional)
   # @return [Array] return an array[String] associated with the views
@@ -200,7 +198,5 @@ class AndroidScreenBase < Calabash::ABase
   def text_from(id, query = nil)
     text_array_from(id, query).first
   end
-
-
 
 end
