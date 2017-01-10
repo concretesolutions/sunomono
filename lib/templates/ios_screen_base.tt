@@ -142,10 +142,23 @@ class IOSScreenBase < Calabash::IBase
     end
   end
 
+  # Negation indicates that we want a page that doesn't
+  # has the message passed as parameter
+  def is_on_page?(page_text, negation = '')
+    fail 'Error! Invalid query string!' if
+       page_text.to_s == ''
+    begin
+      is_on_page!(page_text, negation)
+    rescue
+      return false
+    end
+     true
+  end
+
   # Negation indicates that we want a page that doesn't has
   # the message passed as parameter
-  def is_on_page?(page_text, negation = '')
-  fail 'Error! Invalid query string!' if
+  def is_on_page!(page_text, negation = '')
+    fail 'Error! Invalid query string!' if
        page_text.to_s == ''
 
     should_not_have_exception = false
