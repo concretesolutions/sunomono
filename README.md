@@ -1,6 +1,6 @@
 # Sunomono
 
-[![Gem Version](https://badge.fury.io/rb/sunomono.svg)](https://badge.fury.io/rb/sunomono)
+[![Gem Version](https://badge.fury.io/rb/sunomono.svg)](https://badge.fury.io/rb/sunomono)  [![CircleCI](https://circleci.com/gh/concretesolutions/sunomono/tree/master.svg?style=svg)](https://circleci.com/gh/concretesolutions/sunomono/tree/master)
 
 > ***The new version of [cs-bdd](https://rubygems.org/gems/cs-bdd) gem. cs-bdd was deprecated and will be yanked in the future. Always refer to sunomono from now on.***
 
