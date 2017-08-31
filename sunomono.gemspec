@@ -6,8 +6,8 @@ require 'sunomono/version'
 Gem::Specification.new do |spec|
   spec.name          = 'sunomono'
   spec.version       = Sunomono::VERSION
-  spec.authors       = ['Wellington Avelino']
-  spec.email         = ['wellington.santos@concrete.com.br']
+  spec.authors       = ['Oscar Tanner', 'Wellington Avelino']
+  spec.email         = ['oscarpanda@gmail.com', 'wellington.santos@concrete.com.br']
   spec.summary       = 'Generates an android and iOS calabash project.'
   spec.description   = %q{A simple gem to generate all files needed in a project that will support Calabash for both Android and iOS.}
   spec.homepage      = 'https://github.com/concretesolutions/sunomono'
