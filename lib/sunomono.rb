@@ -18,6 +18,7 @@ module Sunomono
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
+
     def feature(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
@@ -33,6 +34,7 @@ module Sunomono
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
+
     def android_feature(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
@@ -46,6 +48,7 @@ module Sunomono
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
+
     def ios_feature(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
@@ -59,6 +62,7 @@ module Sunomono
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
+
     def step(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
@@ -69,6 +73,7 @@ module Sunomono
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
+
     def android_step(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
@@ -79,6 +84,7 @@ module Sunomono
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
+
     def ios_step(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
@@ -90,6 +96,7 @@ module Sunomono
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
+
     def screen(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
@@ -102,6 +109,7 @@ module Sunomono
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
+
     def android_screen(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
@@ -112,6 +120,7 @@ module Sunomono
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
+
     def ios_screen(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
@@ -123,6 +132,7 @@ module Sunomono
            banner: 'skips the special chars validation that can cancel the zip creation',
            type: :boolean,
            lazy_default: true
+
     def aws_zip
       in_root_project_folder?
 
@@ -164,18 +174,47 @@ module Sunomono
              'g [GENERATOR] [RESOURCE_NAME]',
              'Generates various resources'
 
-    desc 'new PROJECT_NAME',
+    desc 'new_calabash_project PROJECT_NAME',
          'Generates the structure of a new project that uses '\
          'Calabash in both Android and iOS apps'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
-    def new(name)
+
+    def new_calabash_project(name)
       I18n.config.default_locale = options[:lang]
       # Thor will be responsible to look for identical
       # files and possibles conflicts
       directory File.join(File.dirname(__FILE__),
-                          '..', 'lib', 'skeleton'), name
+                          '..', 'lib', 'skeleton_calabash'), name
+
+      # Copying base steps file with localization
+      template('base_steps', File.join(name, 'features', 'step_definitions',
+                                       'base_steps.rb'))
+
+      # Copying android screen base file with localization
+      template('android_screen_base', File.join(name, 'features', 'android',
+                                                'android_screen_base.rb'))
+
+      # Copying ios screen base file with localization
+      template('ios_screen_base',
+               File.join(name, 'features', 'ios', 'ios_screen_base.rb'))
+    end
+
+
+    desc 'new_appium_project PROJECT_NAME',
+         'Generates the structure of a new project that uses '\
+         'Appium in both Android and iOS apps'
+    option :lang,
+           banner: 'any of the gherkin supported languages',
+           default: :en
+
+    def new_appium_project(name)
+      I18n.config.default_locale = options[:lang]
+      # Thor will be responsible to look for identical
+      # files and possibles conflicts
+      directory File.join(File.dirname(__FILE__),
+                          '..', 'lib', 'skeleton_appium'), name
 
       # Copying base steps file with localization
       template('base_steps', File.join(name, 'features', 'step_definitions',
@@ -191,6 +230,7 @@ module Sunomono
     end
 
     desc 'version', 'Shows the gem version'
+
     def version
       puts "Sunomono Version #{Sunomono::VERSION}"
     end
@@ -205,18 +245,18 @@ module Sunomono
       super
       # Loading gherkin accepted translations
       translations_file_path = File.join(
-        Gem.loaded_specs['gherkin'].full_gem_path,
-        'lib',
-        'gherkin',
-        'i18n.json'
+          Gem.loaded_specs['gherkin'].full_gem_path,
+          'lib',
+          'gherkin',
+          'i18n.json'
       )
       # Parsing the JSON file
       # Removing the sequence *| and all the alternative
       # options for the gherkin translations
       translations_json = JSON.parse(
-        File.read(translations_file_path)
-        .gsub(/\*\|/, '')
-        .gsub(/\|.*\"/, '"')
+          File.read(translations_file_path)
+              .gsub(/\*\|/, '')
+              .gsub(/\|.*\"/, '"')
       )
       # Converting the translations to YAML and storing in a temp file
       translations_temp_file = Tempfile.new(['translations', '.yml'])
@@ -224,12 +264,12 @@ module Sunomono
       # Loading the translations from gherkin and from the
       # locales folder of this gem
       locales_folder_path = File.join(
-        File.dirname(__FILE__),
-        '..', 'lib', 'sunomono', 'locales'
+          File.dirname(__FILE__),
+          '..', 'lib', 'sunomono', 'locales'
       )
       I18n.load_path = Dir[
-        translations_temp_file,
-        File.join(locales_folder_path, '*.yml')
+          translations_temp_file,
+          File.join(locales_folder_path, '*.yml')
       ]
       I18n.backend.load_translations
       I18n.config.enforce_available_locales = true

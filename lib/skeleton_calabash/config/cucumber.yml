@@ -1,0 +1,7 @@
+# config/cucumber.yml
+##YAML Template
+---
+android: PLATFORM=android SCREENSHOT_PATH=screenshots/android/ -r features/support -r features/android -r features/step_definitions --exclude features/ios
+
+
+ios: PLATFORM=ios SCREENSHOT_PATH=screenshots/ios/ -r features/support -r features/ios -r features/step_definitions --exclude features/android
