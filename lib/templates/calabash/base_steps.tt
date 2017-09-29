@@ -1,0 +1,48 @@
+######### <%= I18n.translate( :given ).upcase %> #########
+<%= I18n.translate( :given ).capitalize %>(/^<%= I18n.translate( "steps.drag_until" ) %>$/) do |direction, element|
+  @page.drag_until_element_is_visible_with_special_query direction.to_sym, element
+end
+
+<%= I18n.translate( :given ).capitalize %>(/^<%= I18n.translate( "steps.page_contains" ) %>$/) do |page_text|
+  @page.is_on_page! page_text
+end
+
+######### <%= I18n.translate( :when ).upcase %> #########
+
+<%= I18n.translate( :when ).capitalize %>(/^<%= I18n.translate( "steps.drag_number_of_times" ) %>$/) do |direction, times|
+  @page.drag_for_specified_number_of_times(direction.to_sym, times.to_i)
+end
+
+<%= I18n.translate( :when ).capitalize %>(/^<%= I18n.translate( "steps.touch_element" ) %>$/) do |element|
+  @page.touch_screen_element element
+end
+
+<%= I18n.translate( :when ).capitalize %>(/^<%= I18n.translate( "steps.drag_screen" ) %>$/) do |direction|
+  @page.drag_to direction.to_sym
+end
+
+<%= I18n.translate( :when ).capitalize %>(/^<%= I18n.translate( "steps.restart_app" ) %>$/) do
+  @page.restart_app
+end
+
+######### <%= I18n.translate( :then ).upcase %> #########
+
+<%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.wait_progress_bar" %>$/) do
+  # wait_for_progress is a method of the base class, so doesn't matter what is
+  # the value of the @page variable, because all screens will have this method
+  @page.wait_for_progress
+end
+
+<%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.should_see_page" %>$/) do |page_text|
+  @page.is_on_page! page_text
+end
+
+<%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.should_see_page_that_contains" %>$/) do |page_text|
+  @page.is_on_page! page_text
+end
+<% unless I18n.config.default_locale == :en %>
+
+<%= I18n.translate( :then ).capitalize %>(/^<%= I18n.translate "steps.take_print" %>$/) do
+  screenshot_embed
+end
+<% end %>

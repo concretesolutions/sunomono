@@ -1,7 +1,19 @@
-if ENV['PLATFORM'] == 'ios'
-  require 'calabash-cucumber/cucumber'
-elsif ENV['PLATFORM'] == 'android'
-  require 'calabash-android/cucumber'
+require 'pry'
+require 'appium_lib'
+
+# Class to not pollute 'Object' class with appium methods
+class AppiumWorld
 end
 
-require 'pry'
+if ENV['PLATAFORM'] == 'android'
+  caps = Appium.load file: File.expand_path('../android/appium.txt', __FILE__), verbose: true
+else
+  caps = Appium.load file: File.expand_path('../ios/appium.txt', __FILE__), verbose: true
+end
+
+Appium::Driver.new(caps)
+Appium.promote_appium_methods Object
+
+World do
+  AppiumWorld.new
+end

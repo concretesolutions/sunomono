@@ -1,0 +1,5 @@
+######### <%= I18n.translate( :given ).upcase %> #########
+
+######### <%= I18n.translate( :when ).upcase %> #########
+
+######### <%= I18n.translate( :then ).upcase %> #########
