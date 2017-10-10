@@ -1,0 +1,34 @@
+require 'ruby_lib'
+
+class ScreenBase
+   def self.element(name, type = :pending, identificator = '', opt = {})
+     define_method(name.to_s) { Element.new type, identificator, opt}
+   end
+
+#code from
+#https://github.com/oscartanner/screen_element/blob/master/lib/screen_element/appium_env/base_element.rb
+   def initialize(type, identificator, opt = {})
+     @index = opt.fetch(:index, nil)
+
+     case type
+       when :desc
+         @type = :xpath
+         @identificator = "//*[@content-desc='#{identificator}']"
+       when :text
+         @type = :xpath
+         @identificator = "//*[@text='#{identificator}']"
+       when :element
+         @type = type
+         @identificator = identificator
+         @element = identificator
+       when :index
+         raise 'Index not informed!' if @index.nil?
+         @type = :id
+         @identificator = identificator
+       else
+         type = opt.fetch(:array_type, :id) if type == :array
+         @type = type
+         @identificator = identificator
+     end
+   end
+end

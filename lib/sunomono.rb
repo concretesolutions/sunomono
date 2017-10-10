@@ -38,7 +38,6 @@ module Sunomono
     def android_feature(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
-
       create_feature_file name, 'Android'
       create_steps_file name, 'Android'
       create_screen_file name, 'Android'
@@ -217,20 +216,16 @@ module Sunomono
                           '..', 'lib', 'skeleton_appium'), name
 
       # Copying base steps file with localization
-      template('base_steps', File.join(name, 'features', 'step_definitions',
-                                       'base_steps.rb'))
+      template('appium_base_steps', File.join(name, 'features', 'step_definitions',
+                                         'base_steps.rb'))
 
-      # Copying android screen base file with localization
-      template('android_screen_base', File.join(name, 'features', 'android',
-                                                'android_screen_base.rb'))
+      # Copying screen base file with localization
+      template('appium_base_screen', File.join(name, 'features', 'base_screen',
+                                        'base_screen.rb'))
 
-      # Copying ios screen base file with localization
-      template('ios_screen_base',
-               File.join(name, 'features', 'ios', 'ios_screen_base.rb'))
     end
 
     desc 'version', 'Shows the gem version'
-
     def version
       puts "Sunomono Version #{Sunomono::VERSION}"
     end
