@@ -1,0 +1,4 @@
+[caps]
+    platformName = "Platform name e.g Android"
+    deviceName = "Device name e.g Nexus_5 or device ID"
+    app = "path to apk"
