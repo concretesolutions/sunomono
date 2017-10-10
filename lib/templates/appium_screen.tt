@@ -1,4 +1,4 @@
-class <%= config[:name] %>Screen < <%= config[:platform] %>ScreenBase
+class <%= config[:name] %>Screen < BaseScreen
   # <%= I18n.translate 'comments.trait' %>
   # trait(:trait)                 { pending 'Element type', 'identificator', 'options' }
 

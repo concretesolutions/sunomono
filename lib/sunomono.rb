@@ -14,12 +14,12 @@ module Sunomono
   class Generate < Thor
     include Thor::Actions
 
-    desc 'feature [RESOURCE_NAME]', 'Generates an OS independent feature'
+    desc 'calabash_feature [RESOURCE_NAME]', 'Generates an OS independent feature'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
 
-    def feature(name)
+    def calabash_feature(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
 
@@ -27,6 +27,21 @@ module Sunomono
       create_steps_file name
       create_screen_file name, 'Android'
       create_screen_file name, 'IOS'
+    end
+
+    desc 'appium_feature [RESOURCE_NAME]', 'Generates an OS independent feature'
+    option :lang,
+           banner: 'any of the gherkin supported languages',
+           default: :en
+
+    def appium_feature(name)
+      I18n.config.default_locale = options[:lang]
+      in_root_project_folder?
+
+      create_feature_file(name)
+      create_steps_file name
+      create_appium_screen_file name, 'Android'
+      create_appium_screen_file name, 'IOS'
     end
 
     desc 'android-feature [RESOURCE_NAME]',
@@ -173,56 +188,51 @@ module Sunomono
              'g [GENERATOR] [RESOURCE_NAME]',
              'Generates various resources'
 
-    desc 'new_calabash_project PROJECT_NAME',
+    desc 'new PLATFORM_NAME(calabash or appium) PROJECT_NAME',
          'Generates the structure of a new project that uses '\
-         'Calabash in both Android and iOS apps'
+         'Calabash or Appium in both Android and iOS apps'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
 
-    def new_calabash_project(name)
+    def new(platform, name)
+      if platform != 'calabash' && platform != 'appium'
+        puts "#{platform} is a invalid platform, please type calabash or appium"
+        exit 1
+      end
       I18n.config.default_locale = options[:lang]
       # Thor will be responsible to look for identical
       # files and possibles conflicts
-      directory File.join(File.dirname(__FILE__),
-                          '..', 'lib', 'skeleton_calabash'), name
+      if platform.downcase == 'calabash'
+        directory File.join(File.dirname(__FILE__),
+                            '..', 'lib', 'skeleton_'+ platform.to_s), name
 
-      # Copying base steps file with localization
-      template('base_steps', File.join(name, 'features', 'step_definitions',
-                                       'base_steps.rb'))
-
-      # Copying android screen base file with localization
-      template('android_screen_base', File.join(name, 'features', 'android',
-                                                'android_screen_base.rb'))
-
-      # Copying ios screen base file with localization
-      template('ios_screen_base',
-               File.join(name, 'features', 'ios', 'ios_screen_base.rb'))
-    end
-
-
-    desc 'new_appium_project PROJECT_NAME',
-         'Generates the structure of a new project that uses '\
-         'Appium in both Android and iOS apps'
-    option :lang,
-           banner: 'any of the gherkin supported languages',
-           default: :en
-
-    def new_appium_project(name)
-      I18n.config.default_locale = options[:lang]
-      # Thor will be responsible to look for identical
-      # files and possibles conflicts
-      directory File.join(File.dirname(__FILE__),
-                          '..', 'lib', 'skeleton_appium'), name
-
-      # Copying base steps file with localization
-      template('appium_base_steps', File.join(name, 'features', 'step_definitions',
+        # Copying base steps file with localization
+        template('base_steps', File.join(name, 'features', 'step_definitions',
                                          'base_steps.rb'))
 
-      # Copying screen base file with localization
-      template('appium_base_screen', File.join(name, 'features', 'base_screen',
-                                        'base_screen.rb'))
+        # Copying android screen base file with localization
+        template('android_screen_base', File.join(name, 'features', 'android',
+                                                  'android_screen_base.rb'))
 
+        # Copying ios screen base file with localization
+        template('ios_screen_base',
+                 File.join(name, 'features', 'ios', 'ios_screen_base.rb'))
+      else
+        I18n.config.default_locale = options[:lang]
+        # Thor will be responsible to look for identical
+        # files and possibles conflicts
+        directory File.join(File.dirname(__FILE__),
+                            '..', 'lib', 'skeleton_'+ platform.to_s), name
+
+        # Copying base steps file with localization
+        template('appium_base_steps', File.join(name, 'features', 'step_definitions',
+                                                'base_steps.rb'))
+
+        # Copying screen base file with localization
+        template('appium_base_screen', File.join(name, 'features', 'base_screen',
+                                                 'base_screen.rb'))
+      end
     end
 
     desc 'version', 'Shows the gem version'

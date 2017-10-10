@@ -58,6 +58,18 @@ def create_screen_file(name, platform)
            ), opts)
 end
 
+def create_appium_screen_file(name, platform)
+  # options used to generate the file in the template function
+  opts = { name: camelize(name), platform: platform }
+
+  # Thor creates a file based on the templates/appium_screen.tt template
+  template('appium_screen',
+           File.join(
+               FileUtils.pwd, 'features', platform.downcase, 'screens',
+               "#{name.downcase}_screen.rb"
+           ), opts)
+end
+
 def camelize(string)
   camelized = ''
 
