@@ -200,6 +200,7 @@ module Sunomono
         puts "#{platform} is a invalid platform, please type calabash or appium"
         exit 1
       end
+
       I18n.config.default_locale = options[:lang]
       # Thor will be responsible to look for identical
       # files and possibles conflicts

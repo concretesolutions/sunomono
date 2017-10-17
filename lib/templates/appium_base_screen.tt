@@ -1,3 +1,4 @@
+#code from https://github.com/oscartanner/screen_element
 require 'ruby_lib'
 
 class ScreenBase
@@ -5,8 +6,8 @@ class ScreenBase
      define_method(name.to_s) { Element.new type, identificator, opt}
    end
 
-#code from
-#https://github.com/oscartanner/screen_element/blob/master/lib/screen_element/appium_env/base_element.rb
+   attr_accessor :element
+
    def initialize(type, identificator, opt = {})
      @index = opt.fetch(:index, nil)
 
