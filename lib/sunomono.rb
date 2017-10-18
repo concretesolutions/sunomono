@@ -44,32 +44,50 @@ module Sunomono
       create_appium_screen_file name, 'IOS'
     end
 
-    desc 'android-feature [RESOURCE_NAME]',
+    desc 'android-feature [FRAMEWORK(calabash or appium)] [RESOURCE_NAME]',
          'Generates an Android dependent feature'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
 
-    def android_feature(name)
+    def android_feature(framework, name)
+      framework_avaliable?(framework)
+
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
-      create_feature_file name, 'Android'
-      create_steps_file name, 'Android'
-      create_screen_file name, 'Android'
+
+      if framework.downcase == 'calabash'
+        create_feature_file name, 'Android'
+        create_steps_file name, 'Android'
+        create_screen_file name, 'Android'
+      else
+        create_feature_file name, 'Android'
+        create_steps_file name, 'Android'
+        create_appium_screen_file name, 'Android'
+      end
     end
 
-    desc 'ios-feature [RESOURCE_NAME]', 'Generates an iOS dependent feature'
+    desc 'ios-feature [FRAMEWORK(calabash or appium)] [RESOURCE_NAME]',
+         'Generates an iOS dependent feature'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
 
-    def ios_feature(name)
+    def ios_feature(framework, name)
+      framework_avaliable?(framework)
+
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
 
-      create_feature_file name, 'IOS'
-      create_steps_file name, 'IOS'
-      create_screen_file name, 'IOS'
+      if framework.downcase == 'calabash'
+        create_feature_file name, 'IOS'
+        create_steps_file name, 'IOS'
+        create_screen_file name, 'IOS'
+      else
+        create_feature_file name, 'IOS'
+        create_steps_file name, 'IOS'
+        create_appium_screen_file name, 'IOS'
+      end
     end
 
     desc 'step [RESOURCE_NAME]', 'Generates an OS independent step'
@@ -105,40 +123,63 @@ module Sunomono
       create_steps_file name, 'IOS'
     end
 
-    desc 'screen [RESOURCE_NAME]',
+    desc 'screen [FRAMEWORK(calabash or appium)] [RESOURCE_NAME]',
          'Generates the Android and iOS dependent screens'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
 
-    def screen(name)
+    def screen(framework, name)
+      framework_avaliable?(framework)
+
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
-      create_screen_file name, 'Android'
-      create_screen_file name, 'IOS'
+
+      if framework.downcase == 'calabash'
+        create_screen_file name, 'Android'
+        create_screen_file name, 'IOS'
+      else
+        create_appium_screen_file name, 'Android'
+        create_appium_screen_file name, 'IOS'
+      end
     end
 
-    desc 'android-screen [RESOURCE_NAME]',
+    desc 'android-screen [FRAMEWORK(calabash or appium)] [RESOURCE_NAME]',
          'Generates an Android dependent screen'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
 
-    def android_screen(name)
+    def android_screen(framework ,name)
+      framework_avaliable?(framework)
+
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
-      create_screen_file name, 'Android'
+
+      if framework.downcase == 'calabash'
+        create_screen_file name, 'Android'
+      else
+        create_appium_screen_file name, 'Android'
+      end
     end
 
-    desc 'ios-screen [RESOURCE_NAME]', 'Generates an iOS dependent screen'
+    desc 'ios-screen [FRAMEWORK(calabash or appium)] [RESOURCE_NAME]',
+         'Generates an iOS dependent screen'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
 
-    def ios_screen(name)
+    def ios_screen(framework ,name)
+      framework_avaliable?(framework)
+
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
-      create_screen_file name, 'IOS'
+
+      if framework.downcase == 'calabash'
+        create_screen_file name, 'IOS'
+      else
+        create_appium_screen_file name, 'IOS'
+      end
     end
 
     desc 'aws-zip', 'Prepare a zip file for AWS Device Farm execution'
@@ -188,7 +229,7 @@ module Sunomono
              'g [GENERATOR] [RESOURCE_NAME]',
              'Generates various resources'
 
-    desc 'new PLATFORM_NAME(calabash or appium) PROJECT_NAME',
+    desc 'new FRAMEWORK(calabash or appium) PROJECT_NAME',
          'Generates the structure of a new project that uses '\
          'Calabash or Appium in both Android and iOS apps'
     option :lang,
