@@ -1,5 +1,7 @@
 require 'pry'
 require 'appium_lib'
+require_relative File.expand_path('../../base_screen/base_screen.rb', __FILE__)
+
 
 # Class to not pollute 'Object' class with appium methods
 class AppiumWorld
