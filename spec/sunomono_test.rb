@@ -3,19 +3,21 @@ require 'sunomono'
 describe Sunomono do
 
   before(:each) do
+    @directory = Dir.pwd
     @project_name = 'Sunomono_test'
     @feature_name = 'sunomono'
+    @calabash = 'calabash'
   end
 
   after(:each) do
-    Dir.chdir('..') unless Dir.exist?(@project_name)
-       FileUtils.rm_rf(@project_name)
+    Dir.chdir(@directory)
+    FileUtils.rm_rf(@project_name)
   end
 
   describe 'Sunomono gem commands' do
     context 'Returns project created with all files' do
       it 'Create new project using default command' do
-        system "sunomono new '#{@project_name}' > /dev/null"
+        system "sunomono new '#{@calabash}' '#{@project_name}' > /dev/null"
 
         expect(Dir.entries(@project_name)).
             to include('screenshots', 'features', 'config', 'README.md', 'Gemfile', '.gitignore')
@@ -51,7 +53,7 @@ describe Sunomono do
 
     context 'Try creates new project with a invalid argument' do
       it 'Project will not be generated' do
-        system "suno new '#{@project_name}' invalid argument  > /dev/null"
+        system "suno new '#{@calabash}' '#{@project_name}' invalid argument  > /dev/null"
 
         expect(Dir.entries(".")).
             not_to include("#{@project_name}")
@@ -70,11 +72,11 @@ describe Sunomono do
 
     context 'Generate Feature' do
       it 'Generates all files' do
-        system "sunomono new '#{@project_name}'  > /dev/null"
+        system "sunomono new '#{@calabash}' '#{@project_name}'  > /dev/null"
 
         Dir.chdir(@project_name)
 
-        system "sunomono generate feature '#{@feature_name}'  > /dev/null"
+        system "sunomono generate calabash-feature '#{@feature_name}'  > /dev/null"
 
         expect(Dir.entries("features")).
             to include("#{@feature_name}.feature")
@@ -87,11 +89,11 @@ describe Sunomono do
       end
 
       it 'Generate feature in pt' do
-        system "suno new '#{@project_name}' > /dev/null"
+        system "suno new '#{@calabash}' '#{@project_name}' > /dev/null"
 
         Dir.chdir(@project_name)
 
-        system "suno generate feature '#{@feature_name}' --lang=pt > /dev/null"
+        system "suno generate calabash-feature '#{@feature_name}' --lang=pt > /dev/null"
 
         expect(File.readlines("features/#{@feature_name}.feature")).
             to include("# language: pt\n", "Funcionalidade: #{@feature_name.capitalize} \n", "\n", "  Contexto:\n", "    # Insira os passos\n", "    \n", "  Cenário: Primeiro Cenario\n", "    # Insira os passos\n")
@@ -100,11 +102,11 @@ describe Sunomono do
       end
 
       it 'Generate feature in en' do
-        system "suno new '#{@project_name}' > /dev/null"
+        system "suno new '#{@calabash}' '#{@project_name}' > /dev/null"
 
         Dir.chdir(@project_name)
 
-        system "suno generate feature '#{@feature_name}' > /dev/null"
+        system "suno generate calabash-feature '#{@feature_name}' > /dev/null"
 
         expect(File.readlines("features/#{@feature_name}.feature")).
             to include("# language: en\n", "Feature: #{@feature_name.capitalize} \n", "\n", "  Background:\n", "    # Insert steps\n", "    \n", "  Scenario: First Scenario\n", "    # Insert steps\n")
@@ -113,11 +115,11 @@ describe Sunomono do
       end
 
       it 'Generates with alias command g' do
-        system "suno new '#{@project_name}'  > /dev/null"
+        system "suno new '#{@calabash}' '#{@project_name}'  > /dev/null"
 
         Dir.chdir(@project_name)
 
-        system "suno g feature '#{@feature_name}'  > /dev/null"
+        system "suno g calabash-feature '#{@feature_name}'  > /dev/null"
 
         expect(Dir.entries("features")).
             to include("#{@feature_name}.feature")
@@ -132,11 +134,11 @@ describe Sunomono do
 
     context 'Try Generates a feature with a invalid argument' do
       it 'Feature will be not created' do
-        system "sunomono new '#{@project_name}'  > /dev/null"
+        system "sunomono new '#{@calabash}' '#{@project_name}'  > /dev/null"
 
         Dir.chdir(@project_name)
 
-        system "sunomono generate feature '#{@feature_name}' invalid_argument  > /dev/null"
+        system "sunomono generate calabash-feature '#{@feature_name}' invalid_argument  > /dev/null"
 
         expect(Dir.entries("features")).
             not_to include("#{@feature_name}.feature")
@@ -149,11 +151,11 @@ describe Sunomono do
       end
 
       it 'Feature will be not created using alias command suno with a invalid argument' do
-        system "suno new '#{@project_name}'", :out => File::NULL
+        system "suno new '#{@calabash}' '#{@project_name}'", :out => File::NULL
 
         Dir.chdir(@project_name)
 
-        system "suno generate feature '#{@feature_name}' invalid_argument  > /dev/null"
+        system "suno generate calabash-feature '#{@feature_name}' invalid_argument  > /dev/null"
 
         expect(Dir.entries("features")).
             not_to include("#{@feature_name}.feature")
@@ -167,11 +169,11 @@ describe Sunomono do
 
 
       it 'Feature will be not created using alias command with a invalid argument' do
-        system "suno new '#{@project_name}'  > /dev/null"
+        system "suno new '#{@calabash}' '#{@project_name}'  > /dev/null"
 
         Dir.chdir(@project_name)
 
-        system "suno g feature '#{@feature_name}' invalid_argument  > /dev/null"
+        system "suno g calabash-feature '#{@feature_name}' invalid_argument  > /dev/null"
 
         expect(Dir.entries("features")).
             not_to include("#{@feature_name}.feature")
@@ -186,7 +188,7 @@ describe Sunomono do
 
     context 'Generates an OS independent step' do
       it 'Cant generates .feature and screens files' do
-        system "suno new #{@project_name}  > /dev/null"
+        system "suno new #{@calabash} #{@project_name}  > /dev/null"
 
         Dir.chdir(@project_name)
 
@@ -203,11 +205,11 @@ describe Sunomono do
 
     context 'Generates an OS indenpendent screen' do
       it 'Cant generates .feature and step_definition files' do
-        system "suno new #{@project_name}  > /dev/null"
+        system "suno new #{@calabash} #{@project_name}  > /dev/null"
 
         Dir.chdir(@project_name)
 
-        system "sunomono generate screen #{@feature_name}  > /dev/null"
+        system "sunomono generate screen #{@calabash} #{@feature_name}  > /dev/null"
 
         expect(Dir.entries("features")).
             not_to include("#{@feature_name}.feature")
@@ -218,11 +220,11 @@ describe Sunomono do
 
     context 'commands to generates an Android dependent files' do
       it 'Create folders to android plataform' do
-        system "suno new #{@project_name}  > /dev/null"
+        system "suno new #{@calabash} #{@project_name}  > /dev/null"
 
         Dir.chdir(@project_name)
 
-        system "suno generate android-feature #{@feature_name}  > /dev/null"
+        system "suno generate android-feature #{@calabash} #{@feature_name}  > /dev/null"
 
         expect(Dir.entries("features/android/features")).
             to include("#{@feature_name}.feature")
@@ -233,11 +235,11 @@ describe Sunomono do
       end
 
       it 'Create screen to android plataform' do
-        system "suno new #{@project_name}  > /dev/null"
+        system "suno new #{@calabash} #{@project_name}  > /dev/null"
 
         Dir.chdir(@project_name)
 
-        system "suno generate android-screen #{@feature_name}  > /dev/null"
+        system "suno generate android-screen #{@calabash} #{@feature_name}  > /dev/null"
 
         expect(Dir.entries("features/android/features")).
             not_to include("#{@feature_name}.feature")
@@ -246,7 +248,7 @@ describe Sunomono do
       end
 
       it 'Create step to android plataform' do
-        system "suno new #{@project_name}  > /dev/null"
+        system "suno new #{@calabash} #{@project_name}  > /dev/null"
 
         Dir.chdir(@project_name)
 
@@ -261,11 +263,11 @@ describe Sunomono do
 
     context 'commands to generates an IOS dependent files' do
       it 'Create folders to IOS plataform' do
-        system "suno new #{@project_name}  > /dev/null"
+        system "suno new #{@calabash}  #{@project_name}  > /dev/null"
 
         Dir.chdir(@project_name)
 
-        system "suno generate ios-feature #{@feature_name}  > /dev/null"
+        system "suno generate ios-feature #{@calabash} #{@feature_name}  > /dev/null"
 
         expect(Dir.entries("features/ios/features")).
             to include("#{@feature_name}.feature")
@@ -276,11 +278,11 @@ describe Sunomono do
       end
 
       it 'Create screen to IOS plataform' do
-        system "suno new #{@project_name}  > /dev/null"
+        system "suno new #{@calabash} #{@project_name}  > /dev/null"
 
         Dir.chdir(@project_name)
 
-        system "suno generate ios-screen #{@feature_name}  > /dev/null"
+        system "suno generate ios-screen #{@calabash} #{@feature_name}  > /dev/null"
 
         expect(Dir.entries("features/ios/features")).
             not_to include("#{@feature_name}.feature")
@@ -289,7 +291,7 @@ describe Sunomono do
       end
 
       it 'Create step to IOS plataform' do
-        system "suno new #{@project_name}  > /dev/null"
+        system "suno new #{@calabash} #{@project_name}  > /dev/null"
 
         Dir.chdir(@project_name)
 
