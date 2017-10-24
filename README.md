@@ -180,7 +180,9 @@ To load all .rb classes, run the following command on terminal
  load 'config/load_classes.rb'
 ````
 
-Now you got all .rb files loaded, now you need instantiate the class to test your methods
+Now you got all .rb files loaded
+ 
+Next step is to create a new instance of the class to test your methods
 
 ```
  @foo = page(fooScreen)

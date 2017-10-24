@@ -1,6 +1,6 @@
 # Sunomono Appium documentation
 
-[Appium](http://appium.io/) uses Selenium to functional tests in Android and iOS:
+[Appium](http://appium.io/) Appium uses Selenium to functional tests on Android and on iOS:
 
 The project structure is based on this [project](https://github.com/gricsi/cross-platform-appium-cucumber-test-example). The structure is based on three layers: features, steps, screens and modules. 
 
