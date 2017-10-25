@@ -14,11 +14,12 @@ module Sunomono
   class Generate < Thor
     include Thor::Actions
 
-    desc 'feature [RESOURCE_NAME]', 'Generates an OS independent feature'
+    desc 'calabash_feature [RESOURCE_NAME]', 'Generates an OS independent feature'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
-    def feature(name)
+
+    def calabash_feature(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
 
@@ -28,37 +29,72 @@ module Sunomono
       create_screen_file name, 'IOS'
     end
 
-    desc 'android-feature [RESOURCE_NAME]',
+    desc 'appium_feature [RESOURCE_NAME]', 'Generates an OS independent feature'
+    option :lang,
+           banner: 'any of the gherkin supported languages',
+           default: :en
+
+    def appium_feature(name)
+      I18n.config.default_locale = options[:lang]
+      in_root_project_folder?
+
+      create_feature_file(name)
+      create_steps_file name
+      create_appium_screen_file name, 'Android'
+      create_appium_screen_file name, 'IOS'
+    end
+
+    desc 'android-feature [FRAMEWORK(calabash or appium)] [RESOURCE_NAME]',
          'Generates an Android dependent feature'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
-    def android_feature(name)
+
+    def android_feature(framework, name)
+      framework_avaliable?(framework)
+
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
 
-      create_feature_file name, 'Android'
-      create_steps_file name, 'Android'
-      create_screen_file name, 'Android'
+      if framework.downcase == 'calabash'
+        create_feature_file name, 'Android'
+        create_steps_file name, 'Android'
+        create_screen_file name, 'Android'
+      else
+        create_feature_file name, 'Android'
+        create_steps_file name, 'Android'
+        create_appium_screen_file name, 'Android'
+      end
     end
 
-    desc 'ios-feature [RESOURCE_NAME]', 'Generates an iOS dependent feature'
+    desc 'ios-feature [FRAMEWORK(calabash or appium)] [RESOURCE_NAME]',
+         'Generates an iOS dependent feature'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
-    def ios_feature(name)
+
+    def ios_feature(framework, name)
+      framework_avaliable?(framework)
+
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
 
-      create_feature_file name, 'IOS'
-      create_steps_file name, 'IOS'
-      create_screen_file name, 'IOS'
+      if framework.downcase == 'calabash'
+        create_feature_file name, 'IOS'
+        create_steps_file name, 'IOS'
+        create_screen_file name, 'IOS'
+      else
+        create_feature_file name, 'IOS'
+        create_steps_file name, 'IOS'
+        create_appium_screen_file name, 'IOS'
+      end
     end
 
     desc 'step [RESOURCE_NAME]', 'Generates an OS independent step'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
+
     def step(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
@@ -69,6 +105,7 @@ module Sunomono
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
+
     def android_step(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
@@ -79,43 +116,70 @@ module Sunomono
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
+
     def ios_step(name)
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
       create_steps_file name, 'IOS'
     end
 
-    desc 'screen [RESOURCE_NAME]',
+    desc 'screen [FRAMEWORK(calabash or appium)] [RESOURCE_NAME]',
          'Generates the Android and iOS dependent screens'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
-    def screen(name)
+
+    def screen(framework, name)
+      framework_avaliable?(framework)
+
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
-      create_screen_file name, 'Android'
-      create_screen_file name, 'IOS'
+
+      if framework.downcase == 'calabash'
+        create_screen_file name, 'Android'
+        create_screen_file name, 'IOS'
+      else
+        create_appium_screen_file name, 'Android'
+        create_appium_screen_file name, 'IOS'
+      end
     end
 
-    desc 'android-screen [RESOURCE_NAME]',
+    desc 'android-screen [FRAMEWORK(calabash or appium)] [RESOURCE_NAME]',
          'Generates an Android dependent screen'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
-    def android_screen(name)
+
+    def android_screen(framework ,name)
+      framework_avaliable?(framework)
+
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
-      create_screen_file name, 'Android'
+
+      if framework.downcase == 'calabash'
+        create_screen_file name, 'Android'
+      else
+        create_appium_screen_file name, 'Android'
+      end
     end
 
-    desc 'ios-screen [RESOURCE_NAME]', 'Generates an iOS dependent screen'
+    desc 'ios-screen [FRAMEWORK(calabash or appium)] [RESOURCE_NAME]',
+         'Generates an iOS dependent screen'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
-    def ios_screen(name)
+
+    def ios_screen(framework ,name)
+      framework_avaliable?(framework)
+
       I18n.config.default_locale = options[:lang]
       in_root_project_folder?
-      create_screen_file name, 'IOS'
+
+      if framework.downcase == 'calabash'
+        create_screen_file name, 'IOS'
+      else
+        create_appium_screen_file name, 'IOS'
+      end
     end
 
     desc 'aws-zip', 'Prepare a zip file for AWS Device Farm execution'
@@ -123,6 +187,7 @@ module Sunomono
            banner: 'skips the special chars validation that can cancel the zip creation',
            type: :boolean,
            lazy_default: true
+
     def aws_zip
       in_root_project_folder?
 
@@ -164,30 +229,52 @@ module Sunomono
              'g [GENERATOR] [RESOURCE_NAME]',
              'Generates various resources'
 
-    desc 'new PROJECT_NAME',
+    desc 'new FRAMEWORK(calabash or appium) PROJECT_NAME',
          'Generates the structure of a new project that uses '\
-         'Calabash in both Android and iOS apps'
+         'Calabash or Appium in both Android and iOS apps'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
-    def new(name)
+
+    def new(platform, name)
+      if platform != 'calabash' && platform != 'appium'
+        puts "#{platform} is a invalid platform, please type calabash or appium"
+        exit 1
+      end
+
       I18n.config.default_locale = options[:lang]
       # Thor will be responsible to look for identical
       # files and possibles conflicts
-      directory File.join(File.dirname(__FILE__),
-                          '..', 'lib', 'skeleton'), name
+      if platform.downcase == 'calabash'
+        directory File.join(File.dirname(__FILE__),
+                            '..', 'lib', 'skeleton_'+ platform.to_s), name
 
-      # Copying base steps file with localization
-      template('base_steps', File.join(name, 'features', 'step_definitions',
-                                       'base_steps.rb'))
+        # Copying base steps file with localization
+        template('base_steps', File.join(name, 'features', 'step_definitions',
+                                         'base_steps.rb'))
 
-      # Copying android screen base file with localization
-      template('android_screen_base', File.join(name, 'features', 'android',
-                                                'android_screen_base.rb'))
+        # Copying android screen base file with localization
+        template('android_screen_base', File.join(name, 'features', 'android',
+                                                  'android_screen_base.rb'))
 
-      # Copying ios screen base file with localization
-      template('ios_screen_base',
-               File.join(name, 'features', 'ios', 'ios_screen_base.rb'))
+        # Copying ios screen base file with localization
+        template('ios_screen_base',
+                 File.join(name, 'features', 'ios', 'ios_screen_base.rb'))
+      else
+        I18n.config.default_locale = options[:lang]
+        # Thor will be responsible to look for identical
+        # files and possibles conflicts
+        directory File.join(File.dirname(__FILE__),
+                            '..', 'lib', 'skeleton_'+ platform.to_s), name
+
+        # Copying base steps file with localization
+        template('appium_base_steps', File.join(name, 'features', 'step_definitions',
+                                                'base_steps.rb'))
+
+        # Copying screen base file with localization
+        template('appium_base_screen', File.join(name, 'features', 'base_screen',
+                                                 'base_screen.rb'))
+      end
     end
 
     desc 'version', 'Shows the gem version'
@@ -205,18 +292,18 @@ module Sunomono
       super
       # Loading gherkin accepted translations
       translations_file_path = File.join(
-        Gem.loaded_specs['gherkin'].full_gem_path,
-        'lib',
-        'gherkin',
-        'i18n.json'
+          Gem.loaded_specs['gherkin'].full_gem_path,
+          'lib',
+          'gherkin',
+          'i18n.json'
       )
       # Parsing the JSON file
       # Removing the sequence *| and all the alternative
       # options for the gherkin translations
       translations_json = JSON.parse(
-        File.read(translations_file_path)
-        .gsub(/\*\|/, '')
-        .gsub(/\|.*\"/, '"')
+          File.read(translations_file_path)
+              .gsub(/\*\|/, '')
+              .gsub(/\|.*\"/, '"')
       )
       # Converting the translations to YAML and storing in a temp file
       translations_temp_file = Tempfile.new(['translations', '.yml'])
@@ -224,12 +311,12 @@ module Sunomono
       # Loading the translations from gherkin and from the
       # locales folder of this gem
       locales_folder_path = File.join(
-        File.dirname(__FILE__),
-        '..', 'lib', 'sunomono', 'locales'
+          File.dirname(__FILE__),
+          '..', 'lib', 'sunomono', 'locales'
       )
       I18n.load_path = Dir[
-        translations_temp_file,
-        File.join(locales_folder_path, '*.yml')
+          translations_temp_file,
+          File.join(locales_folder_path, '*.yml')
       ]
       I18n.backend.load_translations
       I18n.config.enforce_available_locales = true

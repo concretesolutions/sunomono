@@ -1,0 +1,13 @@
+dev:
+  xcworkspace: "Path_to_the_xcworkspace_folder"
+  scheme: TargetName
+  configuration: Debug
+  destination: "platform=iOS Simulator,name=iPhone 6"
+  export_path: "Path_to_export_app_folder"
+
+jenkins:
+  xcworkspace: <%= ENV['WORKSPACE']%>/Project.xcworkspace
+  scheme: TargetName
+  configuration: Debug
+  destination: "Any_platform_or_device_that_you_want"
+  export_path: <%= ENV['WORKSPACE']%>/releases/normal

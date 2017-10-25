@@ -1,0 +1,5 @@
+[caps]
+    platformName = "plataform name e.g =  iOS"
+    platformVersion = "platform version e.g = sdk version"
+    deviceName = "device name e.g iPhone 6"
+    app = "path to apk or ipa"

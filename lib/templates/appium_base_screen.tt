@@ -1,0 +1,13 @@
+require 'appium_lib'
+
+class BaseScreen
+   def self.element(element_name, &block)
+     define_method(element_name.to_s, *block)
+   end
+
+   class << self
+     alias_method :value, :element
+     alias_method :action, :element
+     alias_method :trait, :element
+   end
+end

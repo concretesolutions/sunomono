@@ -58,6 +58,18 @@ def create_screen_file(name, platform)
            ), opts)
 end
 
+def create_appium_screen_file(name, platform)
+  # options used to generate the file in the template function
+  opts = { name: camelize(name), platform: platform }
+
+  # Thor creates a file based on the templates/appium_screen.tt template
+  template('appium_screen',
+           File.join(
+               FileUtils.pwd, 'features', platform.downcase, 'screens',
+               "#{name.downcase}_screen.rb"
+           ), opts)
+end
+
 def camelize(string)
   camelized = ''
 
@@ -133,4 +145,11 @@ def create_screen_shot_dirs(dir)
   Dir.mkdir File.join(dir, 'screenshots')
   Dir.mkdir File.join(dir, 'screenshots', 'ios')
   Dir.mkdir File.join(dir, 'screenshots', 'android')
+end
+
+def framework_avaliable?(framework)
+  if framework.downcase != 'calabash' && framework.downcase != 'appium'
+    puts 'Invalid framework choice calabash or appium'
+    exit 1
+  end
 end
