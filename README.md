@@ -100,8 +100,7 @@ To create appium based files:
 
 ```
 
-The aFeature and iFeature generator will create an Platform dependent feature. For example, the aFeature generator will create the AndroidFeatureName.feature file inside the folder `features/android/features`, the file AndroidFeatureName_steps.rb inside the folder `features/androd/step_definitions` and the screen file AndroidFeatureName_screen.rb inside the folder `features/android/screens`.
-
+The aFeature and iFeature generator create a dependent feature for each platform. For example, aFeature generates the AndroidFeatureName.feature file inside the folder features/android/features, the file AndroidFeatureName_steps.rb inside the folder features/androd/step_definitions and the screen file AndroidFeatureName_screen.rb inside the folder features/android/screens.
 
 Don't forget about internationalization. All the generators accept the option `--lang=pt` or with some other language.
 
@@ -110,14 +109,14 @@ Don't forget about internationalization. All the generators accept the option `-
 ```
   suno generate step StepName
 ```
-The step generator will create a Platform independent step file named StepName_steps.rb in the folder `features/step_definitions`
 
+Another command creates an independent step file named StepName_steps.rb inside the folder features/step_definitions for each platform
 
 ```
   suno generate android-step AndroidStepName
 ```
-The android-step generator will create an Android step file named AndroidStepName_steps.rb in the folder `features/android/step_definitions`
 
+For Android, it creates a step file named AndroidStepName_steps.rb inside features/android/step_definitions
 
 ```
   suno generate ios-step iOSStepName
@@ -150,7 +149,7 @@ To create appium based files:
 The android-screen and ios-screen will create only the Android and iOS dependent screens respectively.
 
 ## Load Classes
-**works only calabash project**
+**It works only calabash project**
 ### Usage
 
 The load classes has been living in: 
