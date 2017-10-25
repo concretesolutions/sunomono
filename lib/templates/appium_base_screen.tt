@@ -1,6 +1,6 @@
 require 'appium_lib'
 
-class ScreenBase
+class BaseScreen
    def self.element(element_name, &block)
      define_method(element_name.to_s, *block)
    end
