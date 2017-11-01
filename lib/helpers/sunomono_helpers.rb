@@ -149,7 +149,7 @@ end
 
 def framework_avaliable?(framework)
   if framework.downcase != 'calabash' && framework.downcase != 'appium'
-    puts 'Invalid framework choice calabash or appium'
+    puts "#{framework} is a invalid framework choice calabash or appium"
     exit 1
   end
 end
