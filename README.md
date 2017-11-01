@@ -80,23 +80,37 @@ There are nine generators that are responsible to create the templates for Featu
 
 ####Features
 
-```
-  suno generate feature FeatureName
-```
-The feature generator will create a Platform independent feature and its files. So this command will create the FeatureName.feature file inside the folder `feature`, the file FeatureName_steps.rb inside the folder `features/step_definitions`, the files FeatureName_screen.rb inside the folders `features/android/screens` and `features/ios/screens`.
-
 To create calabash based files:
 
+
 ```
-  suno generate calabash android-feature AndroidFeatureName
-  suno generate calabash ios-feature iOSFeatureName
+  suno generate calabash-feature FeatureName
 ```
 
 To create appium based files:
 
 ```
- suno generate appium android-feature AndroidFeatureName
- suno generate appium ios-feature iOSFeatureName
+  suno generate appium-feature FeatureName
+```
+
+The feature generator will create a Platform independent feature and its files. 
+So this command will create the FeatureName.feature file inside the folder `feature`, the file FeatureName_steps.rb inside the folder `features/step_definitions`, the files FeatureName_screen.rb inside the folders `features/android/screens` and `features/ios/screens`.
+
+
+#### Independent Feature by platform
+
+To create calabash based files:
+
+```
+  suno generate android-feature calabash AndroidFeatureName
+  suno generate ios-feature calabash iOSFeatureName
+```
+
+To create appium based files:
+
+```
+ suno generate android-feature appium AndroidFeatureName
+ suno generate ios-feature appium iOSFeatureName
 
 ```
 
@@ -135,15 +149,15 @@ The screen generator will create both Platform dependent screens in the folders 
 To create calabash based files:
 
 ```
-  suno generate calabash android-screen AndroidScreenName
-  suno generate calabash ios-screen iOSScreenName
+  suno generate android-screen calabash AndroidScreenName
+  suno generate ios-screen calabash iOSScreenName
 ```
 
 To create appium based files:
 
 ```
-  suno generate appium android-screen AndroidScreenName
-  suno generate appium ios-screen iOSScreenName
+  suno generate android-screen appium AndroidScreenName
+  suno generate ios-screen appium iOSScreenName
 ```
 
 The android-screen and ios-screen will create only the Android and iOS dependent screens respectively.
