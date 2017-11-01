@@ -237,10 +237,7 @@ module Sunomono
            default: :en
 
     def new(platform, name)
-      if platform != 'calabash' && platform != 'appium'
-        puts "#{platform} is a invalid platform, please type calabash or appium"
-        exit 1
-      end
+      framework_avaliable?(platform)
 
       I18n.config.default_locale = options[:lang]
       # Thor will be responsible to look for identical
