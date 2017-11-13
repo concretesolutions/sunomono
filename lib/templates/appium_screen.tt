@@ -1,7 +1,6 @@
 class <%= config[:name] %>Screen < BaseScreen
-  # <%= I18n.translate 'comments.trait' %>
-  #trait(:trait)                 { "'#{layout_name}'" }
+
 # <%= I18n.translate 'comments.elements' %>
-  # element(:layout_name)         { pending 'Insert button identificator' }
-  # element(:button)              { pending 'Insert button identificator' }
+  # identificator(:trait)               { pending 'Insert button identificator' }
+  # identificator(:button)              { pending 'Insert button identificator' }
 end

@@ -14,7 +14,7 @@ module Sunomono
   class Generate < Thor
     include Thor::Actions
 
-    desc 'calabash_feature [RESOURCE_NAME]', 'Generates an OS independent feature'
+    desc 'calabash-feature [RESOURCE_NAME]', 'Generates an OS independent feature'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en
@@ -29,7 +29,7 @@ module Sunomono
       create_screen_file name, 'IOS'
     end
 
-    desc 'appium_feature [RESOURCE_NAME]', 'Generates an OS independent feature'
+    desc 'appium-feature [RESOURCE_NAME]', 'Generates an OS independent feature'
     option :lang,
            banner: 'any of the gherkin supported languages',
            default: :en

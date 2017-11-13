@@ -2,3 +2,6 @@
     platformName = "Platform name e.g Android"
     deviceName = "Device name e.g Nexus_5 or device ID"
     app = "path to apk"
+    # Use automationName with UiAutomator2, because default automator,
+    # not recognize any elements on the screen
+    automationName = "UiAutomator2"
