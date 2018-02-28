@@ -1,6 +1,13 @@
 ## Change log Sunomono
 
 
+### Version 1.0.5
+
+- Adding method missing to base_screen, this method provide a way
+to avoid repeat uncessary methods like touch, enter and visible on the screens.
+
+- Change circleCI 1.0 to 2.0
+
 ### Version 1.0.4
 
 - Change the method name to identificator, because the element name
