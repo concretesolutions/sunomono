@@ -244,7 +244,7 @@ module Sunomono
       # files and possibles conflicts
       if platform.downcase == 'calabash'
         directory File.join(File.dirname(__FILE__),
-                            '..', 'lib', 'skeleton_'+ platform.to_s), name
+                            '..', 'lib', 'skeleton_'+ platform.to_s.downcase), name
 
         # Copying base steps file with localization
         template('base_steps', File.join(name, 'features', 'step_definitions',
@@ -262,7 +262,7 @@ module Sunomono
         # Thor will be responsible to look for identical
         # files and possibles conflicts
         directory File.join(File.dirname(__FILE__),
-                            '..', 'lib', 'skeleton_'+ platform.to_s), name
+                            '..', 'lib', 'skeleton_'+ platform.to_s.downcase), name
 
         # Copying base steps file with localization
         template('appium_base_steps', File.join(name, 'features', 'step_definitions',
