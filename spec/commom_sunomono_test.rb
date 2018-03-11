@@ -4,10 +4,6 @@ describe Sunomono do
 
   before(:each) do
     @directory     = Dir.pwd
-    @project_name  = 'Sunomono_test'
-    @feature_name  = 'sunomono'
-    @appium        = 'appium'
-    @appium_upcase = 'APPIUM'
   end
 
   after(:each) do
