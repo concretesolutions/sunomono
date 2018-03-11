@@ -90,32 +90,6 @@ describe Sunomono do
             to include("#{@feature_name}_screen.rb")
       end
 
-      it 'Generate feature in pt' do
-        system "suno new '#{@appium}' '#{@project_name}' > /dev/null"
-
-        Dir.chdir(@project_name)
-
-        system "suno generate calabash-feature '#{@feature_name}' --lang=pt > /dev/null"
-
-        expect(File.readlines("features/#{@feature_name}.feature")).
-            to include("# language: pt\n", "Funcionalidade: #{@feature_name.capitalize} \n", "\n", "  Contexto:\n", "    # Insira os passos\n", "    \n", "  Cenário: Primeiro Cenario\n", "    # Insira os passos\n")
-        expect(File.readlines("features/step_definitions/#{@feature_name}_steps.rb")).
-            to include("######### DADO #########\n", "\n", "######### QUANDO #########\n", "\n", "######### ENTãO #########")
-      end
-
-      it 'Generate feature in en' do
-        system "suno new '#{@appium}' '#{@project_name}' > /dev/null"
-
-        Dir.chdir(@project_name)
-
-        system "suno generate calabash-feature '#{@feature_name}' > /dev/null"
-
-        expect(File.readlines("features/#{@feature_name}.feature")).
-            to include("# language: en\n", "Feature: #{@feature_name.capitalize} \n", "\n", "  Background:\n", "    # Insert steps\n", "    \n", "  Scenario: First Scenario\n", "    # Insert steps\n")
-        expect(File.readlines("features/step_definitions/#{@feature_name}_steps.rb")).
-            to include("######### GIVEN #########\n", "\n", "######### WHEN #########\n", "\n", "######### THEN #########")
-      end
-
       it 'Generates with alias command g' do
         system "suno new '#{@appium}' '#{@project_name}'  > /dev/null"
 
