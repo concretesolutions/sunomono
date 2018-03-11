@@ -1,5 +1,10 @@
 ## Change log Sunomono
 
+### Version 1.0.6
+
+ - Fix issue https://github.com/concretesolutions/sunomono/issues/23
+ - Adding new test files to appium architecture 
+
 
 ### Version 1.0.5
 
